@@ -20,7 +20,7 @@
     <h4 class="text-center">Application Status</h4>
     <hr>
         <p>
-            Dear, <br>
+            Hello there! <br>
             <strong>{{ $app->applicationType->name }}</strong> for <strong>{{$app->facility->name}}</strong> is waiting for your approval.
             Please <a href="{{ route('login') }}">Login</a> to view  applications.
         </p>

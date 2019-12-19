@@ -6,3 +6,9 @@
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+
+.flex-center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

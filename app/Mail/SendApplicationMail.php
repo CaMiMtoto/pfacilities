@@ -28,7 +28,6 @@ class SendApplicationMail extends Mailable implements ShouldQueue
             ->from($address, $name)
             ->cc($address, $name)
             ->bcc($address, $name)
-//            ->replyTo($address, $name)
             ->subject($subject)
             ->with(['app' => $this->userApplication]);
     }

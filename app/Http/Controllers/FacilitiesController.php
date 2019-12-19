@@ -152,6 +152,7 @@ class FacilitiesController extends Controller
         $userApp = new UserApplication();
         $userApp->user_id = Auth::id();
         $userApp->application_type_id = $request->applicationType;
+        $userApp->facility_id = $facility->id;
         $userApp->status = 'pending';
         $userApp->save();
         return redirect()->route('facilities');

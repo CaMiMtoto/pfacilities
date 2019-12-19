@@ -10,6 +10,13 @@
                 Summary
             </a>
         @endif
+            @if(\Illuminate\Support\Facades\Auth::user()->role=='normal')
+                <button class="btn btn-primary  btn-sm pull-right" id="addButton">
+                    <i class="fa fa-plus"></i>
+                    Register facility
+                </button>
+            @endif
+            <div class="clearfix"></div>
         <div class="box box-primary flat">
             <div class="box-header with-border">
                 <h3 class="box-title">
@@ -24,12 +31,7 @@
                             <i class="fa fa-search"></i>
                         </button>
                     </form>
-                    @if(\Illuminate\Support\Facades\Auth::user()->role!='admin')
-                        <button class="btn btn-primary  btn-sm float-right" id="addButton">
-                            <i class="fa fa-plus"></i>
-                            Register facility
-                        </button>
-                    @endif
+
                 </div>
                 <!-- /.box-tools -->
             </div>
