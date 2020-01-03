@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Jobs\ProcessApplication;
 use App\Jobs\ProcessUserApplication;
+use App\User;
 use App\UserApplication;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -48,6 +49,12 @@ class UserApplicationController extends Controller
 
     public function changeStatus(Request $request, UserApplication $application)
     {
+        $users = User::where('role', 'inspector')->get();
+        $users = $users->each(function ($user) {
+            return $user->email;
+        });
+        return response($users,200);
+
         if (Auth::user()->role == 'inspector' && $application->status == 'verified') {
             if ($request->status == 'approved') {
                 $application->status = 'inspected';
