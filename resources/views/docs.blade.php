@@ -21,20 +21,16 @@
         <div class="col-md-9">
             <select name="status" class="form-control" required id="status">
                 <option value=""></option>
-                @if(Auth::user()->role=='inspector')
+                @if(Auth::user()->role!='phf')
+                    <option value="modification" {{ $userApplication->status=='modification'?'selected':'' }}>For modification</option>
+                    <option value="process" {{ $userApplication->status=='process'?'selected':'' }}>In process</option>
+                    <option value="pending" {{ $userApplication->status=='pending'?'selected':'' }}>Pending</option>
+                    <option value="verified" {{ $userApplication->status=='verified'?'selected':'' }}>Verified</option>
+                @elseif(Auth::user()->role!=App\Roles::$APPLICANT)
                     <option value="approved" {{ $userApplication->status=='approved'?'selected':'' }}>Approved</option>
                     <option value="rejected" {{ $userApplication->status=='rejected'?'selected':'' }}>Rejected</option>
                     <option value="not_clear" {{ $userApplication->status=='not_clear'?'selected':'' }}>Not Clear
                     </option>
-                @else
-                    <option value="modification" {{ $userApplication->status=='modification'?'selected':'' }}>For
-                        Modification
-                    </option>
-                    <option value="received" {{ $userApplication->status=='received'?'selected':'' }}>Documents
-                        Received
-                    </option>
-                    <option value="pending" {{ $userApplication->status=='pending'?'selected':'' }}>Pending</option>
-                    <option value="verified" {{ $userApplication->status=='verified'?'selected':'' }}>Verified</option>
                 @endif
             </select>
         </div>

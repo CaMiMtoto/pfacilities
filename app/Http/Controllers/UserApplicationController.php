@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\ApplicationType;
+use App\Facility;
 use App\Jobs\ProcessApplication;
 use App\Jobs\ProcessUserApplication;
 use App\User;
@@ -11,26 +13,33 @@ use Illuminate\Support\Facades\Auth;
 
 class UserApplicationController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        if (Auth::user()->role == 'admin' || Auth::user()->role == 'verifier') {
-            $userApps = UserApplication::with([
-                'applicationType',
-                'user'
-            ])->orderByDesc('id')
-                ->paginate(10);
-        } elseif (Auth::user()->role == 'inspector') {
-            $userApps = UserApplication::with([
-                'applicationType',
-                'user'
-            ])->where('status', 'verified')
-                ->orderByDesc('id')
-                ->paginate(10);
-        } else {
-            $userApps = UserApplication::with('applicationType')
-                ->where('user_id', Auth::id())->get();
+        $filter = $request->filter;
+        if ($filter == 'all') {
+            $filter = '';
         }
-        return view('user_applications', compact('userApps'));
+        if (Auth::user()->role == 'normal') {
+            $userApps = UserApplication::with([
+                'applicationType',
+                'facility',
+                'user'
+            ])->where('user_id', Auth::id())->paginate(10);
+
+        } else {
+            $userApps = UserApplication::with([
+                'applicationType',
+                'user'
+            ])->where('status', 'LIKE', "%$filter%")->orderByDesc('id')->paginate(10);
+        }
+        $userApps->appends(['filter' => $filter]);
+        $facilities = Facility::with('category')->where("user_id", Auth::id())->get();
+        $appTypes = ApplicationType::all();
+        return view('user_applications', compact('userApps'))
+            ->with([
+                'facilities' => $facilities,
+                'appTypes' => $appTypes
+            ]);
     }
 
     public function show(UserApplication $userApplication)
@@ -53,7 +62,7 @@ class UserApplicationController extends Controller
         $users = $users->each(function ($user) {
             return $user->email;
         });
-        return response($users,200);
+//        return response($users, 200);
 
         if (Auth::user()->role == 'inspector' && $application->status == 'verified') {
             if ($request->status == 'approved') {

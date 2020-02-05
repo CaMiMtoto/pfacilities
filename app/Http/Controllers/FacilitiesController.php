@@ -133,12 +133,20 @@ class FacilitiesController extends Controller
         return response(null, 204);
     }
 
-    public function addDocs(Request $request, Facility $facility)
+ /*   public function addDocs(Request $request, Facility $facility)
     {
+        $userApp = new UserApplication();
+        $userApp->user_id = Auth::id();
+        $userApp->application_type_id = $request->applicationType;
+        $userApp->facility_id = $facility->id;
+        $userApp->status = 'pending';
+        $userApp->save();
+
         foreach (array_keys($request->files->all()) as $array_key) {
             $fDoc = new FacilityDocument();
             $fDoc->facility_id = $facility->id;
             $fDoc->application_type_id = $request->applicationType;
+            $fDoc->user_application_id = $userApp->id;
             $fDoc->document_id = $array_key;
             $dir = 'public/files/appdocs';
             $file = $request->file("$array_key");
@@ -149,12 +157,42 @@ class FacilitiesController extends Controller
             $fDoc->save();
         }
 
+
+        return redirect()->route('facilities');
+    }
+
+*/
+
+
+
+    public function saveNewApplication(Request $request)
+    {
+        $facility=Facility::find($request->facility_id);
+
         $userApp = new UserApplication();
         $userApp->user_id = Auth::id();
         $userApp->application_type_id = $request->applicationType;
         $userApp->facility_id = $facility->id;
         $userApp->status = 'pending';
         $userApp->save();
-        return redirect()->route('facilities');
+
+        foreach (array_keys($request->files->all()) as $array_key) {
+            $fDoc = new FacilityDocument();
+            $fDoc->facility_id = $facility->id;
+            $fDoc->application_type_id = $request->applicationType;
+            $fDoc->user_application_id = $userApp->id;
+            $fDoc->document_id = $array_key;
+            $dir = 'public/files/appdocs';
+            $file = $request->file("$array_key");
+            $path = $file->store($dir);
+            $fileName = str_replace("$dir", '', $path);
+            $fDoc->document_file = $fileName;
+            $fDoc->user_id = Auth::id();
+            $fDoc->save();
+        }
+
+        //TODO notify other users about new application which are in pending status
+
+        return redirect()->back();
     }
 }

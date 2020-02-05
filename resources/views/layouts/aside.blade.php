@@ -22,7 +22,7 @@
             <li class="header">Menus</li>
             <!-- Optionally, you can add icons to the links -->
             <li class="nav-dashboard">
-                <a href="#">
+                <a href="{{ url('/dashboard') }}">
                     <i class="fa fa-link"></i>
                     <span>Dashboard</span>
                 </a>

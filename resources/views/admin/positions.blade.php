@@ -1,12 +1,12 @@
 @extends('layouts.app')
-@section('title','Users')
+@section('title','Positions')
 @section('content')
     <section class="content">
 
         <div class="box box-primary flat">
             <div class="box-header with-border">
                 <h3 class="box-title">
-                    Manage users
+                    Manage categories
                 </h3>
                 <div class="box-tools pull-right">
                     <button class="btn btn-primary  btn-sm float-right" id="addButton">
@@ -23,24 +23,22 @@
                     <tr>
                         <th scope="col">Name</th>
                         <th scope="col">Description</th>
-                        <th scope="col">Role</th>
                         <th scope="col"></th>
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($users as $user)
+                    @foreach($categories as $cat)
                         <tr>
-                            <td>{{ $user->name }}</td>
-                            <td>{{ $user->email }}</td>
-                            <td>{{ $user->role }}</td>
+                            <td>{{ $cat->name }}</td>
+                            <td>{{ $cat->description }}</td>
                             <td>
                                 <div class="btn-group flat">
                                     <button class="btn flat btn-default js-edit"
-                                            data-url="{{ route('users.show',$user->id) }}">
+                                            data-url="{{ route('category.show',$cat->id) }}">
                                         Edit
                                     </button>
                                     <button class="btn flat btn-danger js-delete"
-                                            data-url="{{ route('users.destroy',$user->id) }}">
+                                            data-url="{{ route('category.destroy',$cat->id) }}">
                                         Delete
                                     </button>
                                 </div>
@@ -53,7 +51,7 @@
             </div>
             <!-- /.box-body -->
             <div class="box-footer">
-                {{ $users->links() }}
+                {{ $categories->links() }}
             </div>
         </div>
     </section>
@@ -65,10 +63,10 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span></button>
                     <h4 class="modal-title">
-                        User
+                        Category
                     </h4>
                 </div>
-                <form novalidate class="form-horizontal" action="{{ route('users.store') }}" method="post"
+                <form novalidate class="form-horizontal" action="{{ route('category.store') }}" method="post"
                       id="submitForm">
 
                     <div class="modal-body">
@@ -84,33 +82,9 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="email" class="col-sm-3 control-label">Email</label>
+                                <label for="description" class="col-sm-3 control-label">Description</label>
                                 <div class="col-sm-9">
-                                    <input required type="email" class="form-control"
-                                           name="email" id="email">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="password" class="col-sm-3 control-label">Password</label>
-                                <div class="col-sm-9">
-                                    <input type="password" class="form-control"
-                                           name="password" id="password">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="role" class="col-sm-3 control-label">Role</label>
-                                <div class="col-sm-9">
-                                    <select name="role" class="form-control" required id="role">
-                                        <option value=""></option>
-                                        <option value="admin">Admin</option>
-                                        <option value="phf">PHF</option>
-                                        <option value="dhpru">DHPRU</option>
-                                        <option value="approval">Approval</option>
-                                        <option value="certifier">Certifier</option>
-                                        <option value="ps">PS</option>
-                                        <option value="mos">MOS</option>
-                                        <option value="normal">Normal user</option>
-                                    </select>
+                                    <textarea name="description" id="description" class="form-control" placeholder="Description"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -139,7 +113,7 @@
 @section('scripts')
     <script>
         $(function () {
-            $('.nav-users').addClass('active');
+            $('.nav-categories').addClass('active');
 
             $('#addButton').on('click', function () {
                 $('#addModal').modal();
@@ -157,8 +131,7 @@
                         hideLoader();
                         $('#id').val(data.id);
                         $('#name').val(data.name);
-                        $('#email').val(data.email);
-                        $('#role').val(data.role);
+                        $('#description').val(data.description);
                     });
             });
 

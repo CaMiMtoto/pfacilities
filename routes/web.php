@@ -29,6 +29,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 
     Route::post('/facilities/add-docs/{facility}', 'FacilitiesController@addDocs')->name('facilities.add-docs');
+    Route::post('/applications/save', 'FacilitiesController@saveNewApplication')->name('saveApplication');
 
     Route::get('/districtsByProvince/{id}', 'DistrictsController@districtsByProvince');
     Route::get('/sectorsByDistrict/{id}', 'SectorsController@sectorsByDistrict');

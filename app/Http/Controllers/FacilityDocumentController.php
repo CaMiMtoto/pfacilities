@@ -14,7 +14,8 @@ class FacilityDocumentController extends Controller
     {
         $docs=FacilityDocument::with(['document','facility'])->where([
             ['application_type_id','=',$applicationType->id],
-            ['user_id','=',$user->id]
+            ['user_id','=',$user->id],
+            ['user_application_id','=',$userApplication->id]
         ])->get();
         return view('docs',compact('docs'))->with([
             'userApplication'=>$userApplication
@@ -23,6 +24,7 @@ class FacilityDocumentController extends Controller
 
     public function viewDoc(FacilityDocument $document)
     {
+//      return $document;
         return view('viewDoc',compact('document'));
     }
 
