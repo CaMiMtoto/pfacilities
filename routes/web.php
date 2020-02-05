@@ -48,6 +48,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/categories/{category}', 'CategoriesController@show')->name('category.show');
         Route::delete('/categories/{category}', 'CategoriesController@destroy')->name('category.destroy');
 
+        Route::get('/positions', 'PositionController@index')->name('positions.all');
+        Route::post('/positions', 'PositionController@store')->name('positions.store');
+        Route::get('/positions/{position}', 'PositionController@show')->name('positions.show');
+        Route::delete('/positions/{position}', 'PositionController@destroy')->name('positions.destroy');
+
         Route::get('/services', 'ServicesController@index')->name('services.all');
         Route::post('/services', 'ServicesController@store')->name('services.store');
         Route::get('/services/{service}', 'ServicesController@show')->name('services.show');

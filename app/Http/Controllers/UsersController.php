@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Position;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -10,8 +11,10 @@ class UsersController extends Controller
 {
     public function index()
     {
-        $users = User::paginate(10);
-        return view('admin.users', compact('users'));
+        $positions = Position::all();
+        $users = User::with('position')->paginate(10);
+        return view('admin.users', compact('users'))
+            ->with(['positions' => $positions]);
     }
 
 
@@ -26,6 +29,7 @@ class UsersController extends Controller
         $user->name = $request->name;
         $user->email = $request->email;
         $user->role = $request->role;
+        $user->position_id = $request->position;
         if ($request->password) {
             $user->password = Hash::make($request->password);
         }
@@ -36,13 +40,13 @@ class UsersController extends Controller
 
     public function show(User $user)
     {
-        return response($user,200);
+        return response($user, 200);
     }
 
 
     public function destroy(User $user)
     {
-       $user->delete();
-       return response(null,404);
+        $user->delete();
+        return response(null, 404);
     }
 }

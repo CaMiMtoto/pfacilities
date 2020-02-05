@@ -7,79 +7,34 @@ use Illuminate\Http\Request;
 
 class PositionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        //
+        $positions = Position::orderBy('id', 'desc')->paginate(10);
+        return view('admin.positions', ['positions' => $positions]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        if ($request->id && $request->id > 0) {
+            $cat = Position::find($request->id);
+        } else {
+            $cat = new Position();
+        }
+        $cat->name = $request->name;
+        $cat->description = $request->description;
+        $cat->save();
+        return redirect()->route('positions.all');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Position  $position
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Position $position)
+
+    public function show(Position $Position)
     {
-        //
+        return response()->json($Position, 200);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Position  $position
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Position $position)
+    public function destroy(Position $Position)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Position  $position
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Position $position)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Position  $position
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Position $position)
-    {
-        //
+        $Position->delete();
+        return response()->json([], 204);
     }
 }

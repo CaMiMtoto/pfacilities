@@ -6,7 +6,7 @@
         <div class="box box-primary flat">
             <div class="box-header with-border">
                 <h3 class="box-title">
-                    Manage categories
+                    Manage positions
                 </h3>
                 <div class="box-tools pull-right">
                     <button class="btn btn-primary  btn-sm float-right" id="addButton">
@@ -27,18 +27,18 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($categories as $cat)
+                    @foreach($positions as $cat)
                         <tr>
                             <td>{{ $cat->name }}</td>
                             <td>{{ $cat->description }}</td>
                             <td>
                                 <div class="btn-group flat">
                                     <button class="btn flat btn-default js-edit"
-                                            data-url="{{ route('category.show',$cat->id) }}">
+                                            data-url="{{ route('positions.show',$cat->id) }}">
                                         Edit
                                     </button>
                                     <button class="btn flat btn-danger js-delete"
-                                            data-url="{{ route('category.destroy',$cat->id) }}">
+                                            data-url="{{ route('positions.destroy',$cat->id) }}">
                                         Delete
                                     </button>
                                 </div>
@@ -51,7 +51,7 @@
             </div>
             <!-- /.box-body -->
             <div class="box-footer">
-                {{ $categories->links() }}
+                {{ $positions->links() }}
             </div>
         </div>
     </section>
@@ -63,10 +63,10 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span></button>
                     <h4 class="modal-title">
-                        Category
+                        Position
                     </h4>
                 </div>
-                <form novalidate class="form-horizontal" action="{{ route('category.store') }}" method="post"
+                <form novalidate class="form-horizontal" action="{{ route('positions.store') }}" method="post"
                       id="submitForm">
 
                     <div class="modal-body">
@@ -113,7 +113,8 @@
 @section('scripts')
     <script>
         $(function () {
-            $('.nav-categories').addClass('active');
+            $('.nav-positions').addClass('active');
+            $('.nav-positions').addClass('active');
 
             $('#addButton').on('click', function () {
                 $('#addModal').modal();

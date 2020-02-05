@@ -23,6 +23,7 @@
                     <tr>
                         <th scope="col">Name</th>
                         <th scope="col">Description</th>
+                        <th scope="col">Position</th>
                         <th scope="col">Role</th>
                         <th scope="col"></th>
                     </tr>
@@ -32,16 +33,17 @@
                         <tr>
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->email }}</td>
+                            <td>{{ $user->position==null?'Unknown':$user->position->name }}</td>
                             <td>{{ $user->role }}</td>
                             <td>
                                 <div class="btn-group flat">
                                     <button class="btn flat btn-default js-edit"
                                             data-url="{{ route('users.show',$user->id) }}">
-                                        Edit
+                                        <i class="fa fa-pencil"></i>
                                     </button>
                                     <button class="btn flat btn-danger js-delete"
                                             data-url="{{ route('users.destroy',$user->id) }}">
-                                        Delete
+                                        <i class="fa fa-trash"></i>
                                     </button>
                                 </div>
                             </td>
@@ -91,12 +93,17 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="password" class="col-sm-3 control-label">Password</label>
+                                <label for="position" class="col-sm-3 control-label">Position</label>
                                 <div class="col-sm-9">
-                                    <input type="password" class="form-control"
-                                           name="password" id="password">
+                                    <select name="position" class="form-control" required id="position">
+                                        <option value=""></option>
+                                        @foreach($positions as $position)
+                                            <option value="{{ $position->id }}">{{$position->name}}-{{ $position->description }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
+
                             <div class="form-group">
                                 <label for="role" class="col-sm-3 control-label">Role</label>
                                 <div class="col-sm-9">
@@ -111,6 +118,13 @@
                                         <option value="mos">MOS</option>
                                         <option value="normal">Normal user</option>
                                     </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="password" class="col-sm-3 control-label">Password</label>
+                                <div class="col-sm-9">
+                                    <input type="password" class="form-control"
+                                           name="password" id="password">
                                 </div>
                             </div>
                         </div>
@@ -159,6 +173,7 @@
                         $('#name').val(data.name);
                         $('#email').val(data.email);
                         $('#role').val(data.role);
+                        $('#position').val(data.position_id);
                     });
             });
 
