@@ -56,6 +56,12 @@
                         <span>Users</span>
                     </a>
                 </li>
+                <li class="nav-employees">
+                    <a href="{{ route('employees.all') }}">
+                        <i class="fa fa-list"></i>
+                        <span>Employees</span>
+                    </a>
+                </li>
             @endif
 
 

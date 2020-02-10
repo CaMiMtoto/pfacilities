@@ -61,6 +61,11 @@ Route::get('/home', function () {
         Route::get('/employee/positions/{position}', 'EmployeePositionController@show')->name('employeePositions.show');
         Route::delete('/employee/positions/{position}', 'EmployeePositionController@destroy')->name('employeePositions.destroy');
 
+        Route::get('/employee', 'EmployeeController@index')->name('employees.all');
+        Route::post('/employee', 'EmployeeController@store')->name('employees.store');
+        Route::get('/employee/{employee}', 'EmployeeController@show')->name('employees.show');
+        Route::delete('/employee/{employee}', 'EmployeeController@destroy')->name('employees.destroy');
+
         Route::get('/services', 'ServicesController@index')->name('services.all');
         Route::post('/services', 'ServicesController@store')->name('services.store');
         Route::get('/services/{service}', 'ServicesController@show')->name('services.show');
