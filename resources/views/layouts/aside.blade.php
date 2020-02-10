@@ -71,31 +71,37 @@
                     @if(Auth::user()->role=='admin')
                         <li class="nav-positions ">
                             <a href="{{ route('positions.all') }}">
-                                <i class="fa fa-list-alt"></i>
+                                <i class="fa fa-circle"></i>
                                 <span>Positions</span>
+                            </a>
+                        </li>
+                        <li class="nav-employee-positions ">
+                            <a href="{{ route('employeePositions.all') }}">
+                                <i class="fa fa-circle"></i>
+                                <span>Employee Position</span>
                             </a>
                         </li>
                         <li class="nav-categories">
                             <a href="{{ route('categories.all') }}">
-                                <i class="fa fa-list"></i>
+                                <i class="fa fa-circle"></i>
                                 <span>Categories</span>
                             </a>
                         </li>
                         <li class="nav-services">
                             <a href="{{ route('services.all') }}">
-                                <i class="fa fa-list-alt"></i>
+                                <i class="fa fa-circle"></i>
                                 <span>Services</span>
                             </a>
                         </li>
                         <li class="nav-services">
                             <a href="{{ route('documents.all') }}">
-                                <i class="fa fa-list-alt"></i>
+                                <i class="fa fa-circle"></i>
                                 <span>Documents</span>
                             </a>
                         </li>
                         <li class="nav-services">
                             <a href="{{ route('app-types.all') }}">
-                                <i class="fa fa-list-alt"></i>
+                                <i class="fa fa-circle"></i>
                                 <span>Application Types</span>
                             </a>
                         </li>
