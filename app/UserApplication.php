@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * @property string status
@@ -33,7 +34,24 @@ class UserApplication extends Model
         return 'Verifier';
     }
 
-    public function  facility(){
+    public function facility()
+    {
         return $this->belongsTo(Facility::class);
+    }
+
+    public function progress()
+    {
+        return ApplicationShare::with('position')->where('user_application_id', $this->id)->first();
+    }
+
+    public function shared()
+    {
+        $app = ApplicationShare::with('position')->where([
+            ['user_application_id', $this->id],
+            ['shared_by', Auth::id()],
+        ])->first();
+
+        if ($app) return true;
+        return false;
     }
 }

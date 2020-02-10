@@ -64,11 +64,15 @@
                         <th>Application Type</th>
                         <th>Status</th>
                         <th>Comment</th>
+                        <th>Progress</th>
                         <th>Options</th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach($userApps as $app)
+                        @if($app->shared())
+                            @continue(true)
+                        @endif
                         <tr>
                             <td>{{ $app->created_at }}</td>
                             <td>
@@ -83,6 +87,7 @@
                             <td>{{ $app->applicationType->name }}</td>
                             <td>{{ $app->status }}</td>
                             <td>{{ $app->comment }}</td>
+                            <td>{{ $app->progress()['position']['name'] }}</td>
                             <td>
                                 @if(Auth::user()->role!='normal')
                                     <div class="btn-group btn-group-sm">
@@ -207,45 +212,7 @@
 
 
 
-    <div class="modal fade" id="docsModal">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span></button>
-                    <h4 class="modal-title">
-                        Review documents
-                    </h4>
-                </div>
-                <form novalidate action="" class="form-horizontal" method="post" id="submitReviewForm">
-
-                    <div class="modal-body">
-                        @include('layouts._loader')
-                        <div class="edit-result">
-                            <input type="hidden" id="id" name="id" value="0">
-                            {{ csrf_field() }}
-                            <div id="docsResults"></div>
-                            {{--                            <div class="clearfix"></div>--}}
-                        </div>
-                    </div>
-                    <div class="modal-footer editFooter">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                                <i class="fa fa-close"></i>
-                                Close
-                            </button>
-                            <button type="submit" id="createBtn" class="btn btn-primary">
-                                <i class="fa fa-check-circle"></i>
-                                Save changes
-                            </button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-    </div>
+@include('partials.docsModal')
 
 
 @endsection
@@ -292,6 +259,7 @@
                 var form = $(this);
                 if (form.valid()) {
                     $('#createBtn').button('loading');
+                    // e.target.submit();
                     $.post(form.attr('action'), form.serialize())
                         .done(function (data) {
                             location.reload();

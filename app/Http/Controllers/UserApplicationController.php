@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\ApplicationShare;
 use App\ApplicationType;
 use App\Facility;
 use App\Jobs\ProcessApplication;
@@ -25,7 +26,6 @@ class UserApplicationController extends Controller
                 'facility',
                 'user'
             ])->where('user_id', Auth::id())->paginate(10);
-
         } else {
             $userApps = UserApplication::with([
                 'applicationType',
@@ -35,6 +35,7 @@ class UserApplicationController extends Controller
         $userApps->appends(['filter' => $filter]);
         $facilities = Facility::with('category')->where("user_id", Auth::id())->get();
         $appTypes = ApplicationType::all();
+
         return view('user_applications', compact('userApps'))
             ->with([
                 'facilities' => $facilities,
@@ -50,6 +51,12 @@ class UserApplicationController extends Controller
 
     public function updateReview(Request $request, UserApplication $userApplication)
     {
+            $appShare = new ApplicationShare();
+            $appShare->user_application_id = $userApplication->id;
+            $appShare->position_id = $request->position_id;
+            $appShare->shared_by=Auth::id();
+            $appShare->save();
+
         $userApplication->status = $request->status;
         $userApplication->comment = $request->comment;
         $userApplication->update();

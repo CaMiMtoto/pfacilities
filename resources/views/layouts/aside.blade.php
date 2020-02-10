@@ -43,6 +43,12 @@
                     <span>Applications</span>
                 </a>
             </li>
+            <li class="nav-shared-applications">
+                <a href="{{ route('my.shared.app.all') }}">
+                    <i class="fa fa-file-o"></i>
+                    <span>Shared Applications</span>
+                </a>
+            </li>
             @if(\Illuminate\Support\Facades\Auth::user()->role=='admin')
                 <li class="nav-users">
                     <a href="{{ route('users') }}">

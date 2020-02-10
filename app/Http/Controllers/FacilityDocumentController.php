@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\ApplicationType;
 use App\FacilityDocument;
+use App\Position;
 use App\User;
 use App\UserApplication;
 use Illuminate\Http\Request;
@@ -17,8 +18,10 @@ class FacilityDocumentController extends Controller
             ['user_id','=',$user->id],
             ['user_application_id','=',$userApplication->id]
         ])->get();
+        $positions=Position::all();
         return view('docs',compact('docs'))->with([
-            'userApplication'=>$userApplication
+            'userApplication'=>$userApplication,
+            'positions'=>$positions
         ]);
     }
 

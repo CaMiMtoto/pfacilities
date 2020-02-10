@@ -43,6 +43,9 @@ Route::get('/home', function () {
     Route::post('/facility/{facility}/documents/renew', 'FacilityDocumentRenewingController@renew')->name('renew.facility.doc');
 
     Route::prefix('admin')->group(function () {
+
+        Route::get('/applications/share/to/me', 'ApplicationShareController@index')->name('my.shared.app.all');
+
         Route::get('/categories', 'CategoriesController@index')->name('categories.all');
         Route::post('/categories', 'CategoriesController@store')->name('category.store');
         Route::get('/categories/{category}', 'CategoriesController@show')->name('category.show');
