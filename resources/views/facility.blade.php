@@ -94,18 +94,6 @@
                                        href="{{ route('facilities.visits',[$fac->id]) }}">
                                         View Visits
                                     </a>
-                                    @if(Auth::user()->role=='admin')
-                                        <button class="btn flat btn-primary js-licence btn-sm"
-                                                data-url="{{ route('facilities.show',$fac->id) }}"
-                                                data-submit="{{ route('licence.update',$fac->id) }}">
-                                            <i class="fa fa-calendar"></i>
-                                        </button>
-
-                                        <a href="{{ route('renewal',[$fac->id]) }}" class="btn btn-link btn-sm">
-                                            Renewal
-                                        </a>
-
-                                    @endif
                                     @if(Auth::user()->role=='normal')
                                         @if(isset($daysRemain) && $daysRemain <=30)
                                             <button class="btn flat btn-warning js-renew btn-sm"

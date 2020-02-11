@@ -30,7 +30,7 @@
 
 
             <li class="nav-facilities">
-                <a href="  {{ Auth::user()->role=='admin'? route('adminFacilities'):route('facilities') }}">
+                <a href="  {{ Auth::user()->role=='normal'? route('facilities'):route('adminFacilities') }}">
                     <i class="fa fa-heart"></i>
                     <span>Health Facilities</span>
                 </a>
