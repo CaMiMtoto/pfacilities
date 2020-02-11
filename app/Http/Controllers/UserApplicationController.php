@@ -60,7 +60,7 @@ class UserApplicationController extends Controller
         $userApplication->status = $request->status;
         $userApplication->comment = $request->comment;
         $userApplication->update();
-        if ($request->status=='approved' && Auth::user()->role=='mos'){
+        if ($request->status=='approved' && Auth::user()->role=='minister'){
             $userApplication->facility->license_issued_at=now();
             $userApplication->facility->license_expires_at=now()->addYears(2);
             $userApplication->facility->update();
