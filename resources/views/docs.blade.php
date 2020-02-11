@@ -21,9 +21,9 @@
         <div class="col-md-9">
             <select name="status" class="form-control" required id="status">
                 <option value=""></option>
-                @if(Auth::user()->role!='phf')
-                    <option value="modification" {{ $userApplication->status=='modification'?'selected':'' }}>For
-                        modification
+                @if(Auth::user()->role=='phf')
+                    <option value="modification" {{ $userApplication->status=='modification'?'selected':'' }}>
+                        For modification
                     </option>
                     <option value="process" {{ $userApplication->status=='process'?'selected':'' }}>In process</option>
                     <option value="pending" {{ $userApplication->status=='pending'?'selected':'' }}>Pending</option>
