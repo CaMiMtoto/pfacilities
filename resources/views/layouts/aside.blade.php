@@ -43,12 +43,14 @@
                     <span>Applications</span>
                 </a>
             </li>
+            @if(Auth::user()->role!='normal')
             <li class="nav-shared-applications">
                 <a href="{{ route('my.shared.app.all') }}">
                     <i class="fa fa-file-o"></i>
-                    <span>Shared Applications</span>
+                    <span>For Approval</span>
                 </a>
             </li>
+            @endif
             @if(\Illuminate\Support\Facades\Auth::user()->role=='admin')
                 <li class="nav-users">
                     <a href="{{ route('users') }}">
@@ -64,58 +66,59 @@
                 </li>
             @endif
 
-
-            <li class="treeview">
-                <a href="#">
-                    <i class="fa fa-link"></i>
-                    <span>Settings</span>
-                    <span class="pull-right-container">
+            @if(Auth::user()->role!='normal')
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-link"></i>
+                        <span>Settings</span>
+                        <span class="pull-right-container">
                          <i class="fa fa-angle-left pull-right"></i>
                     </span>
-                </a>
-                <ul class="treeview-menu ">
-                    @if(Auth::user()->role=='admin')
-                        <li class="nav-positions ">
-                            <a href="{{ route('positions.all') }}">
-                                <i class="fa fa-circle"></i>
-                                <span>Positions</span>
-                            </a>
-                        </li>
-                        <li class="nav-employee-positions ">
-                            <a href="{{ route('employeePositions.all') }}">
-                                <i class="fa fa-circle"></i>
-                                <span>Employee Position</span>
-                            </a>
-                        </li>
-                        <li class="nav-categories">
-                            <a href="{{ route('categories.all') }}">
-                                <i class="fa fa-circle"></i>
-                                <span>Categories</span>
-                            </a>
-                        </li>
-                        <li class="nav-services">
-                            <a href="{{ route('services.all') }}">
-                                <i class="fa fa-circle"></i>
-                                <span>Services</span>
-                            </a>
-                        </li>
-                        <li class="nav-services">
-                            <a href="{{ route('documents.all') }}">
-                                <i class="fa fa-circle"></i>
-                                <span>Documents</span>
-                            </a>
-                        </li>
-                        <li class="nav-services">
-                            <a href="{{ route('app-types.all') }}">
-                                <i class="fa fa-circle"></i>
-                                <span>Application Types</span>
-                            </a>
-                        </li>
+                    </a>
+                    <ul class="treeview-menu ">
+                        @if(Auth::user()->role=='admin')
+                            <li class="nav-positions ">
+                                <a href="{{ route('positions.all') }}">
+                                    <i class="fa fa-circle"></i>
+                                    <span>Positions</span>
+                                </a>
+                            </li>
+                            <li class="nav-employee-positions ">
+                                <a href="{{ route('employeePositions.all') }}">
+                                    <i class="fa fa-circle"></i>
+                                    <span>Employee Position</span>
+                                </a>
+                            </li>
+                            <li class="nav-categories">
+                                <a href="{{ route('categories.all') }}">
+                                    <i class="fa fa-circle"></i>
+                                    <span>Categories</span>
+                                </a>
+                            </li>
+                            <li class="nav-services">
+                                <a href="{{ route('services.all') }}">
+                                    <i class="fa fa-circle"></i>
+                                    <span>Services</span>
+                                </a>
+                            </li>
+                            <li class="nav-services">
+                                <a href="{{ route('documents.all') }}">
+                                    <i class="fa fa-circle"></i>
+                                    <span>Documents</span>
+                                </a>
+                            </li>
+                            <li class="nav-services">
+                                <a href="{{ route('app-types.all') }}">
+                                    <i class="fa fa-circle"></i>
+                                    <span>Application Types</span>
+                                </a>
+                            </li>
 
-                    @endif
+                        @endif
 
-                </ul>
-            </li>
+                    </ul>
+                </li>
+            @endif
 
             <li class="treeview tr-reports">
                 <a href="#">

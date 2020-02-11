@@ -1,5 +1,4 @@
 @extends('layouts.app')
-@section('title','Facilities')
 @section('title','Summary Report')
 @section('style')
     <style>
@@ -12,12 +11,49 @@
 @endsection
 @section('content')
     <div class="content">
+        <form action="{{ route('summary.facilities') }}" method="get" class="form-inline no-print">
+            <div class="form-group form-group-sm">
+                <label for="district">District</label> <br>
+                <select required class="form-control" name="district" id="district">
+                    <option value=""></option>
+                    @foreach($districts as $dist)
+                        <option value="{{ $dist->id }}">{{ $dist->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="form-group form-group-sm">
+                <label for="category">Category</label><br>
+                <select required class="form-control" name="category" id="category">
+                    <option value=""></option>
+                    @foreach($categories as $dist)
+                        <option value="{{ $dist->id }}">{{ $dist->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="form-group form-group-sm">
+                <label for="service">Service</label><br>
+                <select required class="form-control" name="service" id="service">
+                    <option value=""></option>
+                    @foreach($services as $dist)
+                        <option value="{{ $dist->id }}">{{ $dist->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="form-group form-group-sm">
+                <label for="district"><br></label><br>
+              <button class="btn btn-primary btn-sm">
+                  <i class="fa fa-search"></i>
+                  Go
+              </button>
+            </div>
+        </form>
         <div class="box box-default flat">
-            <div class="box-header with-border">
-                <img src="{{ asset('images/MINISANTE_ENG_FR_KINY_All_004.jpg') }}" class="img img-responsive"
+            <div class="box-header">
+          {{--      <img src="{{ asset('images/MINISANTE_ENG_FR_KINY_All_004.jpg') }}" class="img img-responsive"
                      style="height: 150px"
                      alt="">
-                <br>
+                <br>--}}
+
                 <div class="box-tools pull-right">
                     <div class="no-print">
                         {{--            <a href="{{ route('adminFacilities') }}" class="bbtn btn-primary btn-sm pull-left">Go Back</a>--}}
@@ -25,10 +61,11 @@
                             <i class="glyphicon glyphicon-print"></i>
                             Print
                         </button>
-                        <div class="clearfix"></div>
-                        <br>
                     </div>
                 </div>
+                <div class="clearfix"></div>
+                <br>
+
             </div>
             <div class="box-body">
 

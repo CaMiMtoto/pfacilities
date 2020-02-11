@@ -254,7 +254,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="manager_name" class="control-label">Manager name</label>
+                                    <label for="manager_name" class="control-label">Manager/Facility Representative</label>
                                     <div>
                                         <input required type="text" name="manager_name" id="manager_name"
                                                placeholder="Manager" class="form-control">

@@ -19,7 +19,7 @@ class CreateUserApplicationsTable extends Migration
             $table->unsignedBigInteger('application_type_id');
             $table->unsignedBigInteger('facility_id');
             $table->string('status',20)->nullable();
-
+            $table->text('comment')->nullable();
             $table->string('inspector_status')->nullable();
             $table->text('inspector_comment')->nullable();
 

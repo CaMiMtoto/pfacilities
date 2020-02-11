@@ -40,4 +40,5 @@ class User extends Authenticatable implements MustVerifyEmail
     public function position(){
         return $this->belongsTo(Position::class);
     }
+
 }

@@ -175,6 +175,7 @@ class FacilitiesController extends Controller
         $userApp->application_type_id = $request->applicationType;
         $userApp->facility_id = $facility->id;
         $userApp->status = 'pending';
+        $userApp->application_id=now()->format('dmy').$facility->id;
         $userApp->save();
 
         foreach (array_keys($request->files->all()) as $array_key) {

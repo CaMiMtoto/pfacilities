@@ -57,8 +57,8 @@
 
                     <thead>
                     <tr>
-                        <th>Submitted At</th>
-                        <th>Facility</th>
+                        <th>Application Id</th>
+                        <th>Facility Name</th>
                         <th>Applicant</th>
                         <th>Phone Number</th>
                         <th>Application Type</th>
@@ -70,11 +70,11 @@
                     </thead>
                     <tbody>
                     @foreach($userApps as $app)
-                        @if($app->shared())
+                      {{--  @if($app->shared())
                             @continue(true)
-                        @endif
+                        @endif--}}
                         <tr>
-                            <td>{{ $app->created_at }}</td>
+                            <td>{{ $app->application_id }}</td>
                             <td>
                                 @if($app->facility)
                                     {{ $app->facility->name }}

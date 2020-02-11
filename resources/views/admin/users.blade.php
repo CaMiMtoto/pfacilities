@@ -34,7 +34,7 @@
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->email }}</td>
                             <td>{{ $user->position==null?'Unknown':$user->position->name }}</td>
-                            <td>{{ $user->role }}</td>
+                            <td>{{ ucwords($user->role) }}</td>
                             <td>
                                 <div class="btn-group flat">
                                     <button class="btn flat btn-default js-edit"
@@ -112,10 +112,9 @@
                                         <option value="admin">Admin</option>
                                         <option value="phf">PHF</option>
                                         <option value="dhpru">DHPRU</option>
-                                        <option value="approval">Approval</option>
-                                        <option value="certifier">Certifier</option>
+                                        <option value="dgcphs">DGCPHS</option>
                                         <option value="ps">PS</option>
-                                        <option value="mos">MOS</option>
+                                        <option value="minister">Minister</option>
                                         <option value="normal">Normal user</option>
                                     </select>
                                 </div>

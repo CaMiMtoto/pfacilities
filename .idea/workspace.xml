@@ -2,13 +2,21 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ddd88c5d-e71e-44ad-8723-9dc0f244616e" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/database/migrations/2020_02_11_172236_add_other_services_to_facilities.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/migrations/2020_02_11_172728_makeing_ref_number_nullable_to_facilities.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/database/migrations/2020_02_11_175937_add_application_id_to_user_applications_table.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/admin/reports/facilities_from_district.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/FacilitiesController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/FacilitiesController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/HomeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/HomeController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ReportsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ReportsController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/UserApplicationController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/UserApplicationController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/User.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database/migrations/2019_10_28_191426_create_user_applications_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2019_10_28_191426_create_user_applications_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/facilties.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/facilties.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/reports/summary.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/reports/summary.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/users.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/users.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/facility.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/facility.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/layouts/aside.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/aside.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/user_applications.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/user_applications.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -61,6 +69,19 @@
         <item name="privatefacilities@localhost" type="feb32156:DbDataSourceImpl" />
         <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
         <item name="privatefacilities: schema" type="ebfa3cd1:MariaImplModel$Schema" />
+        <item name="user_applications: table" type="dbc44a63:MariaImplModel$Table" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="privatefacilities@localhost" type="feb32156:DbDataSourceImpl" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="test_db: schema" type="ebfa3cd1:MariaImplModel$Schema" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="privatefacilities@localhost" type="feb32156:DbDataSourceImpl" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="test_db: schema" type="ebfa3cd1:MariaImplModel$Schema" />
         <item name="user_applications: table" type="dbc44a63:MariaImplModel$Table" />
       </path>
     </expand>
@@ -238,16 +259,6 @@
               <item name="com.intellij.execution.services.ServiceModel$ServiceGroupNode@9225aba7" type="7427dc5b:ServiceModel$ServiceGroupNode" />
               <item name="com.intellij.execution.services.ServiceModel$ServiceNode@5658de8e" type="9fbbdea:ServiceModel$ServiceNode" />
             </path>
-            <path>
-              <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
-              <item name="com.intellij.execution.services.ServiceModel$ServiceGroupNode@9225aba7" type="7427dc5b:ServiceModel$ServiceGroupNode" />
-              <item name="com.intellij.execution.services.ServiceModel$ServiceNode@351379e8" type="9fbbdea:ServiceModel$ServiceNode" />
-            </path>
-            <path>
-              <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
-              <item name="com.intellij.execution.services.ServiceModel$ServiceGroupNode@9225aba7" type="7427dc5b:ServiceModel$ServiceGroupNode" />
-              <item name="com.intellij.execution.services.ServiceModel$ServiceNode@671069bc" type="9fbbdea:ServiceModel$ServiceNode" />
-            </path>
           </expand>
           <select />
         </treeState>
@@ -279,7 +290,7 @@
       <workItem from="1580918631461" duration="6602000" />
       <workItem from="1581060348241" duration="1422000" />
       <workItem from="1581351046217" duration="10563000" />
-      <workItem from="1581437666165" duration="5633000" />
+      <workItem from="1581437666165" duration="12598000" />
     </task>
     <servers />
   </component>

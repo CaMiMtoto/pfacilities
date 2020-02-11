@@ -91,6 +91,7 @@ Route::get('/home', function () {
 
         Route::post('/facilities/licence/update/{facility}', 'FacilitiesController@updateLicence')->name('licence.update');
         Route::get('/summary/report', 'ReportsController@summary')->name('summary');
+        Route::get('/summary/report/facilities', 'ReportsController@facilities')->name('summary.facilities');
 
 
         Route::get('/applications/{application}/comments', 'UserApplicationCommentController@applicationComments')
