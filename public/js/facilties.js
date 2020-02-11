@@ -113,6 +113,7 @@ $(function () {
                 $('#manager_name').val(data.manager_name);
                 $('#province_id').val(data.data.province_id);
                 $('#nationalId').val(data.nationalId);
+                $('#other_service').val(data.other_service);
 
                 var licensed=$('#license_status');
                 licensed.val(data.license_status);

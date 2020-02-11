@@ -10,13 +10,13 @@
                 Summary
             </a>
         @endif
-            @if(\Illuminate\Support\Facades\Auth::user()->role=='normal')
-                <button class="btn btn-primary  btn-sm pull-right" id="addButton">
-                    <i class="fa fa-plus"></i>
-                    Register facility
-                </button>
-            @endif
-            <div class="clearfix"></div>
+        @if(\Illuminate\Support\Facades\Auth::user()->role=='normal')
+            <button class="btn btn-primary  btn-sm pull-right" id="addButton">
+                <i class="fa fa-plus"></i>
+                Register facility
+            </button>
+        @endif
+        <div class="clearfix"></div>
         <div class="box box-primary flat">
             <div class="box-header with-border">
                 <h3 class="box-title">
@@ -55,7 +55,13 @@
                     <tbody>
                     @foreach($facilities as $fac)
                         <tr>
-                            <td>{{ $fac->ref_number }}</td>
+                            <td>
+                                @if($fac->ref_number)
+                                    <span>{{$fac->ref_number}}</span>
+                                @else
+                                    <span class="label label-info">Not Given</span>
+                                @endif
+                            </td>
                             <td>{{ $fac->name }}</td>
                             <td>{{ $fac->category->name }}</td>
                             <td>{{ $fac->service->name }}</td>
@@ -69,22 +75,24 @@
                                 @if($fac->license_expires_at!=null)
                                     <?php
                                     $daysRemain = $fac->license_expires_at->diff($fac->license_issued_at)->format('%a');
-                                    if ($daysRemain<30)
-                                        $color='red;font-weight:800;';
+                                    if ($daysRemain < 30)
+                                        $color = 'red;font-weight:800;';
                                     ?>
                                 @endif
                                 <span style="color: {{$color}}">{{ isset($daysRemain)?$daysRemain :'Unknown' }}</span>
                             </td>
                             <td>
                                 <div class="btn-group btn-group-sm flat">
-                                    <button class="btn flat btn-default js-edit btn-sm"
-                                            data-url="{{ route('facilities.show',$fac->id) }}">
-                                        <i class="fa fa-edit"></i>
-                                    </button>
-                                    <a class="btn flat btn-default btn-sm"
+                                    @if(Auth::user()->role!='normal')
+                                        <button class="btn flat btn-default js-edit btn-sm"
+                                                data-url="{{ route('facilities.show',$fac->id) }}">
+                                            <i class="fa fa-edit"></i>
+                                        </button>
+                                    @endif
+                                    <a class="btn flat btn-primary btn-sm"
                                        title="View facility visits"
                                        href="{{ route('facilities.visits',[$fac->id]) }}">
-                                        <i class="fa fa-eye"></i>
+                                        View Visits
                                     </a>
                                     @if(Auth::user()->role=='admin')
                                         <button class="btn flat btn-primary js-licence btn-sm"
@@ -99,14 +107,6 @@
 
                                     @endif
                                     @if(Auth::user()->role=='normal')
-                                        @if($fac->facilityDocuments->count()==0)
-                                            <button class="btn flat btn-primary js-docs btn-sm"
-                                                    data-url="{{ route('facilities.show',$fac->id) }}"
-                                                    data-submit="{{ route('facilities.add-docs',$fac->id) }}">
-                                                <i class="fa fa-file-o"></i>
-                                                Add Docs
-                                            </button>
-                                        @endif
                                         @if(isset($daysRemain) && $daysRemain <=30)
                                             <button class="btn flat btn-warning js-renew btn-sm"
                                                     data-url="{{ route('renew.facility.doc',$fac->id) }}">
@@ -153,21 +153,14 @@
 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="name" class="control-label">Name</label>
+                                    <label for="name" class="control-label">Facility Name</label>
                                     <div>
                                         <input required minlength="2" maxlength="50" type="text" class="form-control"
                                                name="name" id="name">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="ref_number" class="control-label">Reference Number</label>
-                                    <div>
-                                        <input required minlength="2" maxlength="50" type="text" class="form-control"
-                                               name="ref_number" id="ref_number">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="category_id" class="control-label">Category</label>
+                                    <label for="category_id" class="control-label">Facility Category</label>
                                     <div>
                                         <select class="form-control" required name="category_id" id="category_id">
                                             <option value=""></option>
@@ -188,6 +181,15 @@
                                         </select>
                                     </div>
                                 </div>
+
+                                <div class="form-group">
+                                    <label for="other_service" class="control-label">Other Service</label>
+                                    <div>
+                                        <input class="form-control" type="text" name="other_service"
+                                               id="other_service"/>
+                                    </div>
+                                </div>
+
                                 <div class="form-group">
                                     <label for="email" class="control-label">Email</label>
                                     <div>
@@ -273,7 +275,7 @@
                                         <select required name="license_status" id="license_status" class="form-control">
                                             <option value=""></option>
                                             <option value="new">New license</option>
-                                            <option value="licensed">Have licence</option>
+                                            <option value="licensed">Valid licence</option>
                                             <option value="renew">Renew licence</option>
                                         </select>
                                     </div>

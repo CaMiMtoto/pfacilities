@@ -18,16 +18,16 @@ class CreateUserApplicationsTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('application_type_id');
             $table->unsignedBigInteger('facility_id');
-            $table->string('status',20);
+            $table->string('status',20)->nullable();
 
-            $table->string('inspector_status');
-            $table->text('inspector_comment');
+            $table->string('inspector_status')->nullable();
+            $table->text('inspector_comment')->nullable();
 
-            $table->string('verifier_status');
-            $table->text('verifier_comment');
+            $table->string('verifier_status')->nullable();
+            $table->text('verifier_comment')->nullable();
 
-            $table->string('approval_status');
-            $table->text('approval_comment');
+            $table->string('approval_status')->nullable();
+            $table->text('approval_comment')->nullable();
 
             $table->timestamps();
 

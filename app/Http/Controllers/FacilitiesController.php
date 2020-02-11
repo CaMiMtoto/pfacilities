@@ -84,6 +84,7 @@ class FacilitiesController extends Controller
         $cat->category_id = $request->category_id;
         $cat->nationalId = $request->nationalId;
         $cat->service_id = $request->service_id;
+        $cat->other_service = $request->other_service;
 
         $license = $request->license_status;
         $cat->license_status = $license;
