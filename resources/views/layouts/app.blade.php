@@ -34,7 +34,7 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito:300|Source+Sans+Pro:400&display=swap" rel="stylesheet">
 
 </head>
-<body class="hold-transition skin-blue sidebar-mini  sidebar-collapse">
+<body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
     <!-- Main Header -->
 @include('layouts.header')

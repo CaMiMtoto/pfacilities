@@ -275,6 +275,8 @@
                 $('#appointment-form').on('submit', function (e) {
                     var btn = $('#appointmentBtn');
                     e.preventDefault();
+                    // if (!$(this).valid()) return false;
+
                     btn.button('loading');
                     $.post(url, $(this).serialize())
                         .done(function (data) {
