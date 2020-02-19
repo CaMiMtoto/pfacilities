@@ -16,7 +16,7 @@ class CreateApplicationSharesTable extends Migration
         Schema::create('application_shares', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_application_id');
-            $table->unsignedBigInteger('position_id');
+            $table->unsignedBigInteger('position_id')->nullable();
             $table->unsignedBigInteger('shared_by');
             $table->timestamps();
             $table->foreign('user_application_id')->on('user_applications')->references('id');

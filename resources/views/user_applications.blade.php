@@ -47,7 +47,7 @@
                 <!-- /.box-tools -->
             </div>
             <!-- /.box-header -->
-            <div class="box-body">
+            <div class="box-body table-responsive">
                 <table class="table">
                     <tfoot>
                     <tr>
@@ -70,9 +70,9 @@
                     </thead>
                     <tbody>
                     @foreach($userApps as $app)
-                      {{--  @if($app->shared())
-                            @continue(true)
-                        @endif--}}
+                        {{--  @if($app->shared())
+                              @continue(true)
+                          @endif--}}
                         <tr>
                             <td>{{ $app->application_id }}</td>
                             <td>
@@ -95,6 +95,13 @@
                                            class="btn btn-default btn-sm">
                                             <i class="fa fa-comment"></i>
                                         </a>
+                                        @if($app->status=='approved')
+                                            <button
+                                                data-url="{{ route('makeAppointment',$app->id) }}"
+                                                title="Appointment" class="btn btn-primary btn-sm js-appoint">
+                                                <i class="fa fa-clock-o"></i>
+                                            </button>
+                                        @endif
                                         <button class="btn btn-info btn-sm js-review"
                                                 data-update-url="{{ route('updateReview',$app->id) }}"
                                                 data-url="{{ route('reviewDocs',['userApplication'=>$app->id,'applicationType'=>$app->application_type_id,'user'=>$app->user_id]) }}">
@@ -114,6 +121,45 @@
             </div>
         </div>
     </section>
+
+
+
+    <div class="modal fade" id="picking_date_modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">
+                        Appointment
+                    </h4>
+                </div>
+                <form autocomplete="off" action="" id="appointment-form" class="form-horizontal">
+                    {{ csrf_field() }}
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="picking_date" class="control-label col-sm-3">Pick Up Date</label>
+                            <div class="col-sm-9">
+                                <input required type="text" class="form-control datepicker" name="picking_date"
+                                       id="picking_date">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="picking_date" class="control-label col-sm-3">Pick Up Time</label>
+                            <div class="col-sm-9">
+                                <input required type="time" class="form-control" name="time"
+                                       id="picking_date">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" id="appointmentBtn" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 
 
     @if(\Illuminate\Support\Facades\Auth::user()->role=='normal')
@@ -210,9 +256,7 @@
 
 
 
-
-
-@include('partials.docsModal')
+    @include('partials.docsModal')
 
 
 @endsection
@@ -224,6 +268,23 @@
             $('.nav-applications').addClass('active');
 
             $('#saveDocsForm').validate();
+
+            $('.js-appoint').on('click', function () {
+                var url = $(this).attr('data-url');
+                $('#picking_date_modal').modal();
+                $('#appointment-form').on('submit', function (e) {
+                    var btn = $('#appointmentBtn');
+                    e.preventDefault();
+                    btn.button('loading');
+                    $.post(url, $(this).serialize())
+                        .done(function (data) {
+                            btn.button('reset');
+                            location.reload();
+                        }).fail(function (error) {
+                        btn.button('reset');
+                    })
+                });
+            });
 
             $('#applicationType').on('change', function () {
                 if (!$(this).val()) return;

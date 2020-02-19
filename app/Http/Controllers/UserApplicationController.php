@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\ApplicationShare;
 use App\ApplicationType;
+use App\CertificatePicking;
 use App\Facility;
+use App\Jobs\ApplicationShared;
 use App\Jobs\ProcessApplication;
+use App\Jobs\ProcessShareApplication;
 use App\Jobs\ProcessUserApplication;
 use App\User;
 use App\UserApplication;
@@ -51,20 +54,32 @@ class UserApplicationController extends Controller
 
     public function updateReview(Request $request, UserApplication $userApplication)
     {
+        $position_id = $request->position_id;
+        $id = Auth::id();
+        $appShare = ApplicationShare::where([
+            ['user_application_id', '=', $userApplication->id],
+            ['position_id', '=', $position_id]
+        ])->first();
+        if ($appShare == null) {
             $appShare = new ApplicationShare();
-            $appShare->user_application_id = $userApplication->id;
-            $appShare->position_id = $request->position_id;
-            $appShare->shared_by=Auth::id();
-            $appShare->save();
+        }
+        $appShare->user_application_id = $userApplication->id;
+        $appShare->position_id = $position_id;
+        $appShare->shared_by = $id;
+        $appShare->save();
 
         $userApplication->status = $request->status;
         $userApplication->comment = $request->comment;
         $userApplication->update();
-        if ($request->status=='approved' && Auth::user()->role=='minister'){
-            $userApplication->facility->license_issued_at=now();
-            $userApplication->facility->license_expires_at=now()->addYears(2);
+        if ($request->status == 'approved' && Auth::user()->role == 'minister') {
+            $userApplication->facility->license_issued_at = now();
+            $userApplication->facility->license_expires_at = now()->addYears(2);
             $userApplication->facility->update();
         }
+
+
+        $load = $appShare->load(['userApplication', 'position']);
+        ProcessShareApplication::dispatch($load);
         return response(null, 204);
     }
 
@@ -103,5 +118,38 @@ class UserApplicationController extends Controller
 
         return redirect()->back();
 //        return response($application, 204);
+    }
+
+    public function makeAppointment(Request $request, UserApplication $application)
+    {
+        $certificate = new CertificatePicking();
+
+        $time = $request->input('picking_date') . " " . $request->input('time') . ":00";
+//           return response($time,400);
+        $certificate->picking_date = $time;
+        $application->status = 'signed';
+        $certificate->user_application_id = $application->id;
+        $certificate->save();
+        $application->update();
+
+        return response($application, 200);
+    }
+
+    public function appAppointments(Request $request)
+    {
+        $appointments = CertificatePicking::with('userApplication')
+            ->orderByDesc('id')
+            ->paginate(10);
+        return view('appointments', compact('appointments'));
+    }
+
+    public function pickCertificate(Request $request, CertificatePicking $picking)
+    {
+        $picking->picked_by = $request->input('picked_by');
+        $picking->nid = $request->input('nid');
+        $picking->comment = $request->input('comment');
+        $picking->picked_at=now();
+        $picking->save();
+        return $picking;
     }
 }

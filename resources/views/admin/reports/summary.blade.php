@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title','Summary Report')
+@section('title','Private Facilities')
 @section('style')
     <style>
         @media print {

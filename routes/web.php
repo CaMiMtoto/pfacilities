@@ -13,7 +13,7 @@ Route::get('/home', function () {
     return redirect()->route('home');
 });
 
-/*Route::middleware(['auth', 'verified'])->group(function () {*/
+Route::middleware(['auth'/*, 'verified'*/])->group(function () {
     Route::get('/dashboard', 'HomeController@index')->name('home');
     Route::get('/view/document', 'HomeController@viewDoc')->name('viewDocument');
 
@@ -107,8 +107,12 @@ Route::get('/home', function () {
         Route::get('/reports/expiring', 'FacilityReportController@expiring')->name('expiring');
         Route::post('/applications/{application}/change/status', 'UserApplicationController@changeStatus')->name('changeStatus');
 
+        Route::post('/applications/{application}/appointment', 'UserApplicationController@makeAppointment')->name('makeAppointment');
+        Route::get('/applications/appointments', 'UserApplicationController@appAppointments')->name('appointments');
+        Route::post('/applications/appointments/{picking}', 'UserApplicationController@pickCertificate')->name('pickCertificate');
+
     });
-//});
+});
 
 
 

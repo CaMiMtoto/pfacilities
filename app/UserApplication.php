@@ -7,6 +7,9 @@ use Illuminate\Support\Facades\Auth;
 
 /**
  * @property string status
+ * @property mixed id
+ * @property mixed facility
+ * @property mixed comment
  */
 class UserApplication extends Model
 {
@@ -53,5 +56,9 @@ class UserApplication extends Model
 
         if ($app) return true;
         return false;
+    }
+
+    public function certificates(){
+        return $this->hasMany(CertificatePicking::class);
     }
 }

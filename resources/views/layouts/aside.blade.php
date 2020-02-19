@@ -43,13 +43,19 @@
                     <span>Applications</span>
                 </a>
             </li>
-            @if(Auth::user()->role!='normal')
-            <li class="nav-shared-applications">
-                <a href="{{ route('my.shared.app.all') }}">
-                    <i class="fa fa-file-o"></i>
-                    <span>For Approval</span>
+            <li class="nav-appointments">
+                <a href="{{ route('appointments') }}">
+                    <i class="fa fa-clock-o"></i>
+                    <span>Appointments</span>
                 </a>
             </li>
+            @if(Auth::user()->role!='normal')
+                <li class="nav-shared-applications">
+                    <a href="{{ route('my.shared.app.all') }}">
+                        <i class="fa fa-file-o"></i>
+                        <span>For Approval</span>
+                    </a>
+                </li>
             @endif
             @if(\Illuminate\Support\Facades\Auth::user()->role=='admin')
                 <li class="nav-users">
