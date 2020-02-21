@@ -61,4 +61,8 @@ class UserApplication extends Model
     public function certificates(){
         return $this->hasMany(CertificatePicking::class);
     }
+
+    public function history(){
+        return $this->hasMany(ApplicationHistory::class,'user_application_id','id');
+    }
 }

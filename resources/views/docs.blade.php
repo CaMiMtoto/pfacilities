@@ -22,16 +22,16 @@
             <select name="status" class="form-control" required id="status">
                 <option value=""></option>
                 @if(Auth::user()->role=='phf')
-                    <option value="modification" {{ $userApplication->status=='modification'?'selected':'' }}>
+                    <option value="modification">
                         For modification
                     </option>
-                    <option value="process" {{ $userApplication->status=='process'?'selected':'' }}>In process</option>
-                    <option value="pending" {{ $userApplication->status=='pending'?'selected':'' }}>Pending</option>
-                    <option value="verified" {{ $userApplication->status=='verified'?'selected':'' }}>Verified</option>
+                    <option value="process">In process</option>
+                    <option value="pending">Pending</option>
+                    <option value="verified">Verified</option>
                 @elseif(Auth::user()->role!=App\Roles::$APPLICANT)
-                    <option value="approved" {{ $userApplication->status=='approved'?'selected':'' }}>Approved</option>
-                    <option value="rejected" {{ $userApplication->status=='rejected'?'selected':'' }}>Rejected</option>
-                    <option value="not_clear" {{ $userApplication->status=='not_clear'?'selected':'' }}>Not Clear</option>
+                    <option value="approved">Approved</option>
+                    <option value="rejected">Rejected</option>
+                    <option value="not_clear">Not Clear</option>
                 @endif
             </select>
         </div>
@@ -41,7 +41,7 @@
     <div class="form-group">
         <label for="comment" class="control-label col-md-3">Comment</label>
         <div class="col-md-9">
-            <textarea name="comment" id="comment" class="form-control">{{ $userApplication->comment }}</textarea>
+            <textarea required  name="comment" id="comment" class="form-control"></textarea>
         </div>
     </div>
 </div>
@@ -49,7 +49,7 @@
     <div class="form-group">
         <label for="position_id" class="control-label col-md-3">Share Application</label>
         <div class="col-md-9">
-            <select class="form-control" name="position_id" id="position_id">
+            <select required class="form-control" name="position_id" id="position_id">
                 <option value=""></option>
                 @foreach($positions as $position)
                     <option value="{{ $position->id }}">{{ $position->name }} - {{ $position->description }}  </option>

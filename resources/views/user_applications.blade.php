@@ -63,7 +63,6 @@
                         <th>Phone Number</th>
                         <th>Application Type</th>
                         <th>Status</th>
-                        <th>Comment</th>
                         <th>Progress</th>
                         <th>Options</th>
                     </tr>
@@ -74,7 +73,9 @@
                               @continue(true)
                           @endif--}}
                         <tr>
-                            <td>{{ $app->application_id }}</td>
+                            <td>
+                                <a href="{{ route('applicationHistories',$app->id) }}">{{ $app->application_id }}</a>
+                            </td>
                             <td>
                                 @if($app->facility)
                                     {{ $app->facility->name }}
@@ -85,8 +86,7 @@
                             <td>{{ $app->user->name }}</td>
                             <td>{{ $app->user->phone }}</td>
                             <td>{{ $app->applicationType->name }}</td>
-                            <td>{{ $app->status }}</td>
-                            <td>{{ $app->comment }}</td>
+                            <td>In Progress</td>
                             <td>{{ $app->progress()['position']['name'] }}</td>
                             <td>
                                 @if(Auth::user()->role!='normal')

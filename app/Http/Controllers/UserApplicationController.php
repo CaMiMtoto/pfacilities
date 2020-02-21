@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\ApplicationHistory;
 use App\ApplicationShare;
 use App\ApplicationType;
 use App\CertificatePicking;
@@ -55,10 +56,11 @@ class UserApplicationController extends Controller
     public function updateReview(Request $request, UserApplication $userApplication)
     {
         $position_id = $request->position_id;
+        $status = $request->status;
+        $comment = $request->comment;
         $id = Auth::id();
         $appShare = ApplicationShare::where([
             ['user_application_id', '=', $userApplication->id],
-            ['position_id', '=', $position_id]
         ])->first();
         if ($appShare == null) {
             $appShare = new ApplicationShare();
@@ -68,10 +70,17 @@ class UserApplicationController extends Controller
         $appShare->shared_by = $id;
         $appShare->save();
 
-        $userApplication->status = $request->status;
-        $userApplication->comment = $request->comment;
+        $appHistory = new ApplicationHistory();
+        $appHistory->shared_to_position_id = $position_id;
+        $appHistory->shared_by = $id;
+        $appHistory->status = $status;
+        $appHistory->comment = $comment;
+        $userApplication->history()->save($appHistory);
+
+        $userApplication->status = $status;
+        $userApplication->comment = $comment;
         $userApplication->update();
-        if ($request->status == 'approved' && Auth::user()->role == 'minister') {
+        if ($status == 'approved' && Auth::user()->role == 'minister') {
             $userApplication->facility->license_issued_at = now();
             $userApplication->facility->license_expires_at = now()->addYears(2);
             $userApplication->facility->update();
@@ -148,8 +157,15 @@ class UserApplicationController extends Controller
         $picking->picked_by = $request->input('picked_by');
         $picking->nid = $request->input('nid');
         $picking->comment = $request->input('comment');
-        $picking->picked_at=now();
+        $picking->picked_at = now();
         $picking->save();
         return $picking;
+    }
+
+    public function applicationHistories(UserApplication $application)
+    {
+        $application = $application->load(['history','facility']);
+//        return $histories;
+        return view('application_history', compact('application'));
     }
 }

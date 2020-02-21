@@ -110,6 +110,7 @@ Route::middleware(['auth'/*, 'verified'*/])->group(function () {
         Route::post('/applications/{application}/appointment', 'UserApplicationController@makeAppointment')->name('makeAppointment');
         Route::get('/applications/appointments', 'UserApplicationController@appAppointments')->name('appointments');
         Route::post('/applications/appointments/{picking}', 'UserApplicationController@pickCertificate')->name('pickCertificate');
+        Route::get('/applications/{application}/history', 'UserApplicationController@applicationHistories')->name('applicationHistories');
 
     });
 });
