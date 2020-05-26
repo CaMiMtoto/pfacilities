@@ -6,6 +6,7 @@ use App\ApplicationType;
 use App\Category;
 use App\Facility;
 use App\FacilityDocument;
+use App\FacilityService;
 use App\Province;
 use App\Service;
 use App\UserApplication;
@@ -69,10 +70,12 @@ class FacilitiesController extends Controller
 
     public function store(Request $request)
     {
+        $editMode = true;
         if ($request->id && $request->id > 0) {
             $cat = Facility::find($request->id);
         } else {
             $cat = new Facility();
+            $editMode = false;
         }
         $cat->name = $request->name;
         $cat->ref_number = $request->ref_number;
@@ -83,8 +86,11 @@ class FacilitiesController extends Controller
         $cat->user_id = Auth::id();
         $cat->category_id = $request->category_id;
         $cat->nationalId = $request->nationalId;
-        $cat->service_id = $request->service_id;
+//        $cat->service_id = $request->service_id;
+
         $cat->other_service = $request->other_service;
+        $cat->owner = $request->owner;
+        $cat->position = $request->position;
 
         $license = $request->license_status;
         $cat->license_status = $license;
@@ -98,6 +104,17 @@ class FacilitiesController extends Controller
         }
 
         $cat->save();
+        $services = $request->input('service_id');
+        if (count($services)) {
+            if (!$editMode) {
+                foreach ($services as $service) {
+                    FacilityService::create([
+                        'facility_id' => $cat->id,
+                        'service_id' => $service,
+                    ]);
+                }
+            }
+        }
 //        return response($cat, 200);
         return redirect()->back()
             ->with([
@@ -115,7 +132,15 @@ class FacilitiesController extends Controller
 
     public function show(Facility $facility)
     {
-        return response($facility, 200);
+        return response($facility->load('facilityService'), 200);
+    }
+
+    public function edit(Facility $facility)
+    {
+        $obj = $facility->load('facilityService');
+        return view('admin._edit_facility', [
+            'facility' => $obj
+        ]);
     }
 
 
@@ -134,48 +159,47 @@ class FacilitiesController extends Controller
         return response(null, 204);
     }
 
- /*   public function addDocs(Request $request, Facility $facility)
-    {
-        $userApp = new UserApplication();
-        $userApp->user_id = Auth::id();
-        $userApp->application_type_id = $request->applicationType;
-        $userApp->facility_id = $facility->id;
-        $userApp->status = 'pending';
-        $userApp->save();
+    /*   public function addDocs(Request $request, Facility $facility)
+       {
+           $userApp = new UserApplication();
+           $userApp->user_id = Auth::id();
+           $userApp->application_type_id = $request->applicationType;
+           $userApp->facility_id = $facility->id;
+           $userApp->status = 'pending';
+           $userApp->save();
 
-        foreach (array_keys($request->files->all()) as $array_key) {
-            $fDoc = new FacilityDocument();
-            $fDoc->facility_id = $facility->id;
-            $fDoc->application_type_id = $request->applicationType;
-            $fDoc->user_application_id = $userApp->id;
-            $fDoc->document_id = $array_key;
-            $dir = 'public/files/appdocs';
-            $file = $request->file("$array_key");
-            $path = $file->store($dir);
-            $fileName = str_replace("$dir", '', $path);
-            $fDoc->document_file = $fileName;
-            $fDoc->user_id = Auth::id();
-            $fDoc->save();
-        }
+           foreach (array_keys($request->files->all()) as $array_key) {
+               $fDoc = new FacilityDocument();
+               $fDoc->facility_id = $facility->id;
+               $fDoc->application_type_id = $request->applicationType;
+               $fDoc->user_application_id = $userApp->id;
+               $fDoc->document_id = $array_key;
+               $dir = 'public/files/appdocs';
+               $file = $request->file("$array_key");
+               $path = $file->store($dir);
+               $fileName = str_replace("$dir", '', $path);
+               $fDoc->document_file = $fileName;
+               $fDoc->user_id = Auth::id();
+               $fDoc->save();
+           }
 
 
-        return redirect()->route('facilities');
-    }
+           return redirect()->route('facilities');
+       }
 
-*/
-
+   */
 
 
     public function saveNewApplication(Request $request)
     {
-        $facility=Facility::find($request->facility_id);
+        $facility = Facility::find($request->facility_id);
 
         $userApp = new UserApplication();
         $userApp->user_id = Auth::id();
         $userApp->application_type_id = $request->applicationType;
         $userApp->facility_id = $facility->id;
         $userApp->status = 'pending';
-        $userApp->application_id=now()->format('dmy').$facility->id;
+        $userApp->application_id = now()->format('dmy') . $facility->id;
         $userApp->save();
 
         foreach (array_keys($request->files->all()) as $array_key) {

@@ -10,10 +10,31 @@
                         <i class="fa fa-file-archive-o"></i>
                         Applications
                     </h3>
+
                 </div>
-                <div class="col-md-4">
-                    <form action="" class="form-inline">
-                        <div class="form-group form-group-sm">
+                <div class="box-tools">
+
+                </div>
+                <!-- /.box-tools -->
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body table-responsive">
+                <div class="col-md-6">
+                    @if(\Illuminate\Support\Facades\Auth::user()->role=='normal')
+
+                        @foreach($appTypes as $type)
+                            <button
+                                data-id="{{ $type->id }}"
+                                class="btn btn-primary js-license">
+                                {{ $type->name }}
+                            </button>
+                        @endforeach
+
+                    @endif
+                </div>
+                <div class="col-md-6">
+                    <form action="" class="form-inline pull-right">
+                        <div class="form-group">
                             <label for="filter" class="control-label">Filter By</label>
                             <div class="input-group">
                                 <select name="filter" class="form-control " id="filter">
@@ -23,7 +44,7 @@
                                     <option value="process">In Process</option>
                                 </select>
                                 <span class="input-group-btn">
-                                    <button class="btn btn-primary btn-sm" type="submit">
+                                    <button class="btn btn-primary" type="submit">
                                        <i class="fa fa-filter"></i>
                                         Filter
                                     </button>
@@ -33,21 +54,8 @@
                         </div>
                     </form>
                 </div>
-                <div class="box-tools">
-
-                    @if(\Illuminate\Support\Facades\Auth::user()->role=='normal')
-                        <button
-                            data-toggle="modal" data-target="#addDocsModal"
-                            class="btn btn-primary btn-sm">
-                            <i class="fa fa-plus"></i>
-                            New Application
-                        </button>
-                    @endif
-                </div>
-                <!-- /.box-tools -->
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body table-responsive">
+                <br>
+                <br>
                 <table class="table">
                     <tfoot>
                     <tr>
@@ -87,7 +95,7 @@
                             <td>{{ $app->user->phone }}</td>
                             <td>{{ $app->applicationType->name }}</td>
                             <td>In Progress</td>
-                            <td>{{ $app->progress()['position']['name'] }}</td>
+{{--                            <td>{{ $app->progress()['position']['name'] }}</td>--}}
                             <td>
                                 @if(Auth::user()->role!='normal')
                                     <div class="btn-group btn-group-sm">
@@ -163,15 +171,14 @@
 
 
     @if(\Illuminate\Support\Facades\Auth::user()->role=='normal')
-        <div class="modal fade" id="addDocsModal">
+        <div class="modal fade" id="licenseModal">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">×</span></button>
                         <h4 class="modal-title">
-                            <i class="fa fa-heartbeat"></i>
-                            New Application
+                            License Application
                         </h4>
                     </div>
                     <form novalidate action="{{ route('saveApplication') }}" enctype="multipart/form-data" method="post"
@@ -181,54 +188,28 @@
                             @include('layouts._loader')
                             <div class="edit-result">
                             {{ csrf_field() }}
-                            <!-- Custom tabs (Charts with tabs)-->
-                                <div class="nav-tabs-custom">
-                                    <!-- Tabs within a box -->
-                                    <ul class="nav nav-tabs">
-                                        <li class="active">
-                                            <a href="#revenue-chart" data-toggle="tab">
-                                                Personal Information
-                                            </a>
-                                        </li>
-                                        <li><a href="#sales-chart" data-toggle="tab">Documents</a></li>
-                                    </ul>
-                                    <div class="tab-content no-padding">
-                                        <!-- Morris chart - Sales -->
-                                        <div class="chart tab-pane active" id="revenue-chart">
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label for="facility_id" class="control-label">Facility</label>
-                                                    <select required name="facility_id" id="facility_id"
-                                                            class="form-control">
-                                                        <option value=""></option>
-                                                        @foreach($facilities as $facility)
-                                                            <option
-                                                                value="{{ $facility->id }}">{{ $facility->name }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label for="applicationType" class="control-label">
-                                                        Application type
-                                                    </label>
-                                                    <select name="applicationType" required id="applicationType"
-                                                            class="form-control">
-                                                        <option value=""></option>
-                                                        @foreach($appTypes as $type)
-                                                            <option value="{{ $type->id }}">{{ $type->name }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
+                                <div>
+                                    <!-- Morris chart - Sales -->
+                                    <div id="revenue-chart">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="facility_id" class="control-label">Facility</label>
+                                                <select required name="facility_id" id="facility_id"
+                                                        class="form-control">
+                                                    <option value=""></option>
+                                                    @foreach($facilities as $facility)
+                                                        <option
+                                                            value="{{ $facility->id }}">{{ $facility->name }}</option>
+                                                    @endforeach
+                                                </select>
                                             </div>
                                         </div>
-                                        <div class="chart tab-pane" id="sales-chart">
+                                        <input type="hidden" name="applicationType" required id="applicationType"/>
+                                    </div>
+                                    <div id="sales-chart">
 
-                                        </div>
                                     </div>
                                 </div>
-                                <!-- /.nav-tabs-custom -->
                             </div>
 
                         </div>
@@ -241,7 +222,7 @@
                                 </button>
                                 <button type="submit" id="saveApplicationBtn" class="btn btn-primary">
                                     <i class="fa fa-check-circle"></i>
-                                    Save changes
+                                    Submit application
                                 </button>
                             </div>
                         </div>
@@ -288,10 +269,12 @@
                 });
             });
 
-            $('#applicationType').on('change', function () {
-                if (!$(this).val()) return;
+            $('.js-license').on('click', function () {
+               $('#licenseModal').modal();
+                let appTypeId = $(this).attr('data-id');
+                $('#applicationType').val(appTypeId);
                 $.ajax({
-                    'url': '/app-types/documents/' + $(this).val(),
+                    'url': '/app-types/documents/' + appTypeId,
                     'method': 'get',
                     'type': 'text/html'
                 }).done(function (data) {

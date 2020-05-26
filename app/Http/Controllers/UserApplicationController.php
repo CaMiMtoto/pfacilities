@@ -87,8 +87,9 @@ class UserApplicationController extends Controller
         }
 
 
-        $load = $appShare->load(['userApplication', 'position']);
+        $load = $appShare->load(['userApplication', 'position','sharedBy']);
         ProcessShareApplication::dispatch($load);
+
         return response(null, 204);
     }
 

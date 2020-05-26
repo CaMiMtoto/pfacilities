@@ -19,6 +19,7 @@ Route::middleware(['auth'/*, 'verified'*/])->group(function () {
 
     Route::get('/facilities', 'FacilitiesController@index')->name('facilities');
     Route::get('/facilities/{facility}', 'FacilitiesController@show')->name('facilities.show');
+    Route::get('/facilities/{facility}/edit', 'FacilitiesController@edit')->name('facilities.edit');
     Route::delete('/facilities/{facility}', 'FacilitiesController@destroy')->name('facilities.destroy');
     Route::post('/facilities', 'FacilitiesController@store')->name('facilities.store');
 

@@ -21,34 +21,32 @@
         <ul class="sidebar-menu" data-widget="tree">
             <li class="header">Menus</li>
             <!-- Optionally, you can add icons to the links -->
-            <li class="nav-dashboard">
-                <a href="{{ url('/dashboard') }}">
-                    <i class="fa fa-link"></i>
-                    <span>Dashboard</span>
-                </a>
-            </li>
-
-
+            @if(Auth::user()->role!='normal')
+                <li class="nav-dashboard">
+                    <a href="{{ url('/dashboard') }}">
+                        <i class="fa fa-link"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+            @endif
             <li class="nav-facilities">
-                <a href="  {{ Auth::user()->role=='normal'? route('facilities'):route('adminFacilities') }}">
+                <a href=" {{ Auth::user()->role=='normal'? route('facilities'):route('adminFacilities') }}">
                     <i class="fa fa-heart"></i>
                     <span>Health Facilities</span>
                 </a>
             </li>
-
-
             <li class="nav-applications">
                 <a href="{{ route('userApplication') }}">
                     <i class="fa fa-file-archive-o"></i>
                     <span>Applications</span>
                 </a>
             </li>
-            <li class="nav-appointments">
+     {{--       <li class="nav-appointments">
                 <a href="{{ route('appointments') }}">
                     <i class="fa fa-clock-o"></i>
                     <span>Appointments</span>
                 </a>
-            </li>
+            </li>--}}
             @if(Auth::user()->role!='normal')
                 <li class="nav-shared-applications">
                     <a href="{{ route('my.shared.app.all') }}">
@@ -125,16 +123,15 @@
                     </ul>
                 </li>
             @endif
-
-            <li class="treeview tr-reports">
-                <a href="#">
-                    <i class="fa fa-print"></i> <span>Report</span>
-                    <span class="pull-right-container">
+            @if(Auth::user()->role=='admin')
+                <li class="treeview tr-reports">
+                    <a href="#">
+                        <i class="fa fa-print"></i> <span>Report</span>
+                        <span class="pull-right-container">
                             <i class="fa fa-angle-left pull-right"></i>
                           </span>
-                </a>
-                <ul class="treeview-menu">
-                    @if(Auth::user()->role=='admin')
+                    </a>
+                    <ul class="treeview-menu">
                         <li class="mn-summary">
                             <a href="{{ route('summary') }}">
                                 <i class="fa fa-circle"></i>
@@ -147,10 +144,9 @@
                                 Expiring Facilities
                             </a>
                         </li>
-                    @endif
-
-                </ul>
-            </li>
+                    </ul>
+                </li>
+            @endif
         </ul>
         <!-- /.sidebar-menu -->
     </section>

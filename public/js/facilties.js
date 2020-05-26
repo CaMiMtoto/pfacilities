@@ -3,6 +3,10 @@ $(function () {
     $('#saveDocsForm').validate();
     $('#submitLicenceDate').validate();
 
+    $('.closeForm').on('click',function () {
+        $('#saveForm')[0].reset();
+    });
+
 
     $('#addButton').on('click', function () {
         $('#addModal').modal();
@@ -114,6 +118,7 @@ $(function () {
                 $('#province_id').val(data.data.province_id);
                 $('#nationalId').val(data.nationalId);
                 $('#other_service').val(data.other_service);
+                $('#position').val(data.position);
 
                 var licensed=$('#license_status');
                 licensed.val(data.license_status);
@@ -126,7 +131,7 @@ $(function () {
     });
 
 
-    $('#license_status').on('change',function () {
+    $('.license_status').on('change',function () {
         var value=$(this).val();
         if(value==='licensed'){
             $('#license_expires_at_group').removeClass('div-hide');

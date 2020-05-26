@@ -17,11 +17,12 @@ class CreateFacilitiesTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->string('ref_number');
+            $table->string('owner')->nullable();
+            $table->string('position')->nullable();
             $table->unsignedBigInteger('category_id');
             $table->unsignedBigInteger('sector_id');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('cell_id')->nullable();
-            $table->unsignedBigInteger('service_id');
             $table->string('manager_name');
             $table->string('email');
             $table->string('phone');
@@ -33,7 +34,6 @@ class CreateFacilitiesTable extends Migration
             $table->string('license_status')->nullable();
             $table->timestamps();
 
-            $table->foreign('service_id')->references('id')->on('services');
             $table->foreign('sector_id')->references('id')->on('sectors');
             $table->foreign('category_id')->references('id')->on('categories');
             $table->foreign('user_id')->references('id')->on('users');

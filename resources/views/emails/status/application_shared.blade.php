@@ -17,15 +17,12 @@
 </head>
 <body>
 <div class="container">
-<p>
-    {{ json_encode($app) }}
-</p>
- {{--   <p>
-        Dear {{ $sharedApplication->position->name }}, {{ $sharedApplication->sharedBy->name }} has shared Application
-        ({{ $sharedApplication->userApplciation->application_id }}) for your consideration and approval. please click
+    <h3>
+        Dear {{ $app->position->name }}, {{ $app->sharedBy->name }} has shared Application
+        ({{ $app->userApplication->application_id }}) for your consideration and approval. please click
         <a href="{{ route('my.shared.app.all') }}">Here</a> to view the application.
-    </p>--}}
-    <h4 class="text-center">Thank you!</h4>
+    </h3>
+    <h1 class="text-center">Thank you!</h1>
 
 </div>
 
