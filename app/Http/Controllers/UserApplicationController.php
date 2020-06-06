@@ -7,7 +7,6 @@ use App\ApplicationShare;
 use App\ApplicationType;
 use App\CertificatePicking;
 use App\Facility;
-use App\Jobs\ApplicationShared;
 use App\Jobs\ProcessApplication;
 use App\Jobs\ProcessShareApplication;
 use App\Jobs\ProcessUserApplication;
@@ -24,17 +23,23 @@ class UserApplicationController extends Controller
         if ($filter == 'all') {
             $filter = '';
         }
-        if (Auth::user()->role == 'normal') {
+        $user = auth()->user();
+        if ($user->role == 'normal') {
             $userApps = UserApplication::with([
                 'applicationType',
                 'facility',
                 'user'
-            ])->where('user_id', Auth::id())->paginate(10);
+            ])->where([
+                ['user_id', '=', \auth()->id()],
+                ['status', '=', 'modification']
+            ])->paginate(10);
         } else {
             $userApps = UserApplication::with([
                 'applicationType',
                 'user'
-            ])->where('status', 'LIKE', "%$filter%")->orderByDesc('id')->paginate(10);
+            ])->where('status', 'LIKE', "%$filter%")
+                ->orderByDesc('id')
+                ->paginate(10);
         }
         $userApps->appends(['filter' => $filter]);
         $facilities = Facility::with('category')->where("user_id", Auth::id())->get();
@@ -87,7 +92,7 @@ class UserApplicationController extends Controller
         }
 
 
-        $load = $appShare->load(['userApplication', 'position','sharedBy']);
+        $load = $appShare->load(['userApplication', 'position', 'sharedBy']);
         ProcessShareApplication::dispatch($load);
 
         return response(null, 204);
@@ -165,7 +170,7 @@ class UserApplicationController extends Controller
 
     public function applicationHistories(UserApplication $application)
     {
-        $application = $application->load(['history','facility']);
+        $application = $application->load(['history', 'facility']);
 //        return $histories;
         return view('application_history', compact('application'));
     }
