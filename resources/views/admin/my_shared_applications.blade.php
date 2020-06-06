@@ -2,7 +2,7 @@
 @section('title','Applications')
 @section('content')
     <section class="content">
-
+        @include('includes._alerts')
         <div class="box box-primary flat">
             <div class="box-header with-border">
                 <h3 class="box-title">
