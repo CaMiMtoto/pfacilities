@@ -6,7 +6,18 @@ use Illuminate\Database\Eloquent\Model;
 
 class Position extends Model
 {
-    public function user(){
+    public function user()
+    {
         return $this->hasMany(User::class);
+    }
+
+    public function setNameAttribute($value)
+    {
+        $this->attributes['name'] = ucfirst($value);
+    }
+
+    public function getNameAttribute($value)
+    {
+        return ucfirst($value);
     }
 }

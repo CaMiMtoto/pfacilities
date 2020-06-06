@@ -2,16 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\ApplicationShare;
 use App\ApplicationType;
 use App\Category;
 use App\Facility;
 use App\FacilityDocument;
 use App\FacilityService;
+use App\Position;
 use App\Province;
 use App\Service;
 use App\UserApplication;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class FacilitiesController extends Controller
 {
@@ -71,11 +74,14 @@ class FacilitiesController extends Controller
     public function store(Request $request)
     {
         $editMode = true;
+        $message = "Facility successfully";
         if ($request->id && $request->id > 0) {
             $cat = Facility::find($request->id);
+            $message = $message . " updated";
         } else {
             $cat = new Facility();
             $editMode = false;
+            $message = $message . " saved";
         }
         $cat->name = $request->name;
         $cat->ref_number = $request->ref_number;
@@ -115,10 +121,9 @@ class FacilitiesController extends Controller
                 }
             }
         }
-//        return response($cat, 200);
         return redirect()->back()
             ->with([
-                'message' => 'Saved'
+                'success' => $message,
             ]);
     }
 
@@ -132,7 +137,7 @@ class FacilitiesController extends Controller
 
     public function show(Facility $facility)
     {
-        return response($facility->load('facilityService'), 200);
+        return response($facility->load('facilityServices'), 200);
     }
 
     public function edit(Facility $facility)
@@ -192,33 +197,51 @@ class FacilitiesController extends Controller
 
     public function saveNewApplication(Request $request)
     {
-        $facility = Facility::find($request->facility_id);
+        DB::beginTransaction();
+        try {
+            $facility = Facility::find($request->facility_id);
 
-        $userApp = new UserApplication();
-        $userApp->user_id = Auth::id();
-        $userApp->application_type_id = $request->applicationType;
-        $userApp->facility_id = $facility->id;
-        $userApp->status = 'pending';
-        $userApp->application_id = now()->format('dmy') . $facility->id;
-        $userApp->save();
+            $userApp = new UserApplication();
+            $userApp->user_id = Auth::id();
+            $userApp->application_type_id = $request->applicationType;
+            $userApp->facility_id = $facility->id;
+            $userApp->status = 'pending';
+            $userApp->application_id = now()->format('dmy') . $facility->id;
+            $userApp->save();
 
-        foreach (array_keys($request->files->all()) as $array_key) {
-            $fDoc = new FacilityDocument();
-            $fDoc->facility_id = $facility->id;
-            $fDoc->application_type_id = $request->applicationType;
-            $fDoc->user_application_id = $userApp->id;
-            $fDoc->document_id = $array_key;
-            $dir = 'public/files/appdocs';
-            $file = $request->file("$array_key");
-            $path = $file->store($dir);
-            $fileName = str_replace("$dir", '', $path);
-            $fDoc->document_file = $fileName;
-            $fDoc->user_id = Auth::id();
-            $fDoc->save();
+            foreach (array_keys($request->files->all()) as $array_key) {
+                $fDoc = new FacilityDocument();
+                $fDoc->facility_id = $facility->id;
+                $fDoc->application_type_id = $request->applicationType;
+                $fDoc->user_application_id = $userApp->id;
+                $fDoc->document_id = $array_key;
+                $dir = 'public/files/appdocs';
+                $file = $request->file("$array_key");
+                $path = $file->store($dir);
+                $fileName = str_replace("$dir", '', $path);
+                $fDoc->document_file = $fileName;
+                $fDoc->user_id = Auth::id();
+                $fDoc->save();
+            }
+
+            $appShare = new ApplicationShare();
+
+            $appShare->user_application_id = $userApp->id;
+            $appShare->position_id = Position::where('name', '=', 'Phf')->first()->id;
+            $appShare->shared_by = \auth()->id();
+            $appShare->save();
+
+            //TODO notify other users about new application which are in pending status
+            DB::commit();
+            return redirect()->back()->with([
+                'success' => 'New application successfully saved'
+            ]);
+        } catch (\Exception $exception) {
+            return redirect()->back()->with([
+                'error' => $exception->getMessage()
+            ]);
         }
 
-        //TODO notify other users about new application which are in pending status
 
-        return redirect()->back();
     }
 }

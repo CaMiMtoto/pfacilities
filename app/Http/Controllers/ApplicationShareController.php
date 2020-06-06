@@ -9,11 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class ApplicationShareController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         $applications = ApplicationShare::with(['userApplication','position'])

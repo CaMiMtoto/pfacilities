@@ -31,7 +31,6 @@ class UserApplicationController extends Controller
                 'user'
             ])->where([
                 ['user_id', '=', \auth()->id()],
-                ['status', '=', 'modification']
             ])->paginate(10);
         } else {
             $userApps = UserApplication::with([
@@ -60,6 +59,8 @@ class UserApplicationController extends Controller
 
     public function updateReview(Request $request, UserApplication $userApplication)
     {
+        if (!$userApplication->sharedToMe())
+            return response("Not allowed", 400);
         $position_id = $request->position_id;
         $status = $request->status;
         $comment = $request->comment;
@@ -74,13 +75,17 @@ class UserApplicationController extends Controller
         $appShare->position_id = $position_id;
         $appShare->shared_by = $id;
         $appShare->save();
+        if ($position_id) {
+            $appHistory = new ApplicationHistory();
+            $appHistory->shared_to_position_id = $position_id;
+            $appHistory->shared_by = $id;
+            $appHistory->status = $status;
+            $appHistory->comment = $comment;
+            $userApplication->history()->save($appHistory);
+        }
 
-        $appHistory = new ApplicationHistory();
-        $appHistory->shared_to_position_id = $position_id;
-        $appHistory->shared_by = $id;
-        $appHistory->status = $status;
-        $appHistory->comment = $comment;
-        $userApplication->history()->save($appHistory);
+        // TODO notify application for modification
+
 
         $userApplication->status = $status;
         $userApplication->comment = $comment;

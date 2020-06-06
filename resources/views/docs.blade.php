@@ -15,47 +15,61 @@
         @endforeach
     </div>
 @endforeach
-<div class="col-md-12">
-    <div class="form-group">
-        <label for="status" class="control-label col-md-3">Status</label>
-        <div class="col-md-9">
-            <select name="status" class="form-control" required id="status">
-                <option value=""></option>
-                @if(Auth::user()->role=='phf')
-                    <option value="modification">
-                        For modification
-                    </option>
-                    <option value="process">In process</option>
-                    <option value="pending">Pending</option>
-                    <option value="verified">Verified</option>
-                @elseif(Auth::user()->role!=App\Roles::$APPLICANT)
-                    <option value="approved">Approved</option>
-                    <option value="rejected">Rejected</option>
-                    <option value="not_clear">Not Clear</option>
-                @endif
-            </select>
+
+@if( $userApplication->sharedToMe())
+    <div class="col-md-12">
+        <div class="form-group">
+            <label for="status" class="control-label col-md-3">Status</label>
+            <div class="col-md-9">
+                <select name="status" class="form-control" required id="status">
+                    <option value=""></option>
+                    @if(Auth::user()->role=='phf')
+                        <option value="modification">
+                            For modification
+                        </option>
+                        <option value="process">In process</option>
+                        <option value="pending">Pending</option>
+                        <option value="verified">Verified</option>
+                    @elseif(Auth::user()->role!=App\Roles::$APPLICANT)
+                        <option value="approved">Approved</option>
+                        <option value="rejected">Rejected</option>
+                        <option value="not_clear">Not Clear</option>
+                    @endif
+                </select>
+            </div>
         </div>
     </div>
-</div>
-<div class="col-md-12">
-    <div class="form-group">
-        <label for="comment" class="control-label col-md-3">Comment</label>
-        <div class="col-md-9">
-            <textarea required  name="comment" id="comment" class="form-control"></textarea>
+    <div class="col-md-12">
+        <div class="form-group">
+            <label for="comment" class="control-label col-md-3">Comment</label>
+            <div class="col-md-9">
+                <textarea required name="comment" id="comment" class="form-control"></textarea>
+            </div>
         </div>
     </div>
-</div>
-<div class="col-md-12">
-    <div class="form-group">
-        <label for="position_id" class="control-label col-md-3">Share Application</label>
-        <div class="col-md-9">
-            <select required class="form-control" name="position_id" id="position_id">
-                <option value=""></option>
-                @foreach($positions as $position)
-                    <option value="{{ $position->id }}">{{ $position->name }} - {{ $position->description }}  </option>
-                @endforeach
-            </select>
+    <div class="col-md-12" id="shareApplicationId">
+        <div class="form-group">
+            <label for="position_id" class="control-label col-md-3">Share Application</label>
+            <div class="col-md-9">
+                <select required class="form-control" name="position_id" id="position_id">
+                    <option value=""></option>
+                    @foreach($positions as $position)
+                        <option value="{{ $position->id }}">{{ $position->name }}
+                            - {{ $position->description }}  </option>
+                    @endforeach
+                </select>
+            </div>
         </div>
     </div>
-</div>
-<div class="clearfix"></div>
+    <div class="clearfix"></div>
+
+@else
+
+    <div class="alert alert-info flat">
+        <p>
+            <i class="fa fa-warning"></i>
+            Note that is application is not shared to you!
+        </p>
+    </div>
+
+@endif

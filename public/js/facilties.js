@@ -3,7 +3,7 @@ $(function () {
     $('#saveDocsForm').validate();
     $('#submitLicenceDate').validate();
 
-    $('.closeForm').on('click',function () {
+    $('.closeForm').on('click', function () {
         $('#saveForm')[0].reset();
     });
 
@@ -12,7 +12,7 @@ $(function () {
         $('#addModal').modal();
         $('#id').val(0);
         // $('#submitForm')[0].reset(); //resetting form
-        $('#license_status').prop('disabled',false);
+        $('#license_status').prop('disabled', false);
     });
 
     $('#province_id').on('change', function () {
@@ -52,14 +52,13 @@ $(function () {
     });
 
 
-
     $('.js-renew').on('click', function (e) {
         e.preventDefault();
         var url = $(this).attr('data-url');
         console.log(url);
         var modal = $('#renewModal');
         modal.modal();
-        var form=$('#renewForm');
+        var form = $('#renewForm');
         form.validate();
 
         form.on('submit', function (event) {
@@ -120,47 +119,69 @@ $(function () {
                 $('#other_service').val(data.other_service);
                 $('#position').val(data.position);
 
-                var licensed=$('#license_status');
+                var licensed = $('#license_status');
                 licensed.val(data.license_status);
-                licensed.prop('disabled','disabled');
+                licensed.prop('disabled', 'disabled');
                 // licensed.trigger('change');
 
                 loadDistricts(data.data.province_id, data.data.id);
                 loadSector(data.data.id, data.sector_id);
+
+                let lengthStatus = $('input[name="license_status"]');
+                $.each(lengthStatus, function (index, element) {
+                    var value = $(element).val();
+                    if (value === data.license_status) {
+                        $(element).prop("checked", true);
+                    }
+
+                });
+
+                // TODO control services
+                let services = $('input[name="service_id[]"]');
+
+                $.each(services, function (index, element) {
+                    var value = $(element).val();
+                    // console.log(value);
+                    let facilityServices = data.facility_services;
+                    let length = facilityServices.length;
+                    for (let i = 0; i < length; i++) {
+                        let service = facilityServices[i];
+                        if (value === service.service_id) {
+                            $(element).prop("checked", "checked");
+                            break;
+                        }
+                    }
+                });
             });
     });
 
 
-    $('.license_status').on('change',function () {
-        var value=$(this).val();
-        if(value==='licensed'){
+    $('.license_status').on('change', function () {
+        var value = $(this).val();
+        if (value === 'licensed') {
             $('#license_expires_at_group').removeClass('div-hide');
             $('#license_issued_at_group').removeClass('div-hide');
-        }else{
+        } else {
             $('#license_expires_at_group').addClass('div-hide');
             $('#license_issued_at_group').addClass('div-hide');
         }
-        if(value==='renew'){
+        if (value === 'renew') {
             $('#district_report_form').removeClass('div-hide');
             $('#app_letter_form').removeClass('div-hide');
-        }else{
+        } else {
             $('#district_report_form').addClass('div-hide');
             $('#app_letter_form').addClass('div-hide');
         }
     });
 
 
-
-
-
-    $('#saveForm').on('submit',function (e) {
+    $('#saveForm').on('submit', function (e) {
         e.preventDefault();
-        if(!$(this).valid()) return false;
+        if (!$(this).valid()) return false;
 
         $('#createBtn').button('loading');
         e.target.submit();
     });
-
 
 
 });

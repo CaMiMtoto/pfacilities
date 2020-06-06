@@ -5,6 +5,9 @@
 @endsection
 @section('content')
     <section class="content">
+
+        @include('includes._alerts')
+
         @if(Auth::user()->role=='admin')
             <a href="{{ route('summary') }}" class="btn btn-primary btn-sm">
                 Summary
@@ -40,7 +43,7 @@
                 <table class="table">
                     <thead>
                     <tr>
-                        <th scope="col">Ref Number</th>
+                        <th scope="col">Facility ID</th>
                         <th scope="col">Name</th>
                         <th scope="col">Category</th>
                         <th scope="col">Manager</th>
@@ -239,11 +242,28 @@
                                             <div class="form-group form-group-sm">
                                                 <label for="ref_number" class="control-label">Facility Id (HMIS)</label>
                                                 <div>
-                                                    <input class="form-control" placeholder="Facility Id" type="text"
+                                                    <input class="form-control"
+                                                           {{ auth()->user()->role=='admin' || auth()->user()->role=='phf'?'':'disabled' }} placeholder="Facility Id"
+                                                           type="text"
                                                            name="ref_number"
                                                            id="ref_number"/>
                                                 </div>
                                             </div>
+
+                                            <div class="form-group form-group-sm">
+                                                <br>
+                                                <button style="display: flex;justify-content: space-between;"
+                                                        class="btn btn-info btn-block" type="button"
+                                                        data-toggle="collapse" data-target="#collapseExample"
+                                                        aria-expanded="false" aria-controls="collapseExample">
+                                                    <span>Choose all applied services</span>
+                                                    <i class="pull-right fa fa-chevron-down"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+
                                             <div class="form-group form-group-sm">
                                                 <label for="province_id" class="control-label">Province</label>
                                                 <div>
@@ -257,10 +277,6 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                        </div>
-
-                                        <div class="col-md-6">
-
                                             <div class="form-group form-group-sm">
                                                 <label for="district_id" class="control-label">District</label>
                                                 <div>
@@ -288,13 +304,6 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="form-group form-group-sm">
-                                                <br>
-                                                <button style="display: flex;justify-content: space-between;" class="btn btn-info btn-block" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                                                    <span>Choose all applied services</span>
-                                                    <i class="pull-right fa fa-chevron-down"></i>
-                                                </button>
-                                            </div>
                                         </div>
                                         <div class="col-md-12">
 
@@ -306,7 +315,8 @@
                                                                 <div class="col-md-6">
                                                                     <div class="checkbox">
                                                                         <label for="service_id{{ $service->id }}">
-                                                                            <input value="{{ $service->id }}" name="service_id[]"
+                                                                            <input value="{{ $service->id }}"
+                                                                                   name="service_id[]"
                                                                                    id="service_id{{ $service->id }}"
                                                                                    type="checkbox"> {{ $service->name }}
                                                                         </label>

@@ -18,6 +18,11 @@ class UserApplication extends Model
         return $this->belongsTo(ApplicationType::class);
     }
 
+    public function applicationShares()
+    {
+        return $this->hasMany(ApplicationShare::class);
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -58,11 +63,29 @@ class UserApplication extends Model
         return false;
     }
 
-    public function certificates(){
+    public function certificates()
+    {
         return $this->hasMany(CertificatePicking::class);
     }
 
-    public function history(){
-        return $this->hasMany(ApplicationHistory::class,'user_application_id','id');
+    public function history()
+    {
+        return $this->hasMany(ApplicationHistory::class, 'user_application_id', 'id');
+    }
+
+    public function sharedToMe()
+    {
+        $app = $this->applicationShares()->where([
+            ['user_application_id', '=', $this->id],
+            ['position_id', '=', \auth()->user()->position_id]
+        ])->orderByDesc('id')->limit('1')->first();
+        return $app ? true : false;
+    }
+
+    public function lastSharedTo()
+    {
+        return $this->applicationShares()->where([
+            ['user_application_id', '=', $this->id]
+        ])->orderByDesc('id')->limit('1')->first();
     }
 }

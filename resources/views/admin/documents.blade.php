@@ -21,7 +21,7 @@
                 <table class="table">
                     <thead>
                     <tr>
-                        <th scope="col">Name</th>
+                        <th style="width: 80%">Name</th>
                         <th scope="col"></th>
                     </tr>
                     </thead>

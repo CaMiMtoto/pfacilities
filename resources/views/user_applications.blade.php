@@ -20,8 +20,7 @@
             <!-- /.box-header -->
             <div class="box-body table-responsive">
                 <div class="col-md-6">
-                    @if(\Illuminate\Support\Facades\Auth::user()->role=='normal')
-
+                    @if(auth()->user()->role=='normal')
                         @foreach($appTypes as $type)
                             <button
                                 data-id="{{ $type->id }}"
@@ -95,8 +94,19 @@
                             <td>{{ $app->user->phone }}</td>
                             <td>{{ $app->applicationType->name }}</td>
                             <td>In Progress</td>
-{{--                            <td>{{ $app->progress()['position']['name'] }}</td>--}}
+                            <td>{{ $app->status}}</td>
+                            {{--                            <td>{{ $app->progress()['position']['name'] }}</td>--}}
                             <td>
+                                @if(auth()->user()->role=='normal')
+                                    @if($app->status=='modification')
+                                        <button
+                                            data-url="{{ route('makeAppointment',$app->id) }}"
+                                            title="Appointment" class="btn btn-info btn-sm js-appoint">
+                                            Modify
+                                        </button>
+                                    @endif
+                                @endif
+
                                 @if(Auth::user()->role!='normal')
                                     <div class="btn-group btn-group-sm">
                                         <a href="{{ route('applicationComments',[$app->id]) }}"
@@ -104,12 +114,13 @@
                                             <i class="fa fa-comment"></i>
                                         </a>
                                         @if($app->status=='approved')
-                                            <button
-                                                data-url="{{ route('makeAppointment',$app->id) }}"
-                                                title="Appointment" class="btn btn-primary btn-sm js-appoint">
-                                                <i class="fa fa-clock-o"></i>
-                                            </button>
+                                            {{-- <button
+                                                 data-url="{{ route('makeAppointment',$app->id) }}"
+                                                 title="Appointment" class="btn btn-primary btn-sm js-appoint">
+                                                 <i class="fa fa-clock-o"></i>
+                                             </button>--}}
                                         @endif
+
                                         <button class="btn btn-info btn-sm js-review"
                                                 data-update-url="{{ route('updateReview',$app->id) }}"
                                                 data-url="{{ route('reviewDocs',['userApplication'=>$app->id,'applicationType'=>$app->application_type_id,'user'=>$app->user_id]) }}">
@@ -187,32 +198,52 @@
                         <div class="modal-body">
                             @include('layouts._loader')
                             <div class="edit-result">
-                            {{ csrf_field() }}
+                                {{ csrf_field() }}
                                 <div>
                                     <!-- Morris chart - Sales -->
                                     <div id="revenue-chart">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label for="facility_id" class="control-label">Facility</label>
-                                                <select required name="facility_id" id="facility_id"
-                                                        class="form-control">
-                                                    <option value=""></option>
-                                                    @foreach($facilities as $facility)
-                                                        <option
-                                                            value="{{ $facility->id }}">{{ $facility->name }}</option>
-                                                    @endforeach
-                                                </select>
+                                        @if($facilities->count() ==0)
+                                            <div class="alert alert-danger">
+                                                Please provide your facility information through
+                                                <a style="color: whitesmoke" href="{{ route('facilities') }}">
+                                                    <strong>health facilities</strong>
+                                                </a>
+                                                menu
                                             </div>
+                                        @endif
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                @if($facilities->count() >0)
+                                                    <div class="form-group">
+                                                        <label for="facility_id" class="control-label">Facility</label>
+                                                        <select required name="facility_id" id="facility_id"
+                                                                class="form-control">
+                                                            <option value="">--select facility--</option>
+                                                            @foreach($facilities as $facility)
+                                                                <option
+                                                                    value="{{ $facility->id }}">{{ $facility->name }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                @endif
+                                            </div>
+                                            <input type="hidden" name="applicationType" required id="applicationType"/>
                                         </div>
-                                        <input type="hidden" name="applicationType" required id="applicationType"/>
                                     </div>
-                                    <div id="sales-chart">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <strong class="text-danger">Please upload all required documents</strong>
+                                            <br><br>
+                                        </div>
+                                        <div id="sales-chart">
 
+                                        </div>
                                     </div>
                                 </div>
                             </div>
 
                         </div>
+                        <div class="clearfix"></div>
                         <div class="modal-footer editFooter">
 
                             <div class="btn-group btn-group-sm">
@@ -270,7 +301,7 @@
             });
 
             $('.js-license').on('click', function () {
-               $('#licenseModal').modal();
+                $('#licenseModal').modal();
                 let appTypeId = $(this).attr('data-id');
                 $('#applicationType').val(appTypeId);
                 $.ajax({
@@ -309,7 +340,21 @@
                     $.post(form.attr('action'), form.serialize())
                         .done(function (data) {
                             location.reload();
-                        });
+                        }).fail(function (err) {
+                        $('#createBtn').button('reset');
+                        alert('Not allowed to make any change now!')
+                    });
+                }
+            });
+
+
+            $(document).on('change', '#status', function () {
+                let value = $(this).val();
+                let shareApp = $(document).find('#shareApplicationId');
+                if (value === 'modification') {
+                    shareApp.addClass('div-hide');
+                } else {
+                    shareApp.removeClass('div-hide');
                 }
             });
 

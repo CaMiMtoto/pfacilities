@@ -33,7 +33,7 @@ class Facility extends Model
         return District::with('province')->where('id', $this->sector->district->id)->first();
     }
 
-    public function facilityService()
+    public function facilityServices()
     {
         return $this->hasMany(FacilityService::class);
     }
