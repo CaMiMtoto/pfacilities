@@ -85,10 +85,10 @@
                             <td>
                                 <div class="btn-group btn-group-sm flat">
                                     @if(Auth::user()->role!='normal')
-                                        <button class="btn flat btn-default js-edit btn-sm"
-                                                data-url="{{ route('facilities.show',$fac->id) }}">
+                                        <a href="{{ route('facilities.edit',$fac->id) }}"
+                                           class="btn flat btn-default btn-sm">
                                             <i class="fa fa-edit"></i>
-                                        </button>
+                                        </a>
                                     @endif
                                     <a class="btn flat btn-primary btn-sm"
                                        title="View facility visits"

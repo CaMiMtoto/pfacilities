@@ -29,7 +29,13 @@ class UsersController extends Controller
         $user->name = $request->name;
         $user->email = $request->email;
         $user->role = $request->role;
-        $user->position_id = $request->position;
+
+        $position = $request->position;
+        if ($request->role == 'normal') {
+            $user->position_id = null;
+        } else {
+            $user->position_id = $position;
+        }
         if ($request->password) {
             $user->password = Hash::make($request->password);
         }

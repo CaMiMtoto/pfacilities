@@ -31,8 +31,13 @@ class UserApplicationController extends Controller
                 'user'
             ])->where([
                 ['user_id', '=', \auth()->id()],
-            ])->paginate(10);
+            ])->latest()->paginate(10);
         } else {
+           /* foreach ($user->notifications as $notification) {
+                echo $notification->type;
+            }
+return
+return $user->unreadNotifications;*/
             $userApps = UserApplication::with([
                 'applicationType',
                 'user'

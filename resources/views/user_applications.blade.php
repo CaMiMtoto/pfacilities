@@ -13,7 +13,6 @@
 
                 </div>
                 <div class="box-tools">
-
                 </div>
                 <!-- /.box-tools -->
             </div>

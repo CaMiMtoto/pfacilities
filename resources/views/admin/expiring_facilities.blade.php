@@ -21,7 +21,6 @@
                         <th scope="col">Ref Number</th>
                         <th scope="col">Name</th>
                         <th scope="col">Category</th>
-                        <th scope="col">Service</th>
                         <th scope="col">Manager</th>
                         <th scope="col">Phone</th>
                         <th scope="col">L.Issued</th>
@@ -35,7 +34,6 @@
                             <td>{{ $fac->ref_number }}</td>
                             <td>{{ $fac->name }}</td>
                             <td>{{ $fac->category->name }}</td>
-                            <td>{{ $fac->service->name }}</td>
                             <td>{{ $fac->manager_name }}</td>
                             <td>{{ $fac->phone }}</td>
                             <td>{{ $fac->license_issued_at!=null? $fac->license_issued_at->format('d/m/Y'):'Not set' }}</td>

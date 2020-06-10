@@ -33,8 +33,20 @@
                         <tr>
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->email }}</td>
-                            <td>{{ $user->position==null?'Unknown':$user->position->name }}</td>
-                            <td>{{ ucwords($user->role) }}</td>
+                            <td>
+                                @if($user->position==null)
+                                    <span class="label label-info">Applicant</span>
+                                @else
+                                    <span class="label label-default"> {{ ucwords($user->position->name) }}</span>
+                                @endif
+                            </td>
+                            <td>
+                                @if($user->role=='normal')
+                                    <span class="label label-info">Applicant</span>
+                                @else
+                                    <span class="label label-default"> {{ ucwords($user->role) }}</span>
+                                @endif
+                            </td>
                             <td>
                                 <div class="btn-group flat">
                                     <button class="btn flat btn-default js-edit"
@@ -70,7 +82,7 @@
                         User
                     </h4>
                 </div>
-                <form novalidate class="form-horizontal" action="{{ route('users.store') }}" method="post"
+                <form novalidate class="form-horizontal" autocomplete="off" action="{{ route('users.store') }}" method="post"
                       id="submitForm">
 
                     <div class="modal-body">
@@ -95,10 +107,11 @@
                             <div class="form-group">
                                 <label for="position" class="col-sm-3 control-label">Position</label>
                                 <div class="col-sm-9">
-                                    <select name="position" class="form-control" required id="position">
+                                    <select name="position" class="form-control"  id="position">
                                         <option value=""></option>
                                         @foreach($positions as $position)
-                                            <option value="{{ $position->id }}">{{$position->name}}-{{ $position->description }}</option>
+                                            <option value="{{ $position->id }}">{{$position->name}}
+                                                -{{ $position->description }}</option>
                                         @endforeach
                                     </select>
                                 </div>

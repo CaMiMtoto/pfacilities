@@ -13,6 +13,7 @@ class FacilityReportController extends Controller
             ->select('*',DB::raw('DATEDIFF(license_expires_at,license_issued_at)  DaysRem'))
             ->having('DaysRem', '<', 30)
             ->get();
+//        return  $facilities;
         return view('admin.expiring_facilities',compact('facilities'));
     }
 }

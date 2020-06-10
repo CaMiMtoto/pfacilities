@@ -8,6 +8,8 @@ use App\Category;
 use App\Facility;
 use App\FacilityDocument;
 use App\FacilityService;
+use App\Jobs\ProcessShareApplication;
+use App\Notifications\NewUserApplication;
 use App\Position;
 use App\Province;
 use App\Service;
@@ -15,6 +17,7 @@ use App\UserApplication;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 
 class FacilitiesController extends Controller
 {
@@ -73,6 +76,7 @@ class FacilitiesController extends Controller
 
     public function store(Request $request)
     {
+        DB::beginTransaction();
         $editMode = true;
         $message = "Facility successfully";
         if ($request->id && $request->id > 0) {
@@ -103,7 +107,11 @@ class FacilitiesController extends Controller
         if ($license == 'licensed') {
             $cat->license_issued_at = $request->license_issued_at;
             $cat->license_expires_at = $request->license_expires_at;
-        } else if ($license == 'renew') {
+        } else {
+            $cat->license_issued_at = null;
+            $cat->license_expires_at = null;
+        }
+        if ($license == 'renew') {
             //upload docs
             $cat->app_letter = $this->uploadDoc($request->file('app_letter'));
             $cat->district_report = $this->uploadDoc($request->file('district_report'));
@@ -111,16 +119,16 @@ class FacilitiesController extends Controller
 
         $cat->save();
         $services = $request->input('service_id');
-        if (count($services)) {
-            if (!$editMode) {
-                foreach ($services as $service) {
-                    FacilityService::create([
-                        'facility_id' => $cat->id,
-                        'service_id' => $service,
-                    ]);
-                }
+        if ($services) {
+            $cat->facilityServices()->delete();
+            foreach ($services as $service) {
+                FacilityService::create([
+                    'facility_id' => $cat->id,
+                    'service_id' => $service,
+                ]);
             }
         }
+        DB::commit();
         return redirect()->back()
             ->with([
                 'success' => $message,
@@ -142,9 +150,16 @@ class FacilitiesController extends Controller
 
     public function edit(Facility $facility)
     {
-        $obj = $facility->load('facilityService');
-        return view('admin._edit_facility', [
-            'facility' => $obj
+        $obj = $facility->load(['facilityServices', 'sector.district.province']);
+        $facilityServices = FacilityService::with('facility')->where('facility_id', '=', $facility->id)
+            ->pluck('service_id');
+
+        return view('admin.edit_facility', [
+            'facility' => $obj,
+            'categories' => Category::all(),
+            'provinces' => Province::all(),
+            'services' => Service::all(),
+            'facility_services' => $facilityServices
         ]);
     }
 
@@ -227,12 +242,21 @@ class FacilitiesController extends Controller
             $appShare = new ApplicationShare();
 
             $appShare->user_application_id = $userApp->id;
-            $appShare->position_id = Position::where('name', '=', 'Phf')->first()->id;
+            $position = Position::with('users')->where('name', '=', 'Phf');
+            $appShare->position_id = $position->first()->id;
             $appShare->shared_by = \auth()->id();
             $appShare->save();
+            DB::commit();
 
             //TODO notify other users about new application which are in pending status
-            DB::commit();
+            $users = $position->first()->users()->get();
+//            return $users;
+
+            $load = $appShare->load(['userApplication', 'position', 'sharedBy']);
+            Notification::send($users, new NewUserApplication($load));
+
+            ProcessShareApplication::dispatch($load);
+
             return redirect()->back()->with([
                 'success' => 'New application successfully saved'
             ]);

@@ -147,7 +147,7 @@ $(function () {
                     for (let i = 0; i < length; i++) {
                         let service = facilityServices[i];
                         if (value === service.service_id) {
-                            $(element).prop("checked", "checked");
+                            $(element).prop("checked", true);
                             break;
                         }
                     }
@@ -158,20 +158,7 @@ $(function () {
 
     $('.license_status').on('change', function () {
         var value = $(this).val();
-        if (value === 'licensed') {
-            $('#license_expires_at_group').removeClass('div-hide');
-            $('#license_issued_at_group').removeClass('div-hide');
-        } else {
-            $('#license_expires_at_group').addClass('div-hide');
-            $('#license_issued_at_group').addClass('div-hide');
-        }
-        if (value === 'renew') {
-            $('#district_report_form').removeClass('div-hide');
-            $('#app_letter_form').removeClass('div-hide');
-        } else {
-            $('#district_report_form').addClass('div-hide');
-            $('#app_letter_form').addClass('div-hide');
-        }
+        changeLicenseStatus(value);
     });
 
 
@@ -209,4 +196,20 @@ var loadSector = function (districtId, selectedValue) {
 
         element.val(selectedValue);
     });
+};
+var changeLicenseStatus = function (value) {
+    if (value === 'licensed') {
+        $('#license_expires_at_group').removeClass('div-hide');
+        $('#license_issued_at_group').removeClass('div-hide');
+    } else {
+        $('#license_expires_at_group').addClass('div-hide');
+        $('#license_issued_at_group').addClass('div-hide');
+    }
+    if (value === 'renew') {
+        $('#district_report_form').removeClass('div-hide');
+        $('#app_letter_form').removeClass('div-hide');
+    } else {
+        $('#district_report_form').addClass('div-hide');
+        $('#app_letter_form').addClass('div-hide');
+    }
 };

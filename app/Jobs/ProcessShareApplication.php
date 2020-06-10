@@ -26,7 +26,8 @@ class ProcessShareApplication implements ShouldQueue
 
     public function handle()
     {
-        $users = User::with('position')->where('position_id',$this->sharedApplication->postion_id)->get();
+        $users = User::with('position')
+            ->where('position_id',$this->sharedApplication->postion_id)->get();
         $users = $users->each(function ($user) {
             return $user->email;
         });
