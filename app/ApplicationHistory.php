@@ -4,6 +4,12 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property mixed comment
+ * @property mixed status
+ * @property int|mixed|null shared_by
+ * @property mixed shared_to_position_id
+ */
 class ApplicationHistory extends Model
 {
     public function application()

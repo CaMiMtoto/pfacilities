@@ -101,6 +101,7 @@ class FacilitiesController extends Controller
         $cat->other_service = $request->other_service;
         $cat->owner = $request->owner;
         $cat->position = $request->position;
+        $cat->other_services = $request->other_services;
 
         $license = $request->license_status;
         $cat->license_status = $license;
@@ -265,7 +266,5 @@ class FacilitiesController extends Controller
                 'error' => $exception->getMessage()
             ]);
         }
-
-
     }
 }

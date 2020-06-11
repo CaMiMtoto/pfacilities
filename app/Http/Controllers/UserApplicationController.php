@@ -7,13 +7,19 @@ use App\ApplicationShare;
 use App\ApplicationType;
 use App\CertificatePicking;
 use App\Facility;
+use App\FacilityDocument;
 use App\Jobs\ProcessApplication;
 use App\Jobs\ProcessShareApplication;
 use App\Jobs\ProcessUserApplication;
+use App\Notifications\NewUserApplication;
+use App\Position;
 use App\User;
 use App\UserApplication;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
+use Symfony\Component\Translation\Exception\NotFoundResourceException;
 
 class UserApplicationController extends Controller
 {
@@ -33,11 +39,11 @@ class UserApplicationController extends Controller
                 ['user_id', '=', \auth()->id()],
             ])->latest()->paginate(10);
         } else {
-           /* foreach ($user->notifications as $notification) {
-                echo $notification->type;
-            }
-return
-return $user->unreadNotifications;*/
+            /* foreach ($user->notifications as $notification) {
+                 echo $notification->type;
+             }
+ return
+ return $user->unreadNotifications;*/
             $userApps = UserApplication::with([
                 'applicationType',
                 'user'
@@ -183,5 +189,71 @@ return $user->unreadNotifications;*/
         $application = $application->load(['history', 'facility']);
 //        return $histories;
         return view('application_history', compact('application'));
+    }
+
+    public function updateApplication(Request $request, UserApplication $application)
+    {
+        DB::beginTransaction();
+        $facility_id = $request->facility_id;
+        $facility = Facility::find($facility_id);
+        if ($facility == null)
+            throw new NotFoundResourceException("Facility not found");
+        try {
+            $userId = \auth()->id();
+            $application->user_id = $userId;
+            $application->application_type_id = $request->input('applicationType');
+            $application->facility_id = $facility_id;
+            $application->status = 'pending';
+            $application->update();
+
+            $position = Position::with('users')->where('name', '=', 'Phf');
+            $positionId = $position->first()->id;
+            $appShare = ApplicationShare::where([
+                ['user_application_id', '=', $application->id],
+                ['position_id', '=', $positionId],
+                ['shared_by', '=', $userId],
+            ])->first();
+            if ($appShare == null)
+                $appShare = new ApplicationShare();
+            $appShare->user_application_id = $application->id;
+            $appShare->position_id = $positionId;
+            $appShare->shared_by = $userId;
+            $appShare->save();
+            $allFiles = $request->files->all();
+            if (count($allFiles) > 0) {
+                $application->FacilityDocuments()->delete();
+            }
+            foreach (array_keys($allFiles) as $array_key) {
+                $facilityDocument = new FacilityDocument();
+                $facilityDocument->facility_id = $facility->id;
+                $facilityDocument->application_type_id = $request->applicationType;
+                $facilityDocument->user_application_id = $application->id;
+                $facilityDocument->document_id = $array_key;
+                $dir = 'public/files/appdocs';
+                $file = $request->file("$array_key");
+                $path = $file->store($dir);
+                $fileName = str_replace("$dir", '', $path);
+                $facilityDocument->document_file = $fileName;
+                $facilityDocument->user_id = $userId;
+                $facilityDocument->save();
+            }
+
+            DB::commit();
+
+            $users = $position->first()->users()->get();
+            $load = $appShare->load(['userApplication', 'position', 'sharedBy']);
+
+            Notification::send($users, new NewUserApplication($load));
+
+            ProcessShareApplication::dispatch($load);
+
+            return redirect()->back()->with([
+                'success' => 'Application successfully updated'
+            ]);
+        } catch (\Exception $exception) {
+            return redirect()->back()->with([
+                'error' => $exception->getMessage()
+            ]);
+        }
     }
 }

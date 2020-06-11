@@ -13,6 +13,21 @@
 
                 </div>
                 <div class="box-tools">
+                    @if(auth()->user()->role!='normal')
+                        <div class="dropdown  pull-right">
+                            <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenu1"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                Filter Applications By
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                <li><a href="{{ route('userApplication',['filter'=>'all']) }}">All Applications</a></li>
+                                <li><a href="{{ route('userApplication',['filter'=>'pending']) }}">Pending</a></li>
+                                <li><a href="{{ route('userApplication',['filter'=>'certified']) }}">Certified</a></li>
+                                <li><a href="{{ route('userApplication',['filter'=>'process']) }}">In Process</a></li>
+                            </ul>
+                        </div>
+                    @endif
                 </div>
                 <!-- /.box-tools -->
             </div>
@@ -31,26 +46,7 @@
                     @endif
                 </div>
                 <div class="col-md-6">
-                    <form action="" class="form-inline pull-right">
-                        <div class="form-group">
-                            <label for="filter" class="control-label">Filter By</label>
-                            <div class="input-group">
-                                <select name="filter" class="form-control " id="filter">
-                                    <option value="all">All Applications</option>
-                                    <option value="pending">Pending</option>
-                                    <option value="certified">Certified</option>
-                                    <option value="process">In Process</option>
-                                </select>
-                                <span class="input-group-btn">
-                                    <button class="btn btn-primary" type="submit">
-                                       <i class="fa fa-filter"></i>
-                                        Filter
-                                    </button>
-                                </span>
-                            </div><!-- /input-group -->
 
-                        </div>
-                    </form>
                 </div>
                 <br>
                 <br>
@@ -68,8 +64,10 @@
                         <th>Applicant</th>
                         <th>Phone Number</th>
                         <th>Application Type</th>
-                        <th>Status</th>
+                        @if(auth()->user()->role!='normal')
                         <th>Progress</th>
+                        @endif
+                        <th>Status</th>
                         <th>Options</th>
                     </tr>
                     </thead>
@@ -80,7 +78,11 @@
                           @endif--}}
                         <tr>
                             <td>
-                                <a href="{{ route('applicationHistories',$app->id) }}">{{ $app->application_id }}</a>
+                                @if(auth()->user()->role=='normal')
+                                    {{ $app->application_id }}
+                                @else
+                                    <a href="{{ route('applicationHistories',$app->id) }}">{{ $app->application_id }}</a>
+                                @endif
                             </td>
                             <td>
                                 @if($app->facility)
@@ -90,17 +92,40 @@
                                 @endif
                             </td>
                             <td>{{ $app->user->name }}</td>
-                            <td>{{ $app->user->phone }}</td>
+                            <td>
+                                @if($app->user->phone)
+                                    <span>{{ $app->user->phone }}</span>
+                                @else
+                                    <span class="label label-warning">Not Provided</span>
+                                @endif
+                            </td>
                             <td>{{ $app->applicationType->name }}</td>
+                            @if(auth()->user()->role!='normal')
                             <td>In Progress</td>
-                            <td>{{ $app->status}}</td>
+                            @endif
+                            <td>
+                                @if($app->status=='pending')
+                                    <span class="label label-info">{{ ucfirst($app->status) }}</span>
+                                @elseif($app->status=='modification')
+                                    <span class="label label-warning">{{ ucfirst($app->status) }}</span>
+                                @elseif($app->status=='rejected')
+                                    <span class="label label-danger">{{ ucfirst($app->status) }}</span>
+                                @elseif($app->status=='verified')
+                                    <span class="label label-success">{{ ucfirst($app->status) }}</span>
+                                @else
+                                    <span class="label label-default">{{ ucfirst($app->status) }}</span>
+                                @endif
+
+                            </td>
                             {{--                            <td>{{ $app->progress()['position']['name'] }}</td>--}}
                             <td>
                                 @if(auth()->user()->role=='normal')
                                     @if($app->status=='modification')
                                         <button
-                                            data-url="{{ route('makeAppointment',$app->id) }}"
-                                            title="Appointment" class="btn btn-info btn-sm js-appoint">
+                                            data-id="{{ $app->application_type_id }}"
+                                            data-facility_id="{{ $app->facility_id }}"
+                                            data-url="{{ route('updateApplication',$app->id) }}"
+                                            title="Appointment" class="btn btn-info btn-sm js-modify">
                                             Modify
                                         </button>
                                     @endif
@@ -155,14 +180,14 @@
                 <form autocomplete="off" action="" id="appointment-form" class="form-horizontal">
                     {{ csrf_field() }}
                     <div class="modal-body">
-                        <div class="form-group">
+                        <div class="form-group form-group-sm">
                             <label for="picking_date" class="control-label col-sm-3">Pick Up Date</label>
                             <div class="col-sm-9">
                                 <input required type="text" class="form-control datepicker" name="picking_date"
                                        id="picking_date">
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group form-group-sm">
                             <label for="picking_date" class="control-label col-sm-3">Pick Up Time</label>
                             <div class="col-sm-9">
                                 <input required type="time" class="form-control" name="time"
@@ -202,7 +227,7 @@
                                     <!-- Morris chart - Sales -->
                                     <div id="revenue-chart">
                                         @if($facilities->count() ==0)
-                                            <div class="alert alert-danger">
+                                            <div class="alert alert-danger flat">
                                                 Please provide your facility information through
                                                 <a style="color: whitesmoke" href="{{ route('facilities') }}">
                                                     <strong>health facilities</strong>
@@ -213,7 +238,7 @@
                                         <div class="row">
                                             <div class="col-md-12">
                                                 @if($facilities->count() >0)
-                                                    <div class="form-group">
+                                                    <div class="form-group form-group-sm">
                                                         <label for="facility_id" class="control-label">Facility</label>
                                                         <select required name="facility_id" id="facility_id"
                                                                 class="form-control">
@@ -229,12 +254,99 @@
                                             <input type="hidden" name="applicationType" required id="applicationType"/>
                                         </div>
                                     </div>
+                                    @if($facilities->count() >0)
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <strong class="text-danger">Please upload all required
+                                                    documents</strong>
+                                                <br><br>
+                                            </div>
+                                            <div id="sales-chart">
+
+                                            </div>
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="modal-footer editFooter">
+
+                            <div class="btn-group btn-group-sm">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">
+                                    <i class="fa fa-close"></i>
+                                    Close
+                                </button>
+                                @if($facilities->count() >0)
+                                    <button type="submit" id="saveApplicationBtn" class="btn btn-primary">
+                                        <i class="fa fa-check-circle"></i>
+                                        Submit application
+                                    </button>
+                                @endif
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <div class="modal fade" id="editLicenseModal">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span></button>
+                        <h4 class="modal-title">
+                            License Application
+                        </h4>
+                    </div>
+                    <form novalidate action="" enctype="multipart/form-data" method="post"
+                          id="updateDocsForm">
+
+                        <div class="modal-body">
+                            @include('layouts._loader')
+                            <div class="edit-result">
+                                @csrf
+                                <div>
+                                    <!-- Morris chart - Sales -->
+                                    <div id="revenue-chart">
+                                        @if($facilities->count() ==0)
+                                            <div class="alert alert-danger">
+                                                Please provide your facility information through
+                                                <a style="color: whitesmoke" href="{{ route('facilities') }}">
+                                                    <strong>health facilities</strong>
+                                                </a>
+                                                menu
+                                            </div>
+                                        @endif
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                @if($facilities->count() >0)
+                                                    <div class="form-group form-group-sm">
+                                                        <label for="facility_id" class="control-label">Facility</label>
+                                                        <select required name="facility_id" id="edit_facility_id"
+                                                                class="form-control">
+                                                            <option value="">--select facility--</option>
+                                                            @foreach($facilities as $facility)
+                                                                <option
+                                                                    value="{{ $facility->id }}">{{ $facility->name }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                @endif
+                                            </div>
+                                            <input type="hidden" name="applicationType" required
+                                                   id="editApplicationType"/>
+                                        </div>
+                                    </div>
                                     <div class="row">
                                         <div class="col-md-12">
                                             <strong class="text-danger">Please upload all required documents</strong>
                                             <br><br>
                                         </div>
-                                        <div id="sales-chart">
+                                        <div id="docs_results">
 
                                         </div>
                                     </div>
@@ -250,9 +362,9 @@
                                     <i class="fa fa-close"></i>
                                     Close
                                 </button>
-                                <button type="submit" id="saveApplicationBtn" class="btn btn-primary">
+                                <button type="submit" id="updatedApplicationBtn" class="btn btn-primary">
                                     <i class="fa fa-check-circle"></i>
-                                    Submit application
+                                    Update application
                                 </button>
                             </div>
                         </div>
@@ -279,6 +391,7 @@
             $('.nav-applications').addClass('active');
 
             $('#saveDocsForm').validate();
+            $('#updateDocsForm').validate();
 
             $('.js-appoint').on('click', function () {
                 var url = $(this).attr('data-url');
@@ -310,6 +423,24 @@
                 }).done(function (data) {
                     $('#sales-chart').html(data);
                     $('a[href="#sales-chart"]').tab('show') // Select tab by name
+                });
+            });
+
+            $('.js-modify').on('click', function () {
+                $('#editLicenseModal').modal();
+                let appTypeId = $(this).attr('data-id');
+                let facilityId = $(this).attr('data-facility_id');
+                let url = $(this).attr('data-url');
+                $('#edit_facility_id').val(facilityId);
+                $('#editApplicationType').val(appTypeId);
+                $('#updateDocsForm').attr('action', url);
+
+                $.ajax({
+                    'url': '/app-types/documents/' + appTypeId,
+                    'method': 'get',
+                    'type': 'text/html'
+                }).done(function (data) {
+                    $('#docs_results').html(data);
                 });
             });
 

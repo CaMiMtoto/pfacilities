@@ -84,7 +84,7 @@
                             </td>
                             <td>
                                 <div class="btn-group btn-group-sm flat">
-                                    @if(Auth::user()->role!='normal')
+                                    @if(auth()->user()->role=='admin')
                                         <a href="{{ route('facilities.edit',$fac->id) }}"
                                            class="btn flat btn-default btn-sm">
                                             <i class="fa fa-edit"></i>
@@ -323,6 +323,19 @@
                                                                     </div>
                                                                 </div>
                                                             @endforeach
+                                                            <div class="col-md-6">
+                                                                <div class="form-group form-group-sm">
+                                                                    <label for="other_services" class="control-label">Other
+                                                                        services</label>
+                                                                    <div>
+                                                                        <textarea required type="text"
+                                                                                  name="other_services"
+                                                                                  id="other_services"
+                                                                                  placeholder="Please provide other services if not provided above"
+                                                                                  class="form-control"></textarea>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>

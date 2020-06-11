@@ -32,7 +32,7 @@
             </div>
             <div class="form-group form-group-sm">
                 <label for="service">Service</label><br>
-                <select required class="form-control" name="service" id="service">
+                <select class="form-control" name="service" id="service">
                     <option value=""></option>
                     @foreach($services as $dist)
                         <option value="{{ $dist->id }}">{{ $dist->name }}</option>

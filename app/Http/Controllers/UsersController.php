@@ -12,7 +12,12 @@ class UsersController extends Controller
     public function index()
     {
         $positions = Position::all();
-        $users = User::with('position')->paginate(10);
+        $search=\request('q');
+        $users = User::with('position')
+            ->where('name','LIKE',"%$search%")
+            ->orWhere('role','LIKE',"%$search%")
+            ->orWhere('email','LIKE',"%$search%")
+            ->paginate(10);
         return view('admin.users', compact('users'))
             ->with(['positions' => $positions]);
     }

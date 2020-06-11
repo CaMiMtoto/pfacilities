@@ -27,7 +27,8 @@ class HomeController extends Controller
 
     public function viewDoc()
     {
-        $path = $_GET['path'];
+        $path = request('path');
+        return $path;
         return view('viewDocument', compact('path'));
     }
 }

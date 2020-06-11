@@ -24,8 +24,11 @@
                         <strong>District:</strong>
                         {{ $district->name }}|
                         <strong>Category:</strong>
-                        {{ $category->name }} | <strong>Service:</strong>
-                        {{ $service->name }}
+                        {{ $category->name }}
+                        @if($service)
+                            | <strong>Service:</strong>
+                            {{ $service->name }}
+                        @endif
                         | <strong>Total:</strong> {{ $facilities->count() }}
                     </p>
                 </div>

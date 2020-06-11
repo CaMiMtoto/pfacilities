@@ -220,6 +220,19 @@
                                                                 </div>
                                                             </div>
                                                         @endforeach
+                                                            <div class="col-md-6">
+                                                                <div class="form-group form-group-sm">
+                                                                    <label for="other_services" class="control-label">Other
+                                                                        services</label>
+                                                                    <div>
+                                                                        <textarea required type="text"
+                                                                                  name="other_services"
+                                                                                  id="other_services"
+                                                                                  placeholder="Please provide other services if not provided above"
+                                                                                  class="form-control">{{ $facility->other_services }}</textarea>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                     </div>
                                                 </div>
                                             </div>

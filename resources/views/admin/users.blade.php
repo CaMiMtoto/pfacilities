@@ -2,12 +2,25 @@
 @section('title','Users')
 @section('content')
     <section class="content">
-
+        <h4> Manage users</h4>
         <div class="box box-primary flat">
             <div class="box-header with-border">
-                <h3 class="box-title">
-                    Manage users
-                </h3>
+             <div class="col-md-6">
+                 <div class="box-title">
+                     <form action="" class="" autocomplete="off">
+                         <div class="input-group ">
+                             <input type="search" name="q" id="query" class="form-control flat"
+                                    value="{{ request('q') }}"
+                                    placeholder="Search .....">
+                             <span class="input-group-btn">
+                                    <button class="btn btn-primary flat" type="submit">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                             </span>
+                         </div>
+                     </form>
+                 </div>
+             </div>
                 <div class="box-tools pull-right">
                     <button class="btn btn-primary  btn-sm float-right" id="addButton">
                         <i class="fa fa-plus"></i>
@@ -22,7 +35,7 @@
                     <thead>
                     <tr>
                         <th scope="col">Name</th>
-                        <th scope="col">Description</th>
+                        <th scope="col">Email</th>
                         <th scope="col">Position</th>
                         <th scope="col">Role</th>
                         <th scope="col"></th>
@@ -82,7 +95,8 @@
                         User
                     </h4>
                 </div>
-                <form novalidate class="form-horizontal" autocomplete="off" action="{{ route('users.store') }}" method="post"
+                <form novalidate class="form-horizontal" autocomplete="off" action="{{ route('users.store') }}"
+                      method="post"
                       id="submitForm">
 
                     <div class="modal-body">
@@ -107,7 +121,7 @@
                             <div class="form-group">
                                 <label for="position" class="col-sm-3 control-label">Position</label>
                                 <div class="col-sm-9">
-                                    <select name="position" class="form-control"  id="position">
+                                    <select name="position" class="form-control" id="position">
                                         <option value=""></option>
                                         @foreach($positions as $position)
                                             <option value="{{ $position->id }}">{{$position->name}}

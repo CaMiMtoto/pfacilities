@@ -4,6 +4,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property int|mixed|string|null shared_by
+ * @property \Illuminate\Database\Eloquent\HigherOrderBuilderProxy|mixed position_id
+ * @property mixed user_application_id
+ */
 class ApplicationShare extends Model
 {
     public function sharedBy()

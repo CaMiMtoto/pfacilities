@@ -10,12 +10,21 @@ use Illuminate\Support\Facades\Auth;
  * @property mixed id
  * @property mixed facility
  * @property mixed comment
+ * @property mixed|string application_id
+ * @property mixed facility_id
+ * @property mixed application_type_id
+ * @property int|mixed|null user_id
  */
 class UserApplication extends Model
 {
     public function applicationType()
     {
         return $this->belongsTo(ApplicationType::class);
+    }
+
+    public function FacilityDocuments()
+    {
+        return $this->hasMany(FacilityDocument::class);
     }
 
     public function applicationShares()
