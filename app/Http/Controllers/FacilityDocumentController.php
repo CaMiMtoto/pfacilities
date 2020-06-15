@@ -28,10 +28,8 @@ class FacilityDocumentController extends Controller
 
     public function viewDoc(FacilityDocument $document)
     {
-        $path = asset("storage/files/appdocs$document->document_file");
-        return response()->withHeaders("");
-
-
+       /* $path = asset("storage/files/appdocs$document->document_file");
+        return response()->withHeaders("");*/
         return view('viewDoc', compact('document'));
     }
 
