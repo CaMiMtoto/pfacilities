@@ -13,6 +13,8 @@
     <link rel="stylesheet" href="{{ asset('bower_components/bootstrap/dist/css/bootstrap.min.css') }}">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="{{ asset('bower_components/font-awesome/css/font-awesome.min.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400&family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,700;1,200;1,300&display=swap" rel="stylesheet">
+
     <!-- Ionicons -->
     <link rel="stylesheet" href="{{ asset('bower_components/Ionicons/css/ionicons.min.css') }}">
     <!-- Theme style -->
@@ -31,8 +33,6 @@
     <![endif]-->
 
     <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css?family=Nunito:300|Source+Sans+Pro:400&display=swap" rel="stylesheet">
-
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">

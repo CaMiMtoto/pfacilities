@@ -87,6 +87,8 @@ Route::middleware(['auth'/*, 'verified'*/])->group(function () {
         Route::post('/app-types', 'ApplicationTypeController@store')->name('app-types.store');
         Route::get('/app-types/{applicationType}', 'ApplicationTypeController@show')->name('app-types.show');
         Route::delete('/app-types/{applicationType}', 'ApplicationTypeController@destroy')->name('app-types.destroy');
+        Route::get('/app-types/{type}/edit', 'ApplicationTypeController@edit')->name('app-types.edit');
+        Route::post('/app-types/{app}/update', 'ApplicationTypeController@update')->name('app-types.update');
 
         Route::get('/facilities', 'FacilitiesController@adminFacilities')->name('adminFacilities');
         Route::post('/updateReview/{userApplication}', 'UserApplicationController@updateReview')->name('updateReview');

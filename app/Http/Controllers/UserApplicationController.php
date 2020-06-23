@@ -25,19 +25,18 @@ class UserApplicationController extends Controller
 {
     public function index(Request $request)
     {
-        $filter = $request->filter;
+        $filter = $request->input('filter');
         if ($filter == 'all') {
             $filter = '';
         }
         $user = auth()->user();
         if ($user->role == 'normal') {
-            $userApps = UserApplication::with([
-                'applicationType',
-                'facility',
-                'user'
-            ])->where([
-                ['user_id', '=', \auth()->id()],
-            ])->latest()->paginate(10);
+            $userApps = UserApplication::with(['applicationType', 'facility', 'user'])
+                ->where([
+                    ['user_id', '=', \auth()->id()],
+                ])
+                ->orderBy('status')
+                ->paginate(10);
         } else {
             /* foreach ($user->notifications as $notification) {
                  echo $notification->type;
@@ -194,14 +193,15 @@ class UserApplicationController extends Controller
     public function updateApplication(Request $request, UserApplication $application)
     {
         DB::beginTransaction();
-        $facility_id = $request->facility_id;
+        $facility_id = $request->input('facility_id');
         $facility = Facility::find($facility_id);
         if ($facility == null)
             throw new NotFoundResourceException("Facility not found");
         try {
             $userId = \auth()->id();
             $application->user_id = $userId;
-            $application->application_type_id = $request->input('applicationType');
+            $applicationType = $request->input('applicationType');
+            $application->application_type_id = $applicationType;
             $application->facility_id = $facility_id;
             $application->status = 'pending';
             $application->update();
@@ -226,7 +226,7 @@ class UserApplicationController extends Controller
             foreach (array_keys($allFiles) as $array_key) {
                 $facilityDocument = new FacilityDocument();
                 $facilityDocument->facility_id = $facility->id;
-                $facilityDocument->application_type_id = $request->applicationType;
+                $facilityDocument->application_type_id = $applicationType;
                 $facilityDocument->user_application_id = $application->id;
                 $facilityDocument->document_id = $array_key;
                 $dir = 'public/files/appdocs';

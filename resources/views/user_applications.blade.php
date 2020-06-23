@@ -8,7 +8,7 @@
                 <div class="col-md-4">
                     <h3 class="box-title">
                         <i class="fa fa-file-archive-o"></i>
-                        Applications
+                        Applications {{ $userApps->total() }}
                     </h3>
 
                 </div>
@@ -25,6 +25,7 @@
                                 <li><a href="{{ route('userApplication',['filter'=>'pending']) }}">Pending</a></li>
                                 <li><a href="{{ route('userApplication',['filter'=>'certified']) }}">Certified</a></li>
                                 <li><a href="{{ route('userApplication',['filter'=>'process']) }}">In Process</a></li>
+                                <li><a href="{{ route('userApplication',['filter'=>'modification']) }}">Modification</a></li>
                             </ul>
                         </div>
                     @endif
@@ -32,11 +33,12 @@
                 <!-- /.box-tools -->
             </div>
             <!-- /.box-header -->
-            <div class="box-body table-responsive">
-                <div class="col-md-6">
+            <div class="box-body table-responsive" style="padding: 0;">
+                <div class="col-md-6" style="padding-left: 0;">
                     @if(auth()->user()->role=='normal')
                         @foreach($appTypes as $type)
                             <button
+                                style="margin: 5px;"
                                 data-id="{{ $type->id }}"
                                 class="btn btn-primary js-license">
                                 {{ $type->name }}
@@ -48,14 +50,8 @@
                 <div class="col-md-6">
 
                 </div>
-                <br>
-                <br>
-                <table class="table">
-                    <tfoot>
-                    <tr>
-                        <td colspan="8">  {{$userApps->links()}}</td>
-                    </tr>
-                    </tfoot>
+                <table class="table table-hover table-striped">
+
 
                     <thead>
                     <tr>
@@ -161,6 +157,7 @@
             </div>
             <!-- /.box-body -->
             <div class="box-footer">
+                {{$userApps->links()}}
             </div>
         </div>
     </section>

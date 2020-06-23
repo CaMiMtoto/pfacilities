@@ -46,6 +46,32 @@ class ApplicationTypeController extends Controller
         }
     }
 
+    public function update(Request $request, ApplicationType $app)
+    {
+        DB::beginTransaction();
+        try {
+            $app->name = $request->input('name');
+            $app->save();
+            $app->applicationTypeDocuments()->delete();
+            $documents = $request->input('documents');
+            if ($documents > 0) {
+                foreach ($documents as $document) {
+                    $appDoc = new ApplicationTypeDocument();
+                    $appDoc->document_id = $document;
+                    $appDoc->application_type_id = $app->id;
+                    $appDoc->user_id = \auth()->id();
+                    $appDoc->save();
+                }
+            }
+
+            DB::commit();
+            return redirect()->route('app-types.all')->with('success', " Application type ($app->name) Successfully updated");
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            return back()->with('error', $exception->getMessage());
+        }
+    }
+
     public function show(ApplicationType $applicationType)
     {
         return response()->json($applicationType, 200);
@@ -53,8 +79,12 @@ class ApplicationTypeController extends Controller
 
     public function destroy(ApplicationType $applicationType)
     {
-        $applicationType->delete();
-        return response()->json($applicationType, 204);
+        try {
+            $applicationType->delete();
+        } catch (\Exception $e) {
+            return back()->with('error', $e->getMessage());
+        }
+        return back()->with('success', 'Application type deleted');
     }
 
 
@@ -62,6 +92,14 @@ class ApplicationTypeController extends Controller
     {
         $appTypeDocs = ApplicationTypeDocument::with('document')->where('application_type_id', $id)->get();
         return view('apps_docs', compact('appTypeDocs'));
+    }
+
+    public function edit(ApplicationType $type)
+    {
+        $applicationTypeDocuments = $type->applicationTypeDocuments()->get();
+        $documents = Document::all();
+        return view('admin.edit_application_type', compact('type'))
+            ->with(['documents' => $documents, 'applicationTypeDocuments' => $applicationTypeDocuments->pluck('document_id')]);
     }
 
 

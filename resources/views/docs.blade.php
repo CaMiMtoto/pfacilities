@@ -16,24 +16,44 @@
     </div>
 @endforeach
 
-@if( $userApplication->sharedToMe())
+@if( $userApplication->sharedToMe() || auth()->user()->role=='phf')
     <div class="col-md-12">
         <div class="form-group">
             <label for="status" class="control-label col-md-3">Status</label>
             <div class="col-md-9">
                 <select name="status" class="form-control" required id="status">
                     <option value=""></option>
-                    @if(Auth::user()->role=='phf')
-                        <option value="modification">
+                    @if(auth()->user()->role=='phf')
+                        <option
+                            {{ $userApplication->status=='modification'?'selected':'' }}
+                            value="modification">
                             For modification
                         </option>
-                        <option value="process">In process</option>
-                        <option value="pending">Pending</option>
-                        <option value="verified">Verified</option>
-                    @elseif(Auth::user()->role!=App\Roles::$APPLICANT)
-                        <option value="approved">Approved</option>
-                        <option value="rejected">Rejected</option>
-                        <option value="not_clear">Not Clear</option>
+                        <option
+                            {{ $userApplication->status=='process'?'selected':'' }}
+                            value="process">In process
+                        </option>
+                        <option
+                            {{ $userApplication->status=='pending'?'selected':'' }}
+                            value="pending">Pending
+                        </option>
+                        <option
+                            {{ $userApplication->status=='verified'?'selected':'' }}
+                            value="verified">Verified
+                        </option>
+                    @elseif(auth()->user()->role!=App\Roles::$APPLICANT)
+                        <option
+                            {{ $userApplication->status=='approved'?'selected':'' }}
+                            value="approved">Approved
+                        </option>
+                        <option
+                            {{ $userApplication->status=='rejected'?'selected':'' }}
+                            value="rejected">Rejected
+                        </option>
+                        <option
+                            {{ $userApplication->status=='not_clear'?'selected':'' }}
+                            value="not_clear">Not Clear
+                        </option>
                     @endif
                 </select>
             </div>
@@ -43,7 +63,8 @@
         <div class="form-group">
             <label for="comment" class="control-label col-md-3">Comment</label>
             <div class="col-md-9">
-                <textarea required name="comment" id="comment" class="form-control"></textarea>
+                <textarea required name="comment" id="comment" rows="5"
+                          class="form-control">{{ $userApplication->comment }}</textarea>
             </div>
         </div>
     </div>
@@ -54,7 +75,9 @@
                 <select required class="form-control" name="position_id" id="position_id">
                     <option value=""></option>
                     @foreach($positions as $position)
-                        <option value="{{ $position->id }}">{{ $position->name }}
+                        <option
+                            {{ $userApplication->lastSharedTo()->position_id==$position->id?'selected':'' }}
+                            value="{{ $position->id }}">{{ $position->name }}
                             - {{ $position->description }}  </option>
                     @endforeach
                 </select>

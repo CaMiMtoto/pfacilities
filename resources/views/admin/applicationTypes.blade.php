@@ -2,7 +2,7 @@
 @section('title','Application Types')
 @section('content')
     <section class="content">
-
+        @include('includes._alerts')
         <div class="box box-primary flat">
             <div class="box-header with-border">
                 <h3 class="box-title">
@@ -22,7 +22,8 @@
                     <thead>
                     <tr>
                         <th scope="col">Name</th>
-                        <th scope="col">Required Documents</th>
+                        <th>Required Documents</th>
+                        <th style="width: 15%"></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -30,11 +31,27 @@
                         <tr>
                             <td>{{ $appType->name }}</td>
                             <td>
+
                                 <ul>
-                                    @foreach($appType->applicationTypeDocuments as $document)
+                                    @forelse ($appType->applicationTypeDocuments as $document)
                                         <li>{{ $document->document->name }}</li>
-                                    @endforeach
+                                    @empty
+                                        <p>
+                                            <span class="label label-info">No documents</span>
+                                        </p>
+                                    @endforelse
                                 </ul>
+                            </td>
+                            <td>
+                                <a href="{{ route('app-types.edit',$appType->id) }}" class="btn btn-primary">
+                                    <i class="fa fa-edit"></i>
+                                    Edit
+                                </a>
+                                <button data-url="{{ route('app-types.destroy',$appType->id) }}"
+                                        class="btn btn-danger js-delete">
+                                    <i class="fa fa-trash"></i>
+                                    Delete
+                                </button>
                             </td>
                         </tr>
                     @endforeach

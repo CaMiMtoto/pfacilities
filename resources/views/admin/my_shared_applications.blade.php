@@ -7,7 +7,7 @@
             <div class="box-header with-border">
                 <h3 class="box-title">
                     <i class="fa fa-file-archive-o"></i>
-                    Shared Applications
+                    Shared Applications {{ number_format($applications->total()) }}
                 </h3>
 
                 <div class="box-tools">
@@ -43,7 +43,7 @@
                                 @continue(true)
                             @endif
                             <tr>
-                                <td>{{ $app->created_at }}</td>
+                                <td>{{ $app->created_at->format('d M Y') }}</td>
                                 <td>
                                     @if($app->userApplication->facility)
                                         {{ $app->userApplication->facility->name }}
@@ -85,7 +85,7 @@
     {{--    <script src="{{ asset('bower_components/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js') }}"></script>--}}
     <script>
         $(function () {
-            $('.nav-applications').addClass('active');
+            $('.nav-shared-applications').addClass('active');
 
             $('#saveDocsForm').validate();
 
