@@ -115,6 +115,9 @@ Route::middleware(['auth'/*, 'verified'*/])->group(function () {
         Route::get('/applications/appointments', 'UserApplicationController@appAppointments')->name('appointments');
         Route::post('/applications/appointments/{picking}', 'UserApplicationController@pickCertificate')->name('pickCertificate');
         Route::get('/applications/{application}/history', 'UserApplicationController@applicationHistories')->name('applicationHistories');
+        Route::get('/applications/{application}/create/letter', 'ApplicationApprovalController@create')->name('create.approvalLetter');
+
+        Route::post('/applications/{application}/save/letter', 'ApplicationApprovalController@store')->name('store.approvalLetter');
 
     });
 });

@@ -31,21 +31,16 @@ class UserApplicationController extends Controller
         }
         $user = auth()->user();
         if ($user->role == 'normal') {
-            $userApps = UserApplication::with(['applicationType', 'facility', 'user'])
+            $userApps = UserApplication::with(['applicationType', 'facility', 'user','approvalLetter'])
                 ->where([
                     ['user_id', '=', \auth()->id()],
                 ])
                 ->orderBy('status')
                 ->paginate(10);
         } else {
-            /* foreach ($user->notifications as $notification) {
-                 echo $notification->type;
-             }
- return
- return $user->unreadNotifications;*/
             $userApps = UserApplication::with([
                 'applicationType',
-                'user'
+                'user', 'approvalLetter'
             ])->where('status', 'LIKE', "%$filter%")
                 ->orderByDesc('id')
                 ->paginate(10);
@@ -53,6 +48,7 @@ class UserApplicationController extends Controller
         $userApps->appends(['filter' => $filter]);
         $facilities = Facility::with('category')->where("user_id", Auth::id())->get();
         $appTypes = ApplicationType::all();
+
 
         return view('user_applications', compact('userApps'))
             ->with([

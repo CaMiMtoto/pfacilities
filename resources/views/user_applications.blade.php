@@ -25,7 +25,8 @@
                                 <li><a href="{{ route('userApplication',['filter'=>'pending']) }}">Pending</a></li>
                                 <li><a href="{{ route('userApplication',['filter'=>'certified']) }}">Certified</a></li>
                                 <li><a href="{{ route('userApplication',['filter'=>'process']) }}">In Process</a></li>
-                                <li><a href="{{ route('userApplication',['filter'=>'modification']) }}">Modification</a></li>
+                                <li><a href="{{ route('userApplication',['filter'=>'modification']) }}">Modification</a>
+                                </li>
                             </ul>
                         </div>
                     @endif
@@ -50,9 +51,7 @@
                 <div class="col-md-6">
 
                 </div>
-                <table class="table table-hover table-striped">
-
-
+                <table class="table table-hover">
                     <thead>
                     <tr>
                         <th>Application Id</th>
@@ -61,7 +60,7 @@
                         <th>Phone Number</th>
                         <th>Application Type</th>
                         @if(auth()->user()->role!='normal')
-                        <th>Progress</th>
+                            <th>Progress</th>
                         @endif
                         <th>Status</th>
                         <th>Options</th>
@@ -97,7 +96,7 @@
                             </td>
                             <td>{{ $app->applicationType->name }}</td>
                             @if(auth()->user()->role!='normal')
-                            <td>In Progress</td>
+                                <td>In Progress</td>
                             @endif
                             <td>
                                 @if($app->status=='pending')
@@ -127,12 +126,19 @@
                                     @endif
                                 @endif
 
-                                @if(Auth::user()->role!='normal')
+                                @if(auth()->user()->role!='normal')
                                     <div class="btn-group btn-group-sm">
                                         <a href="{{ route('applicationComments',[$app->id]) }}"
                                            class="btn btn-default btn-sm">
                                             <i class="fa fa-comment"></i>
                                         </a>
+                                        <a href="{{ route('create.approvalLetter',$app->id) }}"
+                                           title="Add or update this letter"
+                                           class="btn btn-primary btn-sm">
+                                            {{ $app->approvalLetter==null?'':'1' }}
+                                            Letter
+                                        </a>
+
                                         @if($app->status=='approved')
                                             {{-- <button
                                                  data-url="{{ route('makeAppointment',$app->id) }}"
@@ -147,6 +153,13 @@
                                             Review
                                         </button>
                                     </div>
+                                @else
+                                    @if($app->approvalLetter)
+                                        <a href=""
+                                           class="btn btn-warning btn-sm">
+                                            View Letter
+                                        </a>
+                                    @endif
                                 @endif
                             </td>
                         </tr>
@@ -161,6 +174,8 @@
             </div>
         </div>
     </section>
+
+
 
 
 

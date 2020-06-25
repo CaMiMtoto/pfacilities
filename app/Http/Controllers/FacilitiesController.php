@@ -231,6 +231,7 @@ class FacilitiesController extends Controller
                 $fDoc->application_type_id = $request->applicationType;
                 $fDoc->user_application_id = $userApp->id;
                 $fDoc->document_id = $array_key;
+
                 $dir = 'public/files/appdocs';
                 $file = $request->file("$array_key");
                 $path = $file->store($dir);

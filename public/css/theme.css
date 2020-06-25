@@ -125,9 +125,7 @@ span.field-validation-error {
     background-image: linear-gradient(#0c6bc6, #054f97 60%, #1e578d);
 }
 
-.box.box-primary {
-    border-top-color: #023565;
-}
+
 
 .btn-info {
     background-image: linear-gradient(#54b4eb, #2FA4E7 60%, #1d9ce5);

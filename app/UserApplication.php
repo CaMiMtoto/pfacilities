@@ -22,6 +22,11 @@ class UserApplication extends Model
         return $this->belongsTo(ApplicationType::class);
     }
 
+    public function approvalLetter()
+    {
+        return $this->hasOne(ApplicationApproval::class);
+    }
+
     public function FacilityDocuments()
     {
         return $this->hasMany(FacilityDocument::class);
