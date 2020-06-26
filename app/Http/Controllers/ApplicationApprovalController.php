@@ -43,4 +43,10 @@ class ApplicationApprovalController extends Controller
 
         return redirect()->route('userApplication');
     }
+
+    public function viewLetter(ApplicationApproval $approval)
+    {
+        $approval->load(['userApplication','carbonCopies']);
+        return view('approval_letter', compact('approval'));
+    }
 }

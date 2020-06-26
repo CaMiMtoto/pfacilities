@@ -21,7 +21,8 @@ class CreateApplicationApprovalCarbonCopiesTable extends Migration
 
             $table->foreign('application_approval_id', 'app_approval_cc_app_approval_id_fk')
                 ->references('id')
-                ->on('application_approvals');
+                ->on('application_approvals')
+                ->onDelete('cascade');
         });
     }
 

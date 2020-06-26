@@ -7,8 +7,14 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
-.flex-center{
+.flex-center {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+@media print {
+    .no-print {
+        display: none !important;
+    }
 }

@@ -24,7 +24,9 @@ class CreateApplicationApprovalsTable extends Migration
             $table->string('done_by_title');
             $table->timestamps();
 
-            $table->foreign('user_application_id')->references('id')->on('user_applications');
+            $table->foreign('user_application_id')->references('id')
+                ->on('user_applications')
+            ->onDelete('cascade');
         });
     }
 

@@ -23,7 +23,7 @@
             <div class="col-md-9">
                 <select name="status" class="form-control" required id="status">
                     <option value=""></option>
-                    @if(auth()->user()->role=='phf')
+                    @if(auth()->user()->role==\App\Roles::$PHF)
                         <option
                             {{ $userApplication->status=='modification'?'selected':'' }}
                             value="modification">

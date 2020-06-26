@@ -328,7 +328,7 @@
                                                                     <label for="other_services" class="control-label">Other
                                                                         services</label>
                                                                     <div>
-                                                                        <textarea required type="text"
+                                                                        <textarea type="text"
                                                                                   name="other_services"
                                                                                   id="other_services"
                                                                                   placeholder="Please provide other services if not provided above"

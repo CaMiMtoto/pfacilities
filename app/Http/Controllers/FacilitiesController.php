@@ -213,12 +213,13 @@ class FacilitiesController extends Controller
 
     public function saveNewApplication(Request $request)
     {
+//        dd($request->all());
         DB::beginTransaction();
         try {
             $facility = Facility::find($request->facility_id);
 
             $userApp = new UserApplication();
-            $userApp->user_id = Auth::id();
+            $userApp->user_id = \auth()->id();
             $userApp->application_type_id = $request->applicationType;
             $userApp->facility_id = $facility->id;
             $userApp->status = 'pending';
@@ -244,7 +245,7 @@ class FacilitiesController extends Controller
             $appShare = new ApplicationShare();
 
             $appShare->user_application_id = $userApp->id;
-            $position = Position::with('users')->where('name', '=', 'Phf');
+            $position = Position::with('users')->where('name', '=', Position::$PHF);
             $appShare->position_id = $position->first()->id;
             $appShare->shared_by = \auth()->id();
             $appShare->save();

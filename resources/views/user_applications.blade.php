@@ -73,7 +73,7 @@
                           @endif--}}
                         <tr>
                             <td>
-                                @if(auth()->user()->role=='normal')
+                                @if(auth()->user()->role==\App\Roles::$APPLICANT)
                                     {{ $app->application_id }}
                                 @else
                                     <a href="{{ route('applicationHistories',$app->id) }}">{{ $app->application_id }}</a>
@@ -95,7 +95,7 @@
                                 @endif
                             </td>
                             <td>{{ $app->applicationType->name }}</td>
-                            @if(auth()->user()->role!='normal')
+                            @if(auth()->user()->role!=\App\Roles::$APPLICANT)
                                 <td>In Progress</td>
                             @endif
                             <td>
@@ -114,7 +114,7 @@
                             </td>
                             {{--                            <td>{{ $app->progress()['position']['name'] }}</td>--}}
                             <td>
-                                @if(auth()->user()->role=='normal')
+                                @if(auth()->user()->role==\App\Roles::$APPLICANT)
                                     @if($app->status=='modification')
                                         <button
                                             data-id="{{ $app->application_type_id }}"
@@ -126,7 +126,7 @@
                                     @endif
                                 @endif
 
-                                @if(auth()->user()->role!='normal')
+                                @if(auth()->user()->role!=\App\Roles::$APPLICANT)
                                     <div class="btn-group btn-group-sm">
                                         <a href="{{ route('applicationComments',[$app->id]) }}"
                                            class="btn btn-default btn-sm">
@@ -155,7 +155,8 @@
                                     </div>
                                 @else
                                     @if($app->approvalLetter)
-                                        <a href=""
+                                        <a href="{{ route('viewLetter.approvalLetter',$app->approvalLetter->id) }}"
+                                           target="_blank"
                                            class="btn btn-warning btn-sm">
                                             View Letter
                                         </a>

@@ -10,7 +10,7 @@
                      alt="User Image">
             </div>
             <div class="pull-left info">
-                <p> {{ Auth::user()->name }}</p>
+                <p> {{ auth()->user()->name }}</p>
                 <!-- Status -->
                 <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
             </div>
@@ -21,7 +21,7 @@
         <ul class="sidebar-menu" data-widget="tree">
             <li class="header">Menus</li>
             <!-- Optionally, you can add icons to the links -->
-            @if(Auth::user()->role!='normal')
+            @if(Auth::user()->role!=\App\Roles::$APPLICANT)
                 <li class="nav-dashboard">
                     <a href="{{ url('/dashboard') }}">
                         <i class="fa fa-link"></i>
@@ -30,7 +30,7 @@
                 </li>
             @endif
             <li class="nav-facilities">
-                <a href="{{ Auth::user()->role=='normal'? route('facilities'):route('adminFacilities') }}">
+                <a href="{{ auth()->user()->role==\App\Roles::$APPLICANT? route('facilities'):route('adminFacilities') }}">
                     <i class="fa fa-heart"></i>
                     <span>Health Facilities</span>
                 </a>
@@ -47,7 +47,7 @@
                            <span>Appointments</span>
                        </a>
                    </li>--}}
-            @if(Auth::user()->role!='normal')
+            @if(auth()->user()->role!=\App\Roles::$APPLICANT)
                 <li class="nav-shared-applications">
                     <a href="{{ route('my.shared.app.all') }}">
                         <i class="fa fa-file-o"></i>
@@ -55,7 +55,7 @@
                     </a>
                 </li>
             @endif
-            @if(\Illuminate\Support\Facades\Auth::user()->role=='admin')
+            @if(auth()->user()->role==\App\Roles::$ADMIN)
                 <li class="nav-users">
                     <a href="{{ route('users') }}">
                         <i class="fa fa-users"></i>
@@ -70,7 +70,7 @@
                 </li>
             @endif
 
-            @if(Auth::user()->role=='admin'|| strtolower(auth()->user()->role)=='phf')
+            @if(auth()->user()->role==\App\Roles::$ADMIN|| strtolower(auth()->user()->role)==\App\Roles::$PHF)
                 <li class="treeview">
                     <a href="#">
                         <i class="fa fa-link"></i>
@@ -122,7 +122,7 @@
                     </ul>
                 </li>
             @endif
-            @if(Auth::user()->role=='admin')
+            @if(Auth::user()->role==\App\Roles::$ADMIN)
                 <li class="treeview tr-reports">
                     <a href="#">
                         <i class="fa fa-print"></i> <span>Report</span>
