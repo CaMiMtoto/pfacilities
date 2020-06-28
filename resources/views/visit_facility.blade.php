@@ -15,7 +15,7 @@
                     {{ $facility->name }}
                 </h3>
                 <div class="box-tools pull-right">
-                    @if(Auth::user()->role=='admin')
+                    @if(Auth::user()->role!==\App\Roles::$APPLICANT)
                         <button class="btn flat btn-primary js-visit btn-sm"
                                 data-url="{{ route('facilities.visit',[$facility->id]) }}">
                             Add New Visit
@@ -254,7 +254,7 @@
                     }).fail(function () {
                         btn.button('reset');
                     });
-
+                    return false;
                 });
             });
 

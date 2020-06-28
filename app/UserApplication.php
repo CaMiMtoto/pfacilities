@@ -14,9 +14,12 @@ use Illuminate\Support\Facades\Auth;
  * @property mixed facility_id
  * @property mixed application_type_id
  * @property int|mixed|null user_id
+ * @property mixed approvalLetter
+ * @property mixed license
  */
 class UserApplication extends Model
 {
+
     public function applicationType()
     {
         return $this->belongsTo(ApplicationType::class);
@@ -25,6 +28,11 @@ class UserApplication extends Model
     public function approvalLetter()
     {
         return $this->hasOne(ApplicationApproval::class);
+    }
+
+    public function license()
+    {
+        return $this->hasOne(FacilityLicense::class);
     }
 
     public function FacilityDocuments()

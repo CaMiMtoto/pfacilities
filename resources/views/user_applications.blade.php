@@ -114,54 +114,59 @@
                             </td>
                             {{--                            <td>{{ $app->progress()['position']['name'] }}</td>--}}
                             <td>
-                                @if(auth()->user()->role==\App\Roles::$APPLICANT)
-                                    @if($app->status=='modification')
-                                        <button
-                                            data-id="{{ $app->application_type_id }}"
-                                            data-facility_id="{{ $app->facility_id }}"
-                                            data-url="{{ route('updateApplication',$app->id) }}"
-                                            title="Appointment" class="btn btn-info btn-sm js-modify">
-                                            Modify
-                                        </button>
-                                    @endif
-                                @endif
-
-                                @if(auth()->user()->role!=\App\Roles::$APPLICANT)
-                                    <div class="btn-group btn-group-sm">
-                                        <a href="{{ route('applicationComments',[$app->id]) }}"
-                                           class="btn btn-default btn-sm">
-                                            <i class="fa fa-comment"></i>
-                                        </a>
-                                        <a href="{{ route('create.approvalLetter',$app->id) }}"
-                                           title="Add or update this letter"
-                                           class="btn btn-primary btn-sm">
-                                            {{ $app->approvalLetter==null?'':'1' }}
-                                            Letter
-                                        </a>
-
-                                        @if($app->status=='approved')
-                                            {{-- <button
-                                                 data-url="{{ route('makeAppointment',$app->id) }}"
-                                                 title="Appointment" class="btn btn-primary btn-sm js-appoint">
-                                                 <i class="fa fa-clock-o"></i>
-                                             </button>--}}
+                                <div class="btn-group btn-group-sm">
+                                    @if(auth()->user()->role==\App\Roles::$APPLICANT)
+                                        @if($app->status=='modification')
+                                            <button
+                                                data-id="{{ $app->application_type_id }}"
+                                                data-facility_id="{{ $app->facility_id }}"
+                                                data-url="{{ route('updateApplication',$app->id) }}"
+                                                title="Appointment" class="btn btn-info btn-sm js-modify">
+                                                Modify
+                                            </button>
                                         @endif
+                                    @endif
 
+                                    @if(auth()->user()->role!=\App\Roles::$APPLICANT)
+                                        {{-- <a href="{{ route('applicationComments',[$app->id]) }}"
+                                            class="btn btn-default btn-sm">
+                                             <i class="fa fa-comment"></i>
+                                         </a>--}}
+                                        <a href="{{ route('create.approvalLetter',$app->id) }}"
+                                           title="Add feedback"
+                                           class="btn btn-primary btn-sm">
+                                            <i class="fa fa-plus"></i>
+                                        </a>
+                                        @if($app->license==null || $app->license->signed_at==null)
+                                            <a href="{{ route('create.license',$app->id) }}"
+                                               title="Add license"
+                                               class="btn btn-primary btn-sm">
+                                                <i class="fa fa-certificate"></i>
+                                            </a>
+                                        @endif
                                         <button class="btn btn-info btn-sm js-review"
                                                 data-update-url="{{ route('updateReview',$app->id) }}"
                                                 data-url="{{ route('reviewDocs',['userApplication'=>$app->id,'applicationType'=>$app->application_type_id,'user'=>$app->user_id]) }}">
-                                            Review
+                                            Docs
                                         </button>
-                                    </div>
-                                @else
-                                    @if($app->approvalLetter)
+
+
+                                    @endif
+                                    @if($app->approvalLetter && $app->approvalLetter->signed_at)
                                         <a href="{{ route('viewLetter.approvalLetter',$app->approvalLetter->id) }}"
                                            target="_blank"
                                            class="btn btn-warning btn-sm">
-                                            View Letter
+                                            Feedback
                                         </a>
                                     @endif
-                                @endif
+                                    @if($app->license && $app->license->signed_at!=null)
+                                        <a href="{{ route('view.license',$app->license->id) }}"
+                                           target="_blank"
+                                           class="btn btn-warning btn-sm">
+                                            License
+                                        </a>
+                                    @endif
+                                </div>
                             </td>
                         </tr>
                     @endforeach

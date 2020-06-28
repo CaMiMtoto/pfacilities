@@ -80,51 +80,59 @@ class FacilitiesController extends Controller
         $editMode = true;
         $message = "Facility successfully";
         if ($request->id && $request->id > 0) {
-            $cat = Facility::find($request->id);
+            $facility = Facility::find($request->id);
             $message = $message . " updated";
         } else {
-            $cat = new Facility();
+            $facility = new Facility();
             $editMode = false;
             $message = $message . " saved";
         }
-        $cat->name = $request->name;
-        $cat->ref_number = $request->ref_number;
-        $cat->email = $request->email;
-        $cat->phone = $request->phone;
-        $cat->manager_name = $request->manager_name;
-        $cat->sector_id = $request->sector_id;
-        $cat->user_id = Auth::id();
-        $cat->category_id = $request->category_id;
-        $cat->nationalId = $request->nationalId;
-//        $cat->service_id = $request->service_id;
+        $facility->name = $request->name;
+        $facility->ref_number = $request->ref_number;
+        $facility->email = $request->email;
+        $facility->phone = $request->phone;
+        $facility->manager_name = $request->manager_name;
+        $facility->sector_id = $request->sector_id;
+        $facility->user_id = Auth::id();
+        $facility->category_id = $request->category_id;
+        $facility->nationalId = $request->nationalId;
+//        $facility->service_id = $request->service_id;
 
-        $cat->other_service = $request->other_service;
-        $cat->owner = $request->owner;
-        $cat->position = $request->position;
-        $cat->other_services = $request->other_services;
+        $facility->other_service = $request->other_service;
+        $owner = $request->input('owner');
+        $facility->owner = $owner;
+        $facility->position = $request->position;
+        $facility->cell_id = $request->input('cell_id');
+        $facility->plot_number = $request->input('plot_number');
+        $facility->other_services = $request->other_services;
 
         $license = $request->license_status;
-        $cat->license_status = $license;
+        $facility->license_status = $license;
         if ($license == 'licensed') {
-            $cat->license_issued_at = $request->license_issued_at;
-            $cat->license_expires_at = $request->license_expires_at;
+            $facility->license_issued_at = $request->license_issued_at;
+            $facility->license_expires_at = $request->license_expires_at;
         } else {
-            $cat->license_issued_at = null;
-            $cat->license_expires_at = null;
+            $facility->license_issued_at = null;
+            $facility->license_expires_at = null;
         }
         if ($license == 'renew') {
             //upload docs
-            $cat->app_letter = $this->uploadDoc($request->file('app_letter'));
-            $cat->district_report = $this->uploadDoc($request->file('district_report'));
+            $facility->app_letter = $this->uploadDoc($request->file('app_letter'));
+            $facility->district_report = $this->uploadDoc($request->file('district_report'));
+        }
+        if ($owner == 'Facility owner') {
+            $facility->facility_owner = $owner;
+        } else {
+            $facility->facility_owner = $request->input('facility_owner');
         }
 
-        $cat->save();
+        $facility->save();
         $services = $request->input('service_id');
         if ($services) {
-            $cat->facilityServices()->delete();
+            $facility->facilityServices()->delete();
             foreach ($services as $service) {
                 FacilityService::create([
-                    'facility_id' => $cat->id,
+                    'facility_id' => $facility->id,
                     'service_id' => $service,
                 ]);
             }

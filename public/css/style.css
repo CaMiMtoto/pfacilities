@@ -8,7 +8,7 @@ h1,h2,h3,h4,h5{
 }
 
 .btn{
-    font-size: inherit !important;
+    font-size: 12px !important;
 }
 .form-control.error{
     border-color: #e01515 !important;
@@ -29,4 +29,8 @@ h1,h2,h3,h4,h5{
 }
 .with-border {
     border-bottom: 1px solid #f4f4f4!important;
+}
+
+textarea{
+    resize: vertical;
 }

@@ -35,6 +35,7 @@ Route::middleware(['auth'/*, 'verified'*/])->group(function () {
 
     Route::get('/districtsByProvince/{id}', 'DistrictsController@districtsByProvince');
     Route::get('/sectorsByDistrict/{id}', 'SectorsController@sectorsByDistrict');
+    Route::get('/cellsBySector/{sector}', 'CellsController@cellsBySector');
 
     Route::get('/app-types/documents/{id}', 'ApplicationTypeController@appTypeDocs')->name('appTypeDocs');
     Route::get('/applications', 'ApplicationTypeController@appTypeDocs')->name('appTypeDocs');
@@ -116,9 +117,16 @@ Route::middleware(['auth'/*, 'verified'*/])->group(function () {
         Route::post('/applications/appointments/{picking}', 'UserApplicationController@pickCertificate')->name('pickCertificate');
         Route::get('/applications/{application}/history', 'UserApplicationController@applicationHistories')->name('applicationHistories');
         Route::get('/applications/{application}/create/letter', 'ApplicationApprovalController@create')->name('create.approvalLetter');
+        Route::get('/applications/{application}/create/license', 'FacilityLicenseController@create')->name('create.license');
 
         Route::post('/applications/{application}/save/letter', 'ApplicationApprovalController@store')->name('store.approvalLetter');
         Route::get('/approval/{approval}/letter/view', 'ApplicationApprovalController@viewLetter')->name('viewLetter.approvalLetter');
+
+        Route::post('/facility/{application}/save/license', 'FacilityLicenseController@store')->name('store.license');
+        Route::get('/license/{license}/view', 'FacilityLicenseController@viewLicense')->name('view.license');
+
+        Route::get('/signature', 'SignatureController@signature')->name('signature');
+        Route::post('/signature', 'SignatureController@store')->name('signature.store');
 
     });
 });

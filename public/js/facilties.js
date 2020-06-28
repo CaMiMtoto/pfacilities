@@ -3,6 +3,16 @@ $(function () {
     $('#saveDocsForm').validate();
     $('#submitLicenceDate').validate();
 
+
+    $('input[name="owner"]').on('change', function () {
+        var value = $(this).val();
+        if (value === 'Facility owner') {
+            $('#ownersNames').addClass('hide');
+        } else {
+            $('#ownersNames').removeClass('hide');
+        }
+    });
+
     $('.closeForm').on('click', function () {
         $('#saveForm')[0].reset();
     });
@@ -21,6 +31,9 @@ $(function () {
 
     $('#district_id').on('change', function () {
         loadSector($(this).val(), 0);
+    });
+    $('#sector_id').on('change', function () {
+        loadCells($(this).val(), 0);
     });
 
     $('.js-docs').on('click', function () {
@@ -197,6 +210,20 @@ var loadSector = function (districtId, selectedValue) {
         element.val(selectedValue);
     });
 };
+
+var loadCells = function (sectorId, selectedValue) {
+    $.getJSON('/cellsBySector/' + sectorId, function (data) {
+        var element = $('#cell_id');
+        element.empty();
+        element.append('<option></option>');
+        $.each(data, function (index, value) {
+            element.append('<option value="' + value.id + '">' + value.name + '</option>');
+        });
+
+        element.val(selectedValue);
+    });
+};
+
 var changeLicenseStatus = function (value) {
     if (value === 'licensed') {
         $('#license_expires_at_group').removeClass('div-hide');

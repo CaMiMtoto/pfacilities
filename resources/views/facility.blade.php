@@ -29,7 +29,7 @@
 
                 <div class="box-tools pull-right">
                     <form action="" class="form-inline" autocomplete="off">
-                        <input type="text" name="q" class="form-control" placeholder="Search.."/>
+                        <input type="text" name="q" class="form-control form-control-sm" placeholder="Search.."/>
                         <button type="submit" class="btn btn-primary">
                             <i class="fa fa-search"></i>
                         </button>
@@ -72,19 +72,21 @@
                             <td>{{ $fac->license_expires_at!=null?$fac->license_expires_at->format('d/m/Y'):'Unknown' }}</td>
                             <td>
                                 <?php
+                                unset($daysRemain);
                                 $color = 'black'; ?>
                                 @if($fac->license_expires_at!=null)
-                                    <?php
-                                    $daysRemain = $fac->license_expires_at->diff($fac->license_issued_at)->format('%a');
-                                    if ($daysRemain < 30)
-                                        $color = 'red;font-weight:800;';
-                                    ?>
+                                    @php
+
+                                            $daysRemain = $fac->license_expires_at->diff($fac->license_issued_at)->format('%a');
+                                            if ($daysRemain < 30)
+                                                $color = 'red;font-weight:800;';
+                                    @endphp
                                 @endif
-                                <span style="color: {{$color}}">{{ isset($daysRemain)?$daysRemain :'Unknown' }}</span>
+                                <span style="color: {{$color}}">{{ isset($daysRemain)? $daysRemain :'Unknown' }}</span>
                             </td>
                             <td>
                                 <div class="btn-group btn-group-sm flat">
-                                    @if(auth()->user()->role=='admin')
+                                    @if(auth()->user()->role==\App\Roles::$ADMIN || auth()->user()->role==\App\Roles::$PHF)
                                         <a href="{{ route('facilities.edit',$fac->id) }}"
                                            class="btn flat btn-default btn-sm">
                                             <i class="fa fa-edit"></i>
@@ -249,6 +251,13 @@
                                                            id="ref_number"/>
                                                 </div>
                                             </div>
+                                            <div class="form-group form-group-sm">
+                                                <label for="plot_number" class="control-label">Plot Number</label>
+                                                <div>
+                                                    <input required type="text" class="form-control" name="plot_number"
+                                                           id="plot_number">
+                                                </div>
+                                            </div>
 
                                             <div class="form-group form-group-sm">
                                                 <br>
@@ -298,12 +307,13 @@
                                             <div class="form-group form-group-sm">
                                                 <label for="cell_id" class="control-label">Cell</label>
                                                 <div>
-                                                    <select class="form-control" name="cell_id"
+                                                    <select required class="form-control" name="cell_id"
                                                             id="cell_id">
                                                         <option value="">Select cell</option>
                                                     </select>
                                                 </div>
                                             </div>
+
                                         </div>
                                         <div class="col-md-12">
 
@@ -414,6 +424,17 @@
                                                 <div>
                                                     <input type="text" required name="position" id="position"
                                                            placeholder="Your position" class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 hide" id="ownersNames">
+                                            <div class="form-group form-group-sm">
+                                                <label for="facility_owner" class="control-label">Facility Owner's
+                                                    Names</label>
+                                                <div>
+                                                    <input type="text" required name="facility_owner"
+                                                           id="facility_owner"
+                                                           placeholder="Facility owner" class="form-control">
                                                 </div>
                                             </div>
                                         </div>

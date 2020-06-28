@@ -135,7 +135,8 @@
 @section('scripts')
     <script>
         $(function () {
-            $('.nav-categories').addClass('active');
+            $('.nav-settings').addClass('active');
+            $('.nav-app-types').addClass('active');
 
             $('#addButton').on('click', function () {
                 $('#addModal').modal();

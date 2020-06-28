@@ -41,28 +41,44 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ddd88c5d-e71e-44ad-8723-9dc0f244616e" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/seeds/PositionTableSeeder.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/seeds/UsersTableSeeder.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/approval_letter.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/watcherTasks.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/FacilityLicense.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/FacilityLicenseController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/SignatureController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Signature.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/database/migrations/2020_06_28_131226_add_columns_to_facilities_table.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/database/migrations/2020_06_28_132009_create_facility_licenses_table.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/database/migrations/2020_06_28_143805_create_signatures_table.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/admin/manage_facility_license.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/admin/signature.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/admin/signatures.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/facility_license.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/ApplicationApproval.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/ApplicationApproval.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Facility.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Facility.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ApplicationApprovalController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ApplicationApprovalController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/CellsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/CellsController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/FacilitiesController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/FacilitiesController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/FacilityVisitController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/FacilityVisitController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Position.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Position.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Roles.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Roles.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Sector.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Sector.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/User.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/UserApplication.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/UserApplication.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2020_06_23_194231_create_settings_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_06_23_194231_create_settings_table.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database/migrations/2020_06_23_202445_create_application_approvals_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_06_23_202445_create_application_approvals_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_06_23_202807_create_application_approval_carbon_copies_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_06_23_202807_create_application_approval_carbon_copies_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/seeds/DatabaseSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/DatabaseSeeder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/css/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/app.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/mix-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/public/mix-manifest.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/sass/app.scss" beforeDir="false" afterPath="$PROJECT_DIR$/resources/sass/app.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/docs.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/docs.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeds/PositionTableSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/PositionTableSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/facilties.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/facilties.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/applicationTypes.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/applicationTypes.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/manage_approval_letter.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/manage_approval_letter.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/users.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/users.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/approval_letter.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/approval_letter.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/facility.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/facility.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/layouts/app.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/app.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/layouts/aside.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/aside.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/user_applications.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/user_applications.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/visit_facility.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/visit_facility.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -84,6 +100,34 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IlluminatedCloudWorkspaceSettings">
+    <option name="projectWorkspaceSettings">
+      <ProjectWorkspaceSettings>
+        <option name="anonymousApexSettings">
+          <AnonymousApexSettings>
+            <option name="savedDocuments">
+              <list>
+                <AnonymousApexSavedDocument>
+                  <option name="name" value="Anonymous Apex 1" />
+                </AnonymousApexSavedDocument>
+              </list>
+            </option>
+          </AnonymousApexSettings>
+        </option>
+        <option name="soqlQuerySettings">
+          <SoqlQuerySettings>
+            <option name="savedDocuments">
+              <list>
+                <SoqlQuerySavedDocument>
+                  <option name="name" value="SOQL Query 1" />
+                </SoqlQuerySavedDocument>
+              </list>
+            </option>
+          </SoqlQuerySettings>
+        </option>
+      </ProjectWorkspaceSettings>
+    </option>
   </component>
   <component name="PackageJsonUpdateNotifier">
     <dismissed value="$PROJECT_DIR$/package.json" />
@@ -245,10 +289,10 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="PHPUnit.phpunit.xml" />
       <item itemvalue="Database Script.privatefacilities_provinces.sql" />
       <item itemvalue="Database Script.privatefacilities_districts.sql" />
       <item itemvalue="Database Script.privatefacilities_sectors.sql" />
+      <item itemvalue="PHPUnit.phpunit.xml" />
     </list>
     <recent_temporary>
       <list>
@@ -316,7 +360,8 @@
       <workItem from="1592997244769" duration="3768000" />
       <workItem from="1593092543935" duration="1798000" />
       <workItem from="1593100295153" duration="2847000" />
-      <workItem from="1593196893241" duration="8815000" />
+      <workItem from="1593196893241" duration="9280000" />
+      <workItem from="1593344573478" duration="22923000" />
     </task>
     <servers />
   </component>
@@ -347,10 +392,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="0" y="254" key="#SQL_Dialects/0.0.1536.824@0.0.1536.824" timestamp="1593201430355" />
-    <state x="499" y="167" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1591884442368">
+    <state x="499" y="167" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1593357213699">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="499" y="167" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1536.824@0.0.1536.824" timestamp="1591884442368" />
+    <state x="499" y="167" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1536.824@0.0.1536.824" timestamp="1593357213699" />
     <state x="403" y="75" key="#phpunit.xml" timestamp="1589876712925">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -372,26 +417,26 @@
     </state>
     <state x="542" y="170" key="FileChooserDialogImpl/0.0.1536.824/1920.0.1920.1040@0.0.1536.824" timestamp="1590048859274" />
     <state x="542" y="170" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1589821869216" />
-    <state width="1025" height="227" key="GridCell.Tab.0.bottom" timestamp="1593202153930">
+    <state width="1495" height="227" key="GridCell.Tab.0.bottom" timestamp="1593208867241">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1495" height="211" key="GridCell.Tab.0.bottom/0.0.1536.824/1920.0.1920.1040@0.0.1536.824" timestamp="1589878732778" />
-    <state width="1025" height="227" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1593202153930" />
-    <state width="1025" height="227" key="GridCell.Tab.0.center" timestamp="1593202153930">
+    <state width="1495" height="227" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1593208867241" />
+    <state width="1495" height="227" key="GridCell.Tab.0.center" timestamp="1593208867240">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1495" height="211" key="GridCell.Tab.0.center/0.0.1536.824/1920.0.1920.1040@0.0.1536.824" timestamp="1589878732777" />
-    <state width="1025" height="227" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1593202153930" />
-    <state width="1025" height="227" key="GridCell.Tab.0.left" timestamp="1593202153930">
+    <state width="1495" height="227" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1593208867240" />
+    <state width="1495" height="227" key="GridCell.Tab.0.left" timestamp="1593208867240">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1495" height="211" key="GridCell.Tab.0.left/0.0.1536.824/1920.0.1920.1040@0.0.1536.824" timestamp="1589878732777" />
-    <state width="1025" height="227" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1593202153930" />
-    <state width="1025" height="227" key="GridCell.Tab.0.right" timestamp="1593202153930">
+    <state width="1495" height="227" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1593208867240" />
+    <state width="1495" height="227" key="GridCell.Tab.0.right" timestamp="1593208867240">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1495" height="211" key="GridCell.Tab.0.right/0.0.1536.824/1920.0.1920.1040@0.0.1536.824" timestamp="1589878732777" />
-    <state width="1025" height="227" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1593202153930" />
+    <state width="1495" height="227" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1593208867240" />
     <state x="517" y="137" key="NewPhpClassDialog" timestamp="1593200475987">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -400,29 +445,37 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="302" y="58" key="SettingsEditor/0.0.1536.824/1920.0.1920.1040@0.0.1536.824" timestamp="1590067500892" />
-    <state width="725" height="445" key="SwitcherDM" timestamp="1593203214824">
+    <state width="725" height="445" key="SwitcherDM" timestamp="1593353641364">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="725" height="445" key="SwitcherDM/0.0.1536.824/1920.0.1920.1040@0.0.1536.824" timestamp="1590072544705" />
-    <state width="725" height="445" key="SwitcherDM/0.0.1536.824@0.0.1536.824" timestamp="1593203214824" />
-    <state x="612" y="274" width="379" height="276" key="com.intellij.database.actions.DdlActions$DeleteProvider2$1" timestamp="1592944367020">
+    <state width="725" height="445" key="SwitcherDM/0.0.1536.824@0.0.1536.824" timestamp="1593353641364" />
+    <state x="612" y="274" width="379" height="276" key="com.intellij.database.actions.DdlActions$DeleteProvider2$1" timestamp="1593358694730">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="612" y="274" width="375" height="276" key="com.intellij.database.actions.DdlActions$DeleteProvider2$1/0.0.1536.824/1920.0.1920.1040@0.0.1536.824" timestamp="1590487854075" />
-    <state x="612" y="274" width="379" height="276" key="com.intellij.database.actions.DdlActions$DeleteProvider2$1/0.0.1536.824@0.0.1536.824" timestamp="1592944367020" />
-    <state x="585" y="61" key="com.intellij.database.view.ui.AbstractDbRefactoringDialog" timestamp="1591788207644">
+    <state x="612" y="274" width="379" height="276" key="com.intellij.database.actions.DdlActions$DeleteProvider2$1/0.0.1536.824@0.0.1536.824" timestamp="1593358694730" />
+    <state x="516" y="228" width="504" height="359" key="com.intellij.database.psi.DbRenamePsiElementProcessor.DbRenameDialog" timestamp="1593360582811">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="516" y="228" width="504" height="359" key="com.intellij.database.psi.DbRenamePsiElementProcessor.DbRenameDialog/0.0.1536.824@0.0.1536.824" timestamp="1593360582811" />
+    <state x="585" y="61" key="com.intellij.database.view.ui.AbstractDbRefactoringDialog" timestamp="1593361071083">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="585" y="61" key="com.intellij.database.view.ui.AbstractDbRefactoringDialog/0.0.1536.824/1920.0.1920.1040@0.0.1536.824" timestamp="1590487871896" />
-    <state x="585" y="61" key="com.intellij.database.view.ui.AbstractDbRefactoringDialog/0.0.1536.824@0.0.1536.824" timestamp="1591788207644" />
-    <state x="425" y="187" key="run.anything.popup" timestamp="1592207867297">
+    <state x="585" y="61" key="com.intellij.database.view.ui.AbstractDbRefactoringDialog/0.0.1536.824@0.0.1536.824" timestamp="1593361071083" />
+    <state x="376" y="23" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1593358247623">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="425" y="187" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1592207867297" />
-    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1593204295883">
+    <state x="376" y="23" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1536.824@0.0.1536.824" timestamp="1593358247623" />
+    <state x="425" y="187" key="run.anything.popup" timestamp="1593365458803">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="425" y="187" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1593365458803" />
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1593367377356">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824/1920.0.1920.1040@0.0.1536.824" timestamp="1590487781854" />
-    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1593204295883" />
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1593367377356" />
   </component>
 </project>

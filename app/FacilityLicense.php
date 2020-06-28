@@ -4,15 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ApplicationApproval extends Model
+class FacilityLicense extends Model
 {
-    protected $guarded = [];
-
-    public function carbonCopies()
-    {
-        return $this->hasMany(ApplicationApprovalCarbonCopy::class);
-    }
-
+    protected $casts=['signed_at'=>'datetime'];
     public function userApplication()
     {
         return $this->belongsTo(UserApplication::class);

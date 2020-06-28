@@ -13,7 +13,7 @@
           href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
     <style>
         html, body {
-            /*font-family: "Times New Roman", sans-serif !important;*/
+            font-family: "Times New Roman", sans-serif !important;
         }
     </style>
 </head>
@@ -100,8 +100,10 @@
                         Sincerely
                     </p>
                     <span>
-                            <img src="{{ $approval->signature_url }}" alt="Signature" class="img-fluid ml-5"
+                            <img src="{{ $approval->user->signature->signature_url }}" alt="Signature"
+                                 class="img-fluid ml-5"
                                  style="height: 50px">
+
                       </span>
                 </div>
                 <div>

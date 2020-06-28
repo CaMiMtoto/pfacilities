@@ -1,8 +1,8 @@
 @extends('layouts.app')
-@section('title','Users')
+@section('title','Signatures')
 @section('content')
     <section class="content">
-        <h4> Manage users</h4>
+        <h4> Manage signatures</h4>
         <div class="box box-primary flat">
             <div class="box-header with-border">
                 <div class="col-md-6">
@@ -36,40 +36,25 @@
                 <table class="table">
                     <thead>
                     <tr>
-                        <th scope="col">Name</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Position</th>
-                        <th scope="col">Role</th>
-                        <th scope="col"></th>
+                        <th>Owner</th>
+                        <th>Signature</th>
+                        <th></th>
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($users as $user)
+                    @foreach($signatures as $sign)
                         <tr>
-                            <td>{{ $user->name }}</td>
-                            <td>{{ $user->email }}</td>
-                            <td>
-                                @if($user->position==null)
-                                    <span class="label label-info">Applicant</span>
-                                @else
-                                    <span class="label label-default"> {{ ucwords($user->position->name) }}</span>
-                                @endif
-                            </td>
-                            <td>
-                                @if($user->role=='normal')
-                                    <span class="label label-info">Applicant</span>
-                                @else
-                                    <span class="label label-default"> {{ ucwords($user->role) }}</span>
-                                @endif
-                            </td>
+                            <td></td>
+                            <td></td>
+
                             <td>
                                 <div class="btn-group flat">
                                     <button class="btn flat btn-default js-edit"
-                                            data-url="{{ route('users.show',$user->id) }}">
+                                            data-url="{{ route('users.show',$sign->id) }}">
                                         <i class="fa fa-pencil"></i>
                                     </button>
                                     <button class="btn flat btn-danger js-delete"
-                                            data-url="{{ route('users.destroy',$user->id) }}">
+                                            data-url="{{ route('users.destroy',$sign->id) }}">
                                         <i class="fa fa-trash"></i>
                                     </button>
                                 </div>
@@ -94,7 +79,7 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span></button>
                     <h4 class="modal-title">
-                        User
+                        New signature
                     </h4>
                 </div>
                 <form novalidate class="form-horizontal" autocomplete="off" action="{{ route('users.store') }}"

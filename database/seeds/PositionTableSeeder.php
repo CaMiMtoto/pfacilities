@@ -1,5 +1,6 @@
 <?php
 
+use App\Position;
 use Illuminate\Database\Seeder;
 
 class PositionTableSeeder extends Seeder
@@ -11,13 +12,41 @@ class PositionTableSeeder extends Seeder
      */
     public function run()
     {
-        \App\Position::create([
-            'name' => \App\Position::$PHF,
+        Position::create([
+            'name' => Position::$PHF,
             'description' => 'Phf'
         ]);
-        \App\Position::create([
-            'name' => \App\Position::$DG,
+        Position::create([
+            'name' => Position::$DG,
             'description' => 'Director General'
+        ]);
+        Position::create([
+            'name' => Position::$DG,
+            'description' => 'Director General'
+        ]);
+        Position::create([
+            'name' => Position::$DGCPHS,
+            'description' => 'Director general of clinical services'
+        ]);
+        Position::create([
+            'name' => Position::$DHPRU,
+            'description' => Position::$DHPRU,
+        ]);
+        Position::create([
+            'name' => Position::$MOS,
+            'description' => Position::$MOS,
+        ]);
+        Position::create([
+            'name' => Position::$MINISTER,
+            'description' => Position::$MINISTER,
+        ]);
+        Position::create([
+            'name' => Position::$PS,
+            'description' => 'Permanent secretary',
+        ]);
+        Position::create([
+            'name' => Position::$DGP,
+            'description' => 'Director general of planning',
         ]);
     }
 }

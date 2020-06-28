@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSettingsTable extends Migration
+class CreateSignaturesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,13 @@ class CreateSettingsTable extends Migration
      */
     public function up()
     {
-        Schema::create('settings', function (Blueprint $table) {
+        Schema::create('signatures', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('organisation');
-            $table->string('address');
-            $table->string('phone_number');
-            $table->string('email');
-            $table->string('pobox');
-
+            $table->string('file_name');
+            $table->unsignedBigInteger('user_id')->unique();
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
@@ -32,6 +30,6 @@ class CreateSettingsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('settings');
+        Schema::dropIfExists('signatures');
     }
 }

@@ -10,4 +10,11 @@ class Sector extends Model
     {
         return $this->belongsTo(District::class);
     }
+
+    public function cells()
+    {
+        return $this->hasMany(Cell::class);
+    }
 }
+
+

@@ -23,6 +23,11 @@ class Facility extends Model
         return $this->belongsTo(Service::class);
     }
 
+    public function cell()
+    {
+        return $this->belongsTo(Cell::class);
+    }
+
     public function sector()
     {
         return $this->belongsTo(Sector::class);

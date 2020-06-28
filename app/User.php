@@ -37,6 +37,11 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
+    public function signature()
+    {
+        return $this->hasOne(Signature::class);
+    }
+
     public function position(){
         return $this->belongsTo(Position::class);
     }

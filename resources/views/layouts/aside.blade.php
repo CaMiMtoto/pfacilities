@@ -71,7 +71,7 @@
             @endif
 
             @if(auth()->user()->role==\App\Roles::$ADMIN|| strtolower(auth()->user()->role)==\App\Roles::$PHF)
-                <li class="treeview">
+                <li class="treeview nav-settings">
                     <a href="#">
                         <i class="fa fa-link"></i>
                         <span>Settings</span>
@@ -79,20 +79,20 @@
                          <i class="fa fa-angle-left pull-right"></i>
                     </span>
                     </a>
-                    <ul class="treeview-menu ">
+                    <ul class="treeview-menu">
 
-                        <li class="nav-positions ">
-                            <a href="{{ route('positions.all') }}">
-                                <i class="fa fa-circle"></i>
-                                <span>Positions</span>
-                            </a>
-                        </li>
-                        <li class="nav-employee-positions ">
-                            <a href="{{ route('employeePositions.all') }}">
-                                <i class="fa fa-circle"></i>
-                                <span>Employee Position</span>
-                            </a>
-                        </li>
+                        {{--      <li class="nav-positions ">
+                                  <a href="{{ route('positions.all') }}">
+                                      <i class="fa fa-circle"></i>
+                                      <span>Positions</span>
+                                  </a>
+                              </li>
+                              <li class="nav-employee-positions ">
+                                  <a href="{{ route('employeePositions.all') }}">
+                                      <i class="fa fa-circle"></i>
+                                      <span>Employee Position</span>
+                                  </a>
+                              </li>--}}
                         <li class="nav-categories">
                             <a href="{{ route('categories.all') }}">
                                 <i class="fa fa-circle"></i>
@@ -111,10 +111,16 @@
                                 <span>Documents</span>
                             </a>
                         </li>
-                        <li class="nav-services">
+                        <li class="nav-app-types">
                             <a href="{{ route('app-types.all') }}">
                                 <i class="fa fa-circle"></i>
                                 <span>Application Types</span>
+                            </a>
+                        </li>
+                        <li class="nav-signature">
+                            <a href="{{ route('signature') }}">
+                                <i class="fa fa-circle"></i>
+                                <span>My Signature</span>
                             </a>
                         </li>
 
