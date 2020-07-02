@@ -4,7 +4,7 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Auth::routes(['verify' => false]);
+Auth::routes(['verify' => true]);
 Route::get('/', function () {
     return view('welcome');
 });
@@ -13,7 +13,7 @@ Route::get('/home', function () {
     return redirect()->route('home');
 });
 
-Route::middleware(['auth'/*, 'verified'*/])->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', 'HomeController@index')->name('home');
     Route::get('/view/document', 'HomeController@viewDoc')->name('viewDocument');
 
