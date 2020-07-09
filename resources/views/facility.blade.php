@@ -12,6 +12,19 @@
             <a href="{{ route('summary') }}" class="btn btn-primary btn-sm">
                 Summary
             </a>
+            <div class="dropdown pull-right">
+                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="true">
+                    Filter facility By
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                    <li><a href="?licensed=true">Licensed</a></li>
+                    <li><a href="?expiring_soon=true">Expiring soon</a></li>
+                    <li><a href="?expired=true">Expired</a></li>
+                </ul>
+            </div>
+            <div class="clearfix"></div>
         @endif
         @if(\Illuminate\Support\Facades\Auth::user()->role=='normal')
             <button class="btn btn-primary  btn-sm pull-right" id="addButton">
@@ -27,7 +40,7 @@
                     Health Facility { {{count($facilities)}} }
                 </h3>
 
-                <div class="box-tools pull-right">
+                <div class="box-tools">
                     <form action="" class="form-inline" autocomplete="off">
                         <input type="text" name="q" class="form-control form-control-sm" placeholder="Search.."/>
                         <button type="submit" class="btn btn-primary">
@@ -77,9 +90,9 @@
                                 @if($fac->license_expires_at!=null)
                                     @php
 
-                                            $daysRemain = $fac->license_expires_at->diff($fac->license_issued_at)->format('%a');
-                                            if ($daysRemain < 30)
-                                                $color = 'red;font-weight:800;';
+                                        $daysRemain = $fac->license_expires_at->diffInDays($fac->license_issued_at);
+                                        if ($daysRemain < 30)
+                                            $color = 'red;font-weight:800;';
                                     @endphp
                                 @endif
                                 <span style="color: {{$color}}">{{ isset($daysRemain)? $daysRemain :'Unknown' }}</span>

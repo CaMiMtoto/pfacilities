@@ -29,14 +29,14 @@
                             value="modification">
                             For modification
                         </option>
-                        <option
+                    {{--    <option
                             {{ $userApplication->status=='process'?'selected':'' }}
                             value="process">In process
                         </option>
                         <option
                             {{ $userApplication->status=='pending'?'selected':'' }}
                             value="pending">Pending
-                        </option>
+                        </option>--}}
                         <option
                             {{ $userApplication->status=='verified'?'selected':'' }}
                             value="verified">Verified

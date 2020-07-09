@@ -14,6 +14,7 @@ use App\Position;
 use App\Province;
 use App\Service;
 use App\UserApplication;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -44,6 +45,7 @@ class FacilitiesController extends Controller
                 ->orWhere('phone', 'LIKE', "%{$search}%")
                 ->orWhere('nationalId', 'LIKE', "%{$search}%")
                 ->paginate(10);
+
             $facilities->appends(['q' => $search]);
         }
 
@@ -57,9 +59,27 @@ class FacilitiesController extends Controller
         $services = Service::all();
         $provinces = Province::all();
         $search = $request->input('q');
-        if (empty($search)) {
+//now()->diffInDays()
+        if (\request('licensed')) {
+            $facilities = Facility::with(['category', 'service'])
+                ->where([
+                    ['license_issued_at', '!=', null],
+                    ['license_expires_at', '!=', null],
+                ])->paginate(10);
+        } elseif (\request('expiring_soon')) {
+            $facilities = Facility::with(['category', 'service'])
+                ->where([
+                    ['license_expires_at', '<=', Carbon::now()->addDays(30)->toDateTimeString()],
+                ])->paginate(10);
+        }  elseif (\request('expired')) {
+            $facilities = Facility::with(['category', 'service'])
+                ->where([
+                    ['license_expires_at', '<', Carbon::now()->toDateTimeString()],
+                ])->paginate(10);
+        } elseif (empty($search)) {
             $facilities = Facility::with(['category', 'service'])->paginate(10);
-        } else {
+        } elseif ($search) {
+
             $facilities = Facility::with(['category', 'service'])
                 ->where('name', 'LIKE', "%{$search}%")
                 ->orWhere('manager_name', 'LIKE', "%{$search}%")
@@ -226,12 +246,17 @@ class FacilitiesController extends Controller
         try {
             $facility = Facility::find($request->facility_id);
 
+            $appId = 0;
+            $app = UserApplication::latest()->first();
+            if ($app)
+                $appId = $app->id + 1;
+
             $userApp = new UserApplication();
             $userApp->user_id = \auth()->id();
             $userApp->application_type_id = $request->applicationType;
             $userApp->facility_id = $facility->id;
             $userApp->status = 'pending';
-            $userApp->application_id = now()->format('dmy') . $facility->id;
+            $userApp->application_id = now()->format('dmy') . $appId;
             $userApp->save();
 
             foreach (array_keys($request->files->all()) as $array_key) {

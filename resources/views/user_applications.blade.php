@@ -3,15 +3,32 @@
 @section('content')
     <section class="content">
         @include('includes._alerts')
+        <span class="h3">
+            <i class="fa fa-file-archive-o"></i>
+            Applications {{ $userApps->total() }}
+        </span>
+        @if(auth()->user()->role==\App\Roles::$APPLICANT)
+            <div class="dropdown pull-right">
+                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    Applying For
+                    <span class="caret"></span>
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                    @foreach($appTypes as $type)
+                        <div>
+                            <button  style="margin: 5px;"
+                                     data-id="{{ $type->id }}"
+                                     class="btn btn-link js-license">
+                                {{ $type->name }}
+                            </button>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        @endif
         <div class="box box-primary flat">
             <div class="box-header with-border">
-                <div class="col-md-4">
-                    <h3 class="box-title">
-                        <i class="fa fa-file-archive-o"></i>
-                        Applications {{ $userApps->total() }}
-                    </h3>
-
-                </div>
                 <div class="box-tools">
                     @if(auth()->user()->role!='normal')
                         <div class="dropdown  pull-right">
@@ -29,28 +46,15 @@
                                 </li>
                             </ul>
                         </div>
+                        @else
+
                     @endif
                 </div>
                 <!-- /.box-tools -->
             </div>
             <!-- /.box-header -->
             <div class="box-body table-responsive" style="padding: 0;">
-                <div class="col-md-6" style="padding-left: 0;">
-                    @if(auth()->user()->role=='normal')
-                        @foreach($appTypes as $type)
-                            <button
-                                style="margin: 5px;"
-                                data-id="{{ $type->id }}"
-                                class="btn btn-primary js-license">
-                                {{ $type->name }}
-                            </button>
-                        @endforeach
 
-                    @endif
-                </div>
-                <div class="col-md-6">
-
-                </div>
                 <table class="table table-hover">
                     <thead>
                     <tr>

@@ -27,7 +27,7 @@
                         </button>
                         <button type="submit" id="createBtn" class="btn btn-primary">
                             <i class="fa fa-check-circle"></i>
-                            Save changes
+                            Continue
                         </button>
                     </div>
                 </div>
