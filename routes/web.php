@@ -13,7 +13,7 @@ Route::get('/home', function () {
     return redirect()->route('home');
 });
 
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth', /*'verified'*/])->group(function () {
     Route::get('/dashboard', 'HomeController@index')->name('home');
     Route::get('/view/document', 'HomeController@viewDoc')->name('viewDocument');
 
