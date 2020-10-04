@@ -13,6 +13,8 @@ Route::get('/home', function () {
     return redirect()->route('home');
 });
 
+Route::get('/facilities/{facilityId}/info', 'FacilitiesController@checkValidity')->name('facilities.checkValidity');
+
 Route::middleware(['auth', /*'verified'*/])->group(function () {
     Route::get('/dashboard', 'HomeController@index')->name('home');
     Route::get('/view/document', 'HomeController@viewDoc')->name('viewDocument');

@@ -34,9 +34,9 @@
                 </div>
 
                 <div class="box-tools pull-right">
-                    <div class="no-print">
-                        <a href="{{ route('summary') }}" class="bbtn btn-primary btn-sm pull-left">Go Back</a>
-                        <button onclick="window.print();" class="btn btn-default btn-sm pull-right">
+                    <div class="no-print btn-group btn-group-sm">
+                        <a href="{{ route('summary') }}" class="btn btn-primary btn-sm pull-left text-uppercase">Go Back</a>
+                        <button onclick="window.print();" class="btn btn-default btn-sm pull-right text-uppercase">
                             <i class="glyphicon glyphicon-print"></i>
                             Print
                         </button>

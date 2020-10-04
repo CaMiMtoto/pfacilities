@@ -71,7 +71,7 @@ class FacilitiesController extends Controller
                 ->where([
                     ['license_expires_at', '<=', Carbon::now()->addDays(30)->toDateTimeString()],
                 ])->paginate(10);
-        }  elseif (\request('expired')) {
+        } elseif (\request('expired')) {
             $facilities = Facility::with(['category', 'service'])
                 ->where([
                     ['license_expires_at', '<', Carbon::now()->toDateTimeString()],
@@ -301,5 +301,12 @@ class FacilitiesController extends Controller
                 'error' => $exception->getMessage()
             ]);
         }
+    }
+
+    public function checkValidity($facilityId)
+    {
+        $facilityId=decrypt($facilityId);
+        $facility = Facility::findOrFail($facilityId);
+        return view('check_validity', compact('facility'));
     }
 }
