@@ -19,8 +19,9 @@ class HomeController extends Controller
 
     public function index()
     {
+
         if (Auth::user()->role != 'normal') {
-            return redirect()->route('summary');
+            return view('home');
         }
         return redirect()->route('facilities');
     }
@@ -28,7 +29,6 @@ class HomeController extends Controller
     public function viewDoc()
     {
         $path = request('path');
-        return $path;
         return view('viewDocument', compact('path'));
     }
 }

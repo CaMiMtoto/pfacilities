@@ -20,42 +20,39 @@
         <!-- Sidebar Menu -->
         <ul class="sidebar-menu" data-widget="tree">
             <li class="header">Menus</li>
-            <!-- Optionally, you can add icons to the links -->
-            @if(Auth::user()->role!=\App\Roles::$APPLICANT)
+
+            @can('view-dashboard')
                 <li class="nav-dashboard">
                     <a href="{{ url('/dashboard') }}">
                         <i class="fa fa-link"></i>
                         <span>Dashboard</span>
                     </a>
                 </li>
-            @endif
+            @endcan
+
+
             <li class="nav-facilities">
                 <a href="{{ auth()->user()->role==\App\Roles::$APPLICANT? route('facilities'):route('adminFacilities') }}">
                     <i class="fa fa-heart"></i>
                     <span>Health Facilities</span>
                 </a>
             </li>
-            <li class="nav-applications">
-                <a href="{{ route('userApplication') }}">
-                    <i class="fa fa-file-archive-o"></i>
-                    <span>Applications</span>
-                </a>
-            </li>
-            {{--       <li class="nav-appointments">
-                       <a href="{{ route('appointments') }}">
-                           <i class="fa fa-clock-o"></i>
-                           <span>Appointments</span>
-                       </a>
-                   </li>--}}
-            @if(auth()->user()->role!=\App\Roles::$APPLICANT)
+
+            @can('approve-applications')
+                <li class="nav-applications">
+                    <a href="{{ route('userApplication') }}">
+                        <i class="fa fa-file-archive-o"></i>
+                        <span>Applications</span>
+                    </a>
+                </li>
                 <li class="nav-shared-applications">
                     <a href="{{ route('my.shared.app.all') }}">
                         <i class="fa fa-file-o"></i>
                         <span>For Approval</span>
                     </a>
                 </li>
-            @endif
-            @if(auth()->user()->role==\App\Roles::$ADMIN)
+            @endcan
+            @can('manage-users')
                 <li class="nav-users">
                     <a href="{{ route('users') }}">
                         <i class="fa fa-users"></i>
@@ -68,9 +65,9 @@
                         <span>Employees</span>
                     </a>
                 </li>
-            @endif
+            @endcan
 
-            @if(auth()->user()->role==\App\Roles::$ADMIN|| strtolower(auth()->user()->role)==\App\Roles::$PHF)
+            @can('manage-settings')
                 <li class="treeview nav-settings">
                     <a href="#">
                         <i class="fa fa-link"></i>
@@ -80,7 +77,6 @@
                     </span>
                     </a>
                     <ul class="treeview-menu">
-
                         {{--      <li class="nav-positions ">
                                   <a href="{{ route('positions.all') }}">
                                       <i class="fa fa-circle"></i>
@@ -127,8 +123,9 @@
 
                     </ul>
                 </li>
-            @endif
-            @if(Auth::user()->role==\App\Roles::$ADMIN)
+            @endcan
+
+            @can('view-reports')
                 <li class="treeview tr-reports">
                     <a href="#">
                         <i class="fa fa-print"></i> <span>Report</span>
@@ -151,7 +148,9 @@
                         </li>
                     </ul>
                 </li>
-            @endif
+            @endcan
+
+
         </ul>
         <!-- /.sidebar-menu -->
     </section>

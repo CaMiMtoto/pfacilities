@@ -130,6 +130,20 @@ Route::middleware(['auth', /*'verified'*/])->group(function () {
         Route::get('/signature', 'SignatureController@signature')->name('signature');
         Route::post('/signature', 'SignatureController@store')->name('signature.store');
 
+
+        Route::get('/roles', "RolesController@index")->name('roles.index');
+        Route::post('/roles', "RolesController@store")->name('roles.store');
+        Route::delete('/roles/{role}/delete', "RolesController@delete")->name('roles.delete');
+        Route::get('/roles/{role}/show', "RolesController@show")->name('roles.show');
+
+        Route::get('/permissions', "PermissionsController@index")->name('permissions.index');
+        Route::post('/permissions', "PermissionsController@store")->name('permissions.store');
+        Route::delete('/permissions/{permission}/delete', "PermissionsController@delete")->name('permissions.delete');
+        Route::get('/permissions/{permission}/show', "PermissionsController@show")->name('permissions.show');
+
+        Route::get('/roles/{role}/permissions', "PermissionsController@rolePermissions")->name('rolePermissions');
+        Route::post('/roles/{role}/permissions/update', "PermissionsController@updateRolePermissions")->name('updateRolePermissions');
+
     });
 });
 

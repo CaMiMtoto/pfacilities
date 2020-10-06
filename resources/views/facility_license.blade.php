@@ -89,8 +89,9 @@
                     </div>
                     <div class="mt-5 mb-3">
                         <div class="row">
-                            <div class="col-md-6"><p>
-                                    Issued at Kigali</p></div>
+                            <div class="col-md-6">
+                                <p>Issued at Kigali</p>
+                            </div>
                             <div class="col-md-6">
                                 <p>
                                     On {{ $license->signed_at->format('d/m/Y') }}

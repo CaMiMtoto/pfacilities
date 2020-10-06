@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ValidateUser;
 use App\Position;
 use App\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class UsersController extends Controller
@@ -12,19 +12,21 @@ class UsersController extends Controller
     public function index()
     {
         $positions = Position::all();
-        $search=\request('q');
+        $search = \request('q');
         $users = User::with('position')
-            ->where('name','LIKE',"%$search%")
-            ->orWhere('role','LIKE',"%$search%")
-            ->orWhere('email','LIKE',"%$search%")
+            ->where('name', 'LIKE', "%$search%")
+            ->orWhere('role', 'LIKE', "%$search%")
+            ->orWhere('email', 'LIKE', "%$search%")
             ->paginate(10);
         return view('admin.users', compact('users'))
             ->with(['positions' => $positions]);
     }
 
 
-    public function store(Request $request)
+    public function store(ValidateUser $request)
     {
+        $request->validated();
+
         $id = $request->id;
         if ($id > 0) {
             $user = User::findOrFail($id);
@@ -45,7 +47,9 @@ class UsersController extends Controller
             $user->password = Hash::make($request->password);
         }
         $user->save();
-        return response($user, 200);
+        if ($request->ajax())
+            return response($user, 200);
+        return back()->with('success', 'User successfully saved');
     }
 
 

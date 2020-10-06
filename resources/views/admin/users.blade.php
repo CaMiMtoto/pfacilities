@@ -98,8 +98,7 @@
                     </h4>
                 </div>
                 <form novalidate class="form-horizontal" autocomplete="off" action="{{ route('users.store') }}"
-                      method="post"
-                      id="submitForm">
+                      method="post">
 
                     <div class="modal-body">
                         @include('layouts._loader')
@@ -138,13 +137,9 @@
                                 <div class="col-sm-9">
                                     <select name="role" class="form-control" required id="role">
                                         <option value=""></option>
-                                        <option value="admin">Admin</option>
-                                        <option value="phf">PHF</option>
-                                        <option value="dhpru">DHPRU</option>
-                                        <option value="dgcphs">DGCPHS</option>
-                                        <option value="ps">PS</option>
-                                        <option value="minister">Minister</option>
-                                        {{--                                        <option value="normal">Normal user</option>--}}
+                                        @foreach(\App\Roles::roles() as $role)
+                                            <option value="{{$role}}">{{strtoupper($role)}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -158,14 +153,14 @@
                         </div>
                     </div>
                     <div class="modal-footer editFooter">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                                <i class="fa fa-close"></i>
-                                Close
-                            </button>
+                        <div class="btn-group btn-group-sm">
                             <button type="submit" id="createBtn" class="btn btn-primary">
                                 <i class="fa fa-check-circle"></i>
                                 Save changes
+                            </button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                <i class="fa fa-close"></i>
+                                Close
                             </button>
                         </div>
                     </div>
@@ -179,6 +174,9 @@
 @endsection
 
 @section('scripts')
+    <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.js')}}"></script>
+    {!! JsValidator::formRequest(App\Http\Requests\ValidateUser::class) !!}
+
     <script>
         $(function () {
             $('.nav-users').addClass('active');
