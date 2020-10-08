@@ -1,5 +1,9 @@
 @extends('layouts.app')
 @section('title','Dashboard')
+@section('styles')
+    <!-- Morris chart -->
+    <link rel="stylesheet" href="bower_components/morris.js/morris.css">
+@endsection
 @section('content')
     <section class="content-header">
         <h1>
@@ -75,7 +79,30 @@
             </div>
             <!-- ./col -->
         </div>
+
         <div class="row">
+            <div class="col-md-6">
+                <div class="box box-primary flat">
+                    <div class="box-header with-border">
+                        <i class="fa fa-pie-chart"></i>
+
+                        <h3 class="box-title">Facilities chart by categories</h3>
+
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+                                    class="fa fa-minus"></i>
+                            </button>
+                            <button type="button" class="btn btn-box-tool" data-widget="remove"><i
+                                    class="fa fa-times"></i></button>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <canvas id="barChart" style="height:250px"></canvas>
+                    </div>
+                    <!-- /.box-body-->
+                </div>
+                <!-- /.box -->
+            </div>
             <div class="col-md-6">
                 <div class="box box-info flat">
                     <div class="box-header with-border">
@@ -116,11 +143,16 @@
                     </div>
                     <!-- /.box-body -->
                     <div class="box-footer clearfix text-center">
-                        <a href="{{ route('adminFacilities')}}" class="btn btn-sm btn-link btn-flat">View All Facilities</a>
+                        <a href="{{ route('adminFacilities')}}" class="btn btn-sm btn-link btn-flat">View All
+                            Facilities</a>
                     </div>
                     <!-- /.box-footer -->
                 </div>
             </div>
+        </div>
+
+        <div class="row">
+
             <div class="col-md-6">
                 <div class="box box-warning flat">
                     <div class="box-header with-border">
@@ -164,7 +196,8 @@
                     </div>
                     <!-- /.box-body -->
                     <div class="box-footer clearfix text-center" style="">
-                        <a href="{{ route('userApplication')}}" class="btn btn-sm btn-link btn-flat">View All Applications</a>
+                        <a href="{{ route('userApplication')}}" class="btn btn-sm btn-link btn-flat">View All
+                            Applications</a>
                     </div>
                     <!-- /.box-footer -->
                 </div>
@@ -174,9 +207,139 @@
     </section>
 @endsection
 @section('scripts')
+
+    <script src="{{ asset('bower_components/chart.js/Chart.js') }}"></script>
     <script>
+        $('.nav-dashboard').addClass('active');
+
         $(function () {
-            $('.nav-dashboard').addClass('active');
+            /* ChartJS
+             * -------
+             * Here we will create a few charts using ChartJS
+             */
+
+            //--------------
+            //- AREA CHART -
+            //--------------
+
+
+            var areaChartData = {
+                labels: {!! json_encode($labels) !!},
+                datasets: [
+                    {
+                        label: 'Electronics',
+                        fillColor: '#2aab70',
+                        strokeColor: 'rgba(210, 214, 222, 1)',
+                        pointColor: 'rgba(210, 214, 222, 1)',
+                        pointStrokeColor: '#c1c7d1',
+                        pointHighlightFill: '#fff',
+                        pointHighlightStroke: 'rgba(220,220,220,1)',
+                        data: {!! json_encode($values) !!}
+                    }
+                ]
+            }
+
+            var PieData = [
+                {
+                    value: 700,
+                    color: '#f56954',
+                    highlight: '#f56954',
+                    label: 'Chrome'
+                },
+                {
+                    value: 500,
+                    color: '#00a65a',
+                    highlight: '#00a65a',
+                    label: 'IE'
+                },
+                {
+                    value: 400,
+                    color: '#f39c12',
+                    highlight: '#f39c12',
+                    label: 'FireFox'
+                },
+                {
+                    value: 600,
+                    color: '#00c0ef',
+                    highlight: '#00c0ef',
+                    label: 'Safari'
+                },
+                {
+                    value: 300,
+                    color: '#3c8dbc',
+                    highlight: '#3c8dbc',
+                    label: 'Opera'
+                },
+                {
+                    value: 100,
+                    color: '#d2d6de',
+                    highlight: '#d2d6de',
+                    label: 'Navigator'
+                }
+            ]
+            var pieOptions = {
+                //Boolean - Whether we should show a stroke on each segment
+                segmentShowStroke: true,
+                //String - The colour of each segment stroke
+                segmentStrokeColor: '#fff',
+                //Number - The width of each segment stroke
+                segmentStrokeWidth: 2,
+                //Number - The percentage of the chart that we cut out of the middle
+                percentageInnerCutout: 50, // This is 0 for Pie charts
+                //Number - Amount of animation steps
+                animationSteps: 100,
+                //String - Animation easing effect
+                animationEasing: 'easeOutBounce',
+                //Boolean - Whether we animate the rotation of the Doughnut
+                animateRotate: true,
+                //Boolean - Whether we animate scaling the Doughnut from the centre
+                animateScale: false,
+                //Boolean - whether to make the chart responsive to window resizing
+                responsive: true,
+                // Boolean - whether to maintain the starting aspect ratio or not when responsive, if set to false, will take up entire container
+                maintainAspectRatio: true,
+                //String - A legend template
+                legendTemplate: '<ul class="<%=name.toLowerCase()%>-legend"><% for (var i=0; i<segments.length; i++){%><li><span style="background-color:<%=segments[i].fillColor%>"></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>'
+            }
+
+
+            //-------------
+            //- BAR CHART -
+            //-------------
+            var barChartCanvas = $('#barChart').get(0).getContext('2d')
+            var barChart = new Chart(barChartCanvas)
+            var barChartData = areaChartData;
+            var barChartOptions = {
+                //Boolean - Whether the scale should start at zero, or an order of magnitude down from the lowest value
+                scaleBeginAtZero: true,
+                //Boolean - Whether grid lines are shown across the chart
+                scaleShowGridLines: true,
+                //String - Colour of the grid lines
+                scaleGridLineColor: 'rgba(0,0,0,.05)',
+                //Number - Width of the grid lines
+                scaleGridLineWidth: 1,
+                //Boolean - Whether to show horizontal lines (except X axis)
+                scaleShowHorizontalLines: true,
+                //Boolean - Whether to show vertical lines (except Y axis)
+                scaleShowVerticalLines: true,
+                //Boolean - If there is a stroke on each bar
+                barShowStroke: true,
+                //Number - Pixel width of the bar stroke
+                barStrokeWidth: 2,
+                //Number - Spacing between each of the X value sets
+                barValueSpacing: 5,
+                //Number - Spacing between data sets within X values
+                barDatasetSpacing: 1,
+                //String - A legend template
+                legendTemplate: '<ul class="<%=name.toLowerCase()%>-legend"><% for (var i=0; i<datasets.length; i++){%><li><span style="background-color:<%=datasets[i].fillColor%>"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>',
+                //Boolean - whether to make the chart responsive
+                responsive: true,
+                maintainAspectRatio: true
+            }
+
+            barChartOptions.datasetFill = false
+            barChart.Bar(barChartData, barChartOptions)
         });
+
     </script>
 @endsection

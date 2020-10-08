@@ -45,5 +45,11 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define("manage-users", function () {
             return in_array(auth()->user()->role, [Roles::$ADMIN]);
         });
+
+        Gate::define("view-district-reports", function () {
+            return true;
+        });
+
+
     }
 }

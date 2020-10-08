@@ -38,13 +38,19 @@
                 </a>
             </li>
 
+            <li class="nav-applications">
+                <a href="{{ route('userApplication') }}">
+                    <i class="fa fa-file-archive-o"></i>
+                    <span>Applications</span>
+                </a>
+            </li>
+            <li class="nav-district-report">
+                <a href="{{ route('districts.reports.index',auth()->id()) }}">
+                    <i class="fa fa-print"></i>
+                    <span>District reports</span>
+                </a>
+            </li>
             @can('approve-applications')
-                <li class="nav-applications">
-                    <a href="{{ route('userApplication') }}">
-                        <i class="fa fa-file-archive-o"></i>
-                        <span>Applications</span>
-                    </a>
-                </li>
                 <li class="nav-shared-applications">
                     <a href="{{ route('my.shared.app.all') }}">
                         <i class="fa fa-file-o"></i>

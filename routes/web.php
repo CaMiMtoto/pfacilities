@@ -47,6 +47,9 @@ Route::middleware(['auth', /*'verified'*/])->group(function () {
 
     Route::post('/facility/{facility}/documents/renew', 'FacilityDocumentRenewingController@renew')->name('renew.facility.doc');
 
+    Route::get('/districts/user/{user}/report','DistrictReportController@index')->name('districts.reports.index');
+    Route::post('/districts/report/store','DistrictReportController@store')->name('districts.reports.store');
+
     Route::prefix('admin')->group(function () {
 
         Route::get('/applications/share/to/me', 'ApplicationShareController@index')->name('my.shared.app.all');
